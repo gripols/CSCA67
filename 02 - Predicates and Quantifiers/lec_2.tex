@@ -1,0 +1,265 @@
+% Auto-generated
+\section{Deductive Reasoning with Quantifiers}%
+\label{sec:Deductive Reasoning with Quantifiers}
+
+Mathematics is built upon rigorous logical reasoning, and a central component of this reasoning is the construction of \textbf{proofs}—logical arguments that establish the truth of mathematical statements.
+
+A \textbf{theorem} is a statement that can be expressed in the form:
+\[
+\text{If certain hypotheses are true, then some conclusion must also be true.}
+\]
+That is, a theorem usually takes the logical form \(P \rightarrow Q\), meaning “if \(P\), then \(Q\).”
+
+\subsection{The Structure of a Theorem}
+
+\begin{itemize}
+    \item The \textbf{hypotheses} (or assumptions) specify the conditions under which the theorem applies.
+    \item The \textbf{conclusion} states what follows from these hypotheses.
+    \item The \textbf{universe of discourse} defines the set of objects (e.g., real numbers, integers, sets) over which variables may range.
+\end{itemize}
+
+A theorem is often stated using variables that can take on any values within the universe of discourse.  
+Each assignment of specific values to these variables gives an \textbf{instance} of the theorem.
+
+\begin{definition}[Counterexample]
+A \textbf{counterexample} to a universal statement \(\forall x,\, P(x) \rightarrow Q(x)\) is a specific instance \(x = c\) such that \(P(c)\) is true and \(Q(c)\) is false.
+\end{definition}
+
+If such a \(c\) exists, the entire universal statement is false.
+
+\subsection{Counterexamples}
+
+\begin{example}
+Consider the claim:  
+“If \(x > 3\), then \(x^2 > 10\)” for real numbers \(x\).
+
+\begin{itemize}
+    \item Universe of discourse: \(\mathbb{R}\)
+    \item Hypothesis: \(x > 3\)
+    \item Conclusion: \(x^2 > 10\)
+\end{itemize}
+
+Take \(x = 3.1\). Then \(x^2 = 9.61 < 10\).  
+Here, \(x > 3\) (true) but \(x^2 > 10\) (false).  
+Therefore, this is a valid counterexample, and the statement is \textbf{false}.
+\end{example}
+
+\begin{proof}[Justification]
+If even one counterexample exists, the universal statement \(\forall x,\, P(x) \rightarrow Q(x)\) fails because universal quantifiers require truth for all possible instances.
+\end{proof}
+
+\subsection{Shorthand Notations and Conventions}
+
+As proofs grow more complex, shorthand notation helps make reasoning concise.
+
+\begin{itemize}
+    \item \(\forall x, y, z, \dots\) abbreviates \(\forall x \forall y \forall z \dots\)
+    \item \(\exists x, y, z, \dots\) abbreviates \(\exists x \exists y \exists z \dots\)
+    \item “Take arbitrary \(x, y\)” stands for “Take arbitrary \(x\). Take arbitrary \(y\).”
+\end{itemize}
+
+Bound variables (those introduced by quantifiers) can be renamed freely because their names do not affect meaning:
+\[
+\forall x, P(x) \quad \text{is equivalent to} \quad \forall c, P(c)
+\]
+
+\subsection{Direct Proofs}
+
+\begin{definition}[Direct Proof]
+A \textbf{direct proof} of an implication \(P \rightarrow Q\) begins by assuming \(P\) (the hypothesis) and proceeds logically to show \(Q\) (the conclusion).
+\end{definition}
+
+\begin{lemma}[Implication Rule]
+\[
+\infer{P \rightarrow Q}. {\text{ Assume } P \\ \text{ Derive } Q}
+\]
+\end{lemma}
+
+\begin{example}
+Prove: If \(x > 3\) and \(y < 2\) (real numbers), then \(x^2 - 2y > 5\).
+
+\begin{proof}[Implication Rule Example Proof 1]
+\begin{align*}
+&\text{Given } x > 3 \Rightarrow x^2 > 9. \\
+&\text{Given } y < 2 \Rightarrow -2y > -4. \\
+&\text{Then } x^2 - 2y > 9 - 4 = 5.
+\end{align*}
+Therefore, \(x^2 - 2y > 5\).
+\end{proof}
+\begin{remark}[Lumping it All Together?]
+    \textit{What the hell is the difference between this and a counterexample?
+    Are these not the same?} \textbf{EXPLAIN HERE LATER}
+\end{remark}
+
+\end{example}
+
+\begin{example}[Implication Rule Example Proof 2]
+Prove: If \(a, b, c \in \mathbb{R}\), \(a > b\), and \(c > 0\), then \(ac > bc\).
+
+\begin{proof}
+Since \(c > 0\), multiplying both sides of \(a > b\) by \(c\) preserves the inequality, giving \(ac > bc\).  
+Thus, \((a > b) \wedge (c > 0) \Rightarrow (ac > bc)\).
+\end{proof}
+
+\end{example}
+
+\begin{definition}[Even and Odd Integers]
+An integer \(n\) is:
+\begin{itemize}
+    \item \textbf{even} if \(\exists k \in \mathbb{Z}\) such that \(n = 2k\);
+    \item \textbf{odd} if \(\exists k \in \mathbb{Z}\) such that \(n = 2k + 1\).
+\end{itemize}
+\end{definition}
+
+\begin{exercise}
+Use direct proofs to show:
+\begin{enumerate}
+    \item The square of an odd integer is odd.
+    \item The sum of two odd integers is even.
+\end{enumerate}
+\end{exercise}
+
+\subsection{Proof by Contrapositive}
+
+\begin{definition}[Contrapositive]
+The \textbf{contrapositive} of an implication \(P \rightarrow Q\) is the logically equivalent statement \(\neg Q \rightarrow \neg P\).
+\end{definition}
+
+\begin{lemma}[Contrapositive Rule]
+\[
+\infer{P \rightarrow Q}{\text{ Assume } \neg Q \\ \text{ Derive } \neg P}
+\]
+\end{lemma}
+
+\begin{example}
+Let \(a, b, c \in \mathbb{R}\) with \(a > b\). Prove: If \(ac \le bc\), then \(c \le 0\).
+
+\begin{proof}[Proof by Contrapositive]
+We prove the equivalent statement: if \(c > 0\), then \(ac > bc\).  
+Since \(a > b\) and multiplying by a positive \(c\) preserves the inequality, \(ac > bc\).  
+Thus, the contrapositive is true, and so is the original statement.
+\end{proof}
+\end{example}
+
+\begin{example}
+If \(n = ab\) where \(a, b\) are positive integers, then \(a \le \sqrt{n}\) or \(b \le \sqrt{n}\).
+
+\textbf{Hint.} Prove the contrapositive: if both \(a > \sqrt{n}\) and \(b > \sqrt{n}\), then \(ab > n\), which contradicts \(n = ab\).
+\end{example}
+
+\subsection{Biconditional Proofs}
+
+\begin{definition}[Biconditional]
+A statement \(P \leftrightarrow Q\) means both \(P \rightarrow Q\) and \(Q \rightarrow P\).  
+It expresses equivalence between two propositions.
+\end{definition}
+
+\begin{lemma}[Biconditional Rule]
+\[
+\infer{P \leftrightarrow Q}{\text{ Prove } P \rightarrow Q \\ \text{ and } Q \rightarrow P}
+\]
+\end{lemma}
+
+\begin{example}
+Prove that for \(x \in \mathbb{Z}\), \(x\) is even if and only if \(x^2\) is even.
+
+\begin{proof}[Proving Stated Problem]
+\begin{itemize}
+    \item (\(\Rightarrow\)) Suppose \(x\) is even, i.e. \(x = 2k\). Then \(x^2 = 4k^2 = 2(2k^2)\), which is even.
+    \item (\(\Leftarrow\)) Suppose \(x^2\) is even. Then \(x\) must also be even (proved earlier by contradiction).
+\end{itemize}
+Therefore, \(x\) is even iff \(x^2\) is even.
+   
+\end{proof}
+\end{example}
+
+\subsection{Exhaustive Proof (Proof by Cases)}
+
+\begin{definition}[Proof by Cases]
+To prove \((P_1 \vee \dots \vee P_n) \rightarrow Q\), prove \(P_i \rightarrow Q\) for each \(i\).  
+If \(P_1 \vee \dots \vee P_n\) covers all possibilities (i.e., forms a tautology), then \(Q\) follows unconditionally.
+\end{definition}
+
+\begin{lemma}[Case Rule]
+\[
+{(P \vee R) \rightarrow Q}.{\text{ Prove } P \rightarrow Q \\ \text{ and } R \rightarrow Q}.
+\]
+\end{lemma}
+
+\begin{example}
+Prove that if \(n\) is an integer, then \(n^2 \ge n\).
+
+\begin{proof}[Proving $n^2 \ge n$.]
+\begin{itemize}
+    \item Case 1: \(n \ge 0\). Then \(n^2 \ge n\).
+    \item Case 2: \(n < 0\). Then \(n^2 > 0 > n\).
+\end{itemize}
+In all cases, \(n^2 \ge n.\)
+   
+\end{proof}
+\end{example}
+
+\subsection{Proof by Contradiction}
+
+\begin{definition}[Contradiction]
+A \textbf{proof by contradiction} assumes the negation of the desired statement and shows that this assumption leads to a logical impossibility.
+\end{definition}
+
+\begin{lemma}[Contradiction Rule]
+\[
+\infer{P}{\text{ Assume } \neg P \\ \text{ Derive a contradiction}}
+\]
+\end{lemma}
+
+\begin{example}
+Prove: If \(a \in \mathbb{N}\) and \(a^2\) is even, then \(a\) is even.
+
+\begin{proof}[Proving $a$ is Even]
+Assume \(a^2\) is even but \(a\) is odd, i.e. \(a = 2k + 1\).  
+Then \(a^2 = 4k^2 + 4k + 1 = 2(2k^2 + 2k) + 1\), which is odd—a contradiction.  
+Thus, \(a\) must be even.
+\end{proof}
+\end{example}
+
+\begin{example}
+Prove that \(\sqrt{2}\) is irrational.
+
+\begin{proof}[Proving $\sqrt{2}$ is Irrational]
+Assume for contradiction that \(\sqrt{2} = \frac{a}{b}\) with integers \(a, b\) in lowest terms.  
+Then \(2b^2 = a^2\), so \(a^2\) is even, implying \(a\) is even (\(a = 2k\)).  
+Substituting gives \(b^2 = 2k^2\), so \(b\) is also even—contradicting that \(\frac{a}{b}\) is in lowest terms.  
+Hence, \(\sqrt{2}\) is irrational.
+\end{proof}
+\end{example}
+
+\begin{review}
+ \textbf{Key Proof Strategies to Master:}
+\begin{enumerate}
+    \item \textbf{Direct Proofs} — assume hypotheses and logically derive the conclusion.
+    \item \textbf{Proof by Contrapositive} — prove \(\neg Q \rightarrow \neg P\) instead of \(P \rightarrow Q\).
+    \item \textbf{Proof by Contradiction} — assume \(\neg P\) and derive a contradiction.
+    \item \textbf{Proof by Cases} — divide into exhaustive subcases and prove each.
+    \item \textbf{Biconditional Proofs} — prove both directions of equivalence.
+    \item \textbf{Counterexamples} — single instances that refute universal statements.
+\end{enumerate}
+
+\textbf{Essential Definitions:}
+\begin{itemize}
+    \item Even/Odd integers
+    \item Universe of discourse
+    \item Contrapositive and Biconditional equivalence
+    \item Counterexample
+\end{itemize}
+
+\textbf{Practice Suggestions:}
+\begin{itemize}
+    \item Write out the logical form (\(\forall, \exists, \rightarrow, \neg\)) of each theorem before proving.
+    \item For every implication, identify whether a direct or contrapositive proof is easier.
+    \item When stuck, assume the negation of your goal and look for contradictions.
+    \item Try to construct counterexamples to test conjectures before proving.
+\end{itemize}
+
+\textbf{Goal for Review:}
+Be able to identify the most efficient proof strategy for a given logical form, construct clear and concise arguments, and recognize when counterexamples invalidate universal claims.
+\end{review}
+

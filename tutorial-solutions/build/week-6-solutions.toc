@@ -1,0 +1,8 @@
+\contentsline {section}{\numberline {1}Argument Validity and Counterexamples}{1}{}%
+\contentsline {paragraph}{Proof Sketch.}{1}{}%
+\contentsline {paragraph}{Proof Sketch.}{2}{}%
+\contentsline {paragraph}{Proof Sketch.}{2}{}%
+\contentsline {section}{\numberline {2}Choosing Proof Strategies}{2}{}%
+\contentsline {paragraph}{Proof Sketch.}{2}{}%
+\contentsline {paragraph}{Proof Sketch.}{2}{}%
+\contentsline {paragraph}{Proof Sketch.}{3}{}%

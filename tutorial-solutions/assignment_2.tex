@@ -1,0 +1,994 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry} % robust margins that won't clip
+\setlength{\headheight}{14pt}     % avoid fancyhdr warning
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{array}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+\usepackage{venndiagram}
+\usepackage{caption}
+\usepackage[plain]{algorithm}
+\usepackage{xcolor} 
+%\usepackage{algpseudocode}
+
+\usetikzlibrary{automata,positioning}
+
+\linespread{1.1}
+\allowdisplaybreaks[3]      % allow multi-line displays to break across pages
+\emergencystretch=1em       % gentle extra stretch to avoid overflow
+\sloppy                     % be more forgiving with line breaks
+\setlength\parindent{0pt}
+
+% --- Header / footer
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+%
+% Problem headers
+%
+\newcommand{\enterProblemHeader}[1]{%
+  \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}%
+  \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}%
+}
+\newcommand{\exitProblemHeader}[1]{%
+  \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}%
+  \stepcounter{#1}%
+  \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}%
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+\newenvironment{homeworkProblem}[1][-1]{%
+  \ifnum#1>0
+    \setcounter{homeworkProblemCounter}{#1}%
+  \fi
+  \section{Problem \arabic{homeworkProblemCounter}}
+  \setcounter{partCounter}{1}
+  \enterProblemHeader{homeworkProblemCounter}
+}{%
+  \exitProblemHeader{homeworkProblemCounter}
+}
+
+\newcommand{\hmwkTitle}{Homework\ \#2}
+\newcommand{\hmwkDueDate}{October 19, 2025}
+\newcommand{\hmwkClass}{CSCA67}
+\newcommand{\hmwkClassTime}{Ch. 2-3}
+\newcommand{\hmwkClassInstructor}{Anya Tafliovich}
+\newcommand{\hmwkAuthorName}{\textbf{Gosha Polstvin }}
+\newcommand{\hmwkStudentNum}{1012332147}
+
+%
+% Title
+%
+\title{%
+  \vspace{2in}
+  \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+  \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 11:59pm}\\
+  \vspace{0.1in}\large{\textit{\hmwkClassInstructor}}
+  \vspace{3in}
+}
+\author{\hmwkAuthorName  -- \hmwkStudentNum}
+\date{\today}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+% Helpers
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+\newcommand{\dx}{\mathrm{d}x}
+\newcommand{\solution}{\textbf{\large Solution}}
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+\newcommand{\xor}{\oplus} % then use a \xor b
+
+\begin{document}
+\maketitle
+\pagebreak
+
+\begin{homeworkProblem}
+For each of the following logical expressions:
+\begin{itemize}
+  \item Write a corresponding (English) mathematical statement.
+  \item Indicate whether the statement is true or false.
+  \item Provide a brief explanation.
+\end{itemize}
+Assume the universe of discourse is $\mathbb{R}$, the set of real numbers.
+
+\begin{enumerate}
+  \item $\exists x \forall y,\ x + y = y$
+  \item $\forall x \forall y,\ \left((x \ne 0) \land (y \ne 0)\right) \leftrightarrow (xy \ne 0)$
+  \item $\forall x \exists y,\ x^2 = y$
+  \item $\exists x \forall y,\ xy = 0$
+  \item $\exists x \exists y,\ x + y \ne y + x$
+  \item $\exists x \forall y,\ (y \ne 0) \rightarrow (xy = 1)$
+  \item $\forall y \exists x,\ (y \ne 0) \rightarrow (xy = 1)$
+  \item $\forall x \forall y,\ \left((x \ge 0) \land (y \ge 0)\right) \rightarrow \exists z,\ 0 \le x \le z \le y$
+  \item $\forall x \forall y,\ (x \ge 0) \rightarrow \left((y \ge 0) \rightarrow (x + y \ge 0)\right)$
+  \item $\forall x \forall y,\ \left((x \ge 0) \land (y \ge 0)\right) \leftrightarrow (xy \ge 0)$
+\end{enumerate}
+
+\solution
+
+\begin{enumerate}
+\item $\exists x \forall y,\ x + y = y$
+
+\textbf{English.} There exists a real number $x$ such that for every real $y$, adding $x$ to $y$ leaves $y$ unchanged.
+
+\textbf{Truth value.} True.
+
+\textbf{Justification.} Let $x=0$. Then for every $y\in\mathbb{R}$, by the additive identity axiom, $x+y=0+y=y$. Since we have exhibited a witness $x=0$ making the universal clause true, the existential statement holds.
+
+\item $\forall x \forall y,\ \bigl((x\neq 0)\land(y\neq 0)\bigr)\leftrightarrow(xy\neq 0)$
+
+\textbf{English.} For all real $x,y$, $x$ and $y$ are both nonzero if and only if their product is nonzero.
+
+\textbf{Truth value.} True.
+
+\textbf{Justification.} ($\Rightarrow$) Suppose $x\neq 0$ and $y\neq 0$. If $xy=0$, then since $x\neq 0$ we may divide by $x$ to get $y=0$, a contradiction. Hence $xy\neq 0$. \\
+($\Leftarrow$) Suppose $xy\neq 0$. If $x=0$ then $xy=0$, contradiction; thus $x\neq 0$. Similarly $y\neq 0$. Both directions hold, so the biconditional is true.
+
+\item $\forall x\,\exists y,\ x^2=y$
+
+\textbf{English.} For every real $x$ there exists a real $y$ equal to $x^2$.
+
+\textbf{Truth value.} True.
+
+\textbf{Justification.} Let $x\in\mathbb{R}$ be arbitrary. Define $y:=x^2$. Then $y\in\mathbb{R}$ and, by construction, $x^2=y$. Since such a $y$ exists for each $x$, the quantified statement is true.
+
+\item $\exists x\,\forall y,\ xy=0$
+
+\textbf{English.} There exists a real $x$ such that for every real $y$, the product $xy$ equals $0$.
+
+\textbf{Truth value.} True.
+
+\textbf{Justification.} Take $x=0$. Then for all $y\in\mathbb{R}$, $xy=0\cdot y=0$ by the absorbing property of $0$ for multiplication. This single witness $x=0$ suffices for the existential quantifier.
+
+\item $\exists x\,\exists y,\ x+y\neq y+x$
+
+\textbf{English.} There exist real numbers $x$ and $y$ for which addition is not commutative.
+
+\textbf{Truth value.} False.
+
+\textbf{Justification.} In $\mathbb{R}$, addition is commutative: for all $x,y\in\mathbb{R}$, $x+y=y+x$ (field axiom). Hence there are no witnesses to the existential claim. Therefore the statement is false.
+
+\item $\exists x\,\forall y,\ (y\neq 0)\rightarrow(xy=1)$
+
+\textbf{English.} There exists a real $x$ such that for every nonzero real $y$, one has $xy=1$.
+
+\textbf{Truth value.} False.
+
+\textbf{Justification.} Assume toward a contradiction that such an $x$ exists. Taking $y=1\neq 0$ gives $x\cdot 1=1$, so $x=1$. Taking $y=2\neq 0$ gives $x\cdot 2=1$, so $x=\tfrac12$. Thus $1=\tfrac12$, a contradiction. Therefore no such $x$ exists.
+
+\item $\forall y\,\exists x,\ (y\neq 0)\rightarrow(xy=1)$
+
+\textbf{English.} For every real $y$ there exists a real $x$ such that, if $y\neq 0$, then $xy=1$.
+
+\textbf{Truth value.} True.
+
+\textbf{Justification.} Let $y\in\mathbb{R}$ be arbitrary. Define
+\[
+x := \begin{cases}
+\dfrac{1}{y}, & \text{if } y\neq 0,\\[4pt]
+0, & \text{if } y=0.
+\end{cases}
+\]
+If $y\neq 0$, then $x=\tfrac{1}{y}$ and $xy=1$ by the multiplicative inverse law. If $y=0$, the antecedent $(y\neq 0)$ is false, so the implication is true for any $x$ (take $x=0$). Thus for each $y$ an appropriate $x$ exists.
+
+\item $\forall x\,\forall y,\ \bigl((x\ge 0)\land(y\ge 0)\bigr)\rightarrow \exists z,\ 0\le x\le z\le y$
+
+\textbf{English.} For all nonnegative real numbers $x$ and $y$, there exists a real $z$ with $0\le x\le z\le y$.
+
+\textbf{Truth value.} False.
+
+\textbf{Justification.} Take $x=2$ and $y=1$. Then $(x\ge 0)\land(y\ge 0)$ holds, but there is no $z\in\mathbb{R}$ with $x\le z\le y$ since $x>y$. Thus the universal implication fails on this pair, making the statement false. (The implication would be true if one added the hypothesis $x\le y$.)
+
+\item $\forall x\,\forall y,\ (x\ge 0)\rightarrow\bigl((y\ge 0)\rightarrow(x+y\ge 0)\bigr)$
+
+\textbf{English.} For all real $x$, if $x\ge 0$ then for all real $y$, if $y\ge 0$ then $x+y\ge 0$.
+
+\textbf{Truth value.} True.
+
+\textbf{Justification.} The sum of two nonnegative reals is nonnegative, since $\mathbb{R}_{\ge 0}$ is closed under addition by the order axioms.
+
+\item $\forall x\,\forall y,\ \bigl((x\ge 0)\land(y\ge 0)\bigr)\leftrightarrow(xy\ge 0)$
+
+\textbf{English.} For all real $x,y$, $x$ and $y$ are both nonnegative if and only if their product is nonnegative.
+
+\textbf{Truth value.} False.
+
+\textbf{Justification.} ($\Rightarrow$) If $x\ge 0$ and $y\ge 0$, then $xy\ge 0$. \\
+($\Leftarrow$) False in general: $x=-1$, $y=-1$ give $xy=1\ge 0$ but neither $x\ge 0$ nor $y\ge 0$ holds. Hence the biconditional fails.
+\end{enumerate}
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+For each of the following sentences:
+\begin{enumerate}
+  \item Write a logical expression that represents the English sentence.
+  \item Write an English sentence that is the negation of the original sentence.
+  \item Negate the expression in Step 1, and use logical equivalence rules to demonstrate that the result is equivalent to the logical form of the English sentence in Step 2.
+\end{enumerate}
+
+M(x) stands for “$x$ is a Mathematics student”, C(x) stands for “$x$ is a Computer Science student”, S(x) stands for “$x$ is a Statistics student”, T(x, y) stands for “student $x$ takes course $y$”, D(y) stands for “$y$ is a discrete mathematics class”, P(y) stands for “$y$ is a programming class”, and L(y) stands for “$y$ is a Political Science class”. The universe of discourse is students and classes.
+
+Do not use the shortcut $\exists!x$ in any of your solutions.
+
+\begin{enumerate}
+% 1 -------------------------------------------------------------
+\item \textbf{Everyone in any discrete mathematics class is either a Mathematics, Computer Science, or Statistics student.}
+
+\textit{Logical form (Step 1):}
+\[
+\forall y\Bigl( D(y) \rightarrow \forall x\bigl( T(x,y) \rightarrow (M(x)\lor C(x)\lor S(x)) \bigr) \Bigr).
+\]
+
+\textit{English negation (Step 2).}
+There exists a discrete mathematics class with a student who is neither a Mathematics student nor a Computer Science student nor a Statistics student.
+
+\textit{Negation with rules cited (Step 3):}
+\begin{align}
+&\neg \forall y\Bigl( D(y) \rightarrow \forall x\bigl( T(x,y) \rightarrow (M(x)\lor C(x)\lor S(x)) \bigr) \Bigr) \notag\\
+&\quad\equiv \exists y\, \neg \Bigl( D(y) \rightarrow \forall x\bigl( T(x,y) \rightarrow (M(x)\lor C(x)\lor S(x)) \bigr) \Bigr)
+\quad\text{\footnotesize(Quantifier Negation: $\neg\forall y\,\phi \equiv \exists y\,\neg\phi$)} \label{1a}\\
+&\quad\equiv \exists y \Bigl( D(y) \land \neg \forall x\bigl( T(x,y) \rightarrow (M(x)\lor C(x)\lor S(x)) \bigr) \Bigr)
+\quad\text{\footnotesize(Implication Elimination inside $\neg$: $\neg(P\rightarrow Q)\equiv P\land\neg Q$)} \label{1b}\\
+&\quad\equiv \exists y \Bigl( D(y) \land \exists x\, \neg \bigl( T(x,y) \rightarrow (M(x)\lor C(x)\lor S(x)) \bigr) \Bigr)
+\quad\text{\footnotesize(Quantifier Negation: $\neg\forall x\,\phi \equiv \exists x\,\neg\phi$)} \label{1c}\\
+&\quad\equiv \exists y \exists x \Bigl( D(y) \land \bigl( T(x,y) \land \neg (M(x)\lor C(x)\lor S(x)) \bigr) \Bigr)
+\quad\text{\footnotesize(Implication Elimination: $\neg(P\rightarrow Q)\equiv P\land\neg Q$)} \label{1d}\\
+&\quad\equiv \exists y \exists x \Bigl( D(y) \land T(x,y) \land \neg M(x) \land \neg C(x) \land \neg S(x) \Bigr)
+\quad\text{\footnotesize(De Morgan: $\neg(A\lor B\lor C)\equiv \neg A\land\neg B\land\neg C$)}. \label{1e}
+\end{align}
+The final line is exactly the formal version of the English negation.
+
+% 2 -------------------------------------------------------------
+\item \textbf{Only Computer Science students take programming classes.}
+
+\textit{Logical form (Step 1):}
+\[
+\forall x \forall y \Bigl( (P(y)\land T(x,y)) \rightarrow C(x) \Bigr).
+\]
+
+\textit{English negation (Step 2).}
+There exists a student who takes some programming class and is not a Computer Science student.
+
+\textit{Negation with rules cited (Step 3):}
+\begin{align}
+&\neg \forall x \forall y \Bigl( (P(y)\land T(x,y)) \rightarrow C(x) \Bigr) \notag\\
+&\quad\equiv \exists x \exists y\, \neg \Bigl( (P(y)\land T(x,y)) \rightarrow C(x) \Bigr)
+\quad\text{\footnotesize(Quantifier Negation twice)} \label{2a}\\
+&\quad\equiv \exists x \exists y \Bigl( (P(y)\land T(x,y)) \land \neg C(x) \Bigr)
+\quad\text{\footnotesize(Implication Elimination inside $\neg$)}. \label{2b}
+\end{align}
+This matches the English negation directly.
+
+% 3 -------------------------------------------------------------
+\item \textbf{Non-Mathematics students take no more than two discrete mathematics classes.}
+
+\textit{Logical form (Step 1) “at most two” as “not three distinct”:}
+\[
+\begin{aligned}
+\forall x \Bigl( \neg M(x) \rightarrow \neg \exists y_1 \exists y_2 \exists y_3 \bigl(
+& D(y_1)\land T(x,y_1)\land D(y_2)\land T(x,y_2) \\
+& \land D(y_3)\land T(x,y_3)\land (y_1\neq y_2)\land (y_1\neq y_3)\land (y_2\neq y_3) \bigr) \Bigr).
+\end{aligned}
+\]
+
+\textit{English negation (Step 2).}
+There exists a non-Mathematics student who takes three \emph{distinct} discrete mathematics classes.
+
+\textit{Negation with rules cited (Step 3):}
+\begin{align}
+&\neg \forall x \Bigl( \neg M(x) \rightarrow \neg \exists y_1 \exists y_2 \exists y_3\, \Phi(x,y_1,y_2,y_3) \Bigr) \notag\\
+&\quad\equiv \exists x\, \neg \Bigl( \neg M(x) \rightarrow \neg \exists y_1 \exists y_2 \exists y_3\, \Phi(x,y_1,y_2,y_3) \Bigr)
+\quad\text{\footnotesize(Quantifier Negation)} \label{3a}\\
+&\quad\equiv \exists x \Bigl( \neg M(x) \land \neg \neg \exists y_1 \exists y_2 \exists y_3\, \Phi(x,y_1,y_2,y_3) \Bigr)
+\quad\text{\footnotesize(Implication Elimination: $\neg(P\!\rightarrow\!Q)\equiv P\land\neg Q$)} \label{3b}\\
+&\quad\equiv \exists x \Bigl( \neg M(x) \land \exists y_1 \exists y_2 \exists y_3\, \Phi(x,y_1,y_2,y_3) \Bigr)
+\quad\text{\footnotesize(Double Negation: $\neg\neg \psi \equiv \psi$)} \label{3c}
+\end{align}
+where $\Phi(x,y_1,y_2,y_3)$ abbreviates
+\[
+D(y_1)\land T(x,y_1)\land D(y_2)\land T(x,y_2)\land D(y_3)\land T(x,y_3)\land (y_1\neq y_2)\land(y_1\neq y_3)\land(y_2\neq y_3).
+\]
+Expanding \eqref{3c} yields exactly the English negation.
+
+% 4 -------------------------------------------------------------
+\item \textbf{There is at least one Statistics student who takes a discrete mathematics class, a political science class, and no programming classes.}
+
+\textit{Logical form (Step 1):}
+\[
+\exists x \Bigl(
+S(x)\land \exists y \bigl( D(y)\land T(x,y) \bigr)
+\land \exists z \bigl( L(z)\land T(x,z) \bigr)
+\land \forall w \bigl( P(w)\rightarrow \neg T(x,w) \bigr)
+\Bigr).
+\]
+
+\textit{English negation (Step 2).}
+Every Statistics student either takes no discrete mathematics class, or takes no political science class, or takes at least one programming class.
+
+\textit{Negation with rules cited (Step 3):}
+\begin{align}
+&\neg \exists x \Bigl(
+S(x)\land \exists y ( D(y)\land T(x,y) )
+\land \exists z ( L(z)\land T(x,z) )
+\land \forall w ( P(w)\rightarrow \neg T(x,w) )
+\Bigr) \notag\\
+&\quad\equiv \forall x\, \neg \Bigl(
+S(x)\land \exists y ( D(y)\land T(x,y) )
+\land \exists z ( L(z)\land T(x,z) )
+\land \forall w ( P(w)\rightarrow \neg T(x,w) )
+\Bigr)
+\quad\text{\footnotesize(Quantifier Negation: $\neg\exists x\,\phi \equiv \forall x\,\neg\phi$)} \label{4a}\\
+&\quad\equiv \forall x \Bigl(
+\neg S(x)\ \lor\ \neg \exists y ( D(y)\land T(x,y) )\ \lor\ \neg \exists z ( L(z)\land T(x,z) )\ \lor\ \neg \forall w ( P(w)\rightarrow \neg T(x,w) )
+\Bigr)\notag\\
+&\hspace{10.5em}\text{\footnotesize(Negation of conjunction: $\neg(A\land B\land C\land D)\equiv \neg A\lor\neg B\lor\neg C\lor\neg D$)} \label{4b}\\
+&\quad\equiv \forall x \Bigl(
+\neg S(x)\ \lor\ \forall y( D(y)\rightarrow \neg T(x,y) )\ \lor\ \forall z( L(z)\rightarrow \neg T(x,z) )\ \lor\ \exists w\, \neg ( P(w)\rightarrow \neg T(x,w) )
+\Bigr) \notag\\
+&\hspace{10.5em}\text{\footnotesize(Quantifier Negation: $\neg\exists\!=\!\forall\neg$ and $\neg\forall\!=\!\exists\neg$)} \label{4c}\\
+&\quad\equiv \forall x \Bigl(
+\neg S(x)\ \lor\ \forall y( D(y)\rightarrow \neg T(x,y) )\ \lor\ \forall z( L(z)\rightarrow \neg T(x,z) )\ \lor\ \exists w\,( P(w)\land T(x,w) )
+\Bigr)\notag\\
+&\hspace{10.5em}\text{\footnotesize(Implication Elimination inside $\neg$: $\neg(P\rightarrow Q)\equiv P\land\neg Q$)} \label{4d}\\
+&\quad\equiv \forall x \Bigl(
+S(x)\rightarrow
+\bigl(
+\forall y( D(y)\rightarrow \neg T(x,y) )\ \lor\
+\forall z( L(z)\rightarrow \neg T(x,z) )\ \lor\
+\exists w( P(w)\land T(x,w) )
+\bigr)
+\Bigr)\notag\\
+&\hspace{10.5em}\text{\footnotesize(Implication Introduction: $A\rightarrow B \equiv \neg A\lor B$)}. \label{4e}
+\end{align}
+This is exactly the formalization of the English negation.
+
+% 5 -------------------------------------------------------------
+\item \textbf{At least two Computer Science students take a Political Science class.}
+
+\textit{Logical form (Step 1; not necessarily the same class):}
+\[
+\exists x \exists x' \Bigl(
+x\neq x' \land C(x)\land C(x') \land
+\exists y \bigl( L(y)\land T(x,y) \bigr) \land
+\exists z \bigl( L(z)\land T(x',z) \bigr)
+\Bigr).
+\]
+
+\textit{English negation (Step 2).}
+For every pair of distinct students, it is not the case that both are CS students and each takes some Political Science class.
+
+\textit{Negation with rules cited (Step 3):}
+\begin{align}
+&\neg \exists x \exists x' \Bigl(
+x\neq x' \land C(x)\land C(x') \land
+\exists y ( L(y)\land T(x,y) ) \land
+\exists z ( L(z)\land T(x',z) )
+\Bigr) \notag\\
+&\quad\equiv \forall x \forall x'\, \neg \Bigl(
+x\neq x' \land C(x)\land C(x') \land
+\exists y ( L(y)\land T(x,y) ) \land
+\exists z ( L(z)\land T(x',z) )
+\Bigr)
+\quad\text{\footnotesize(Quantifier Negation twice)} \label{5a}\\
+&\quad\equiv \forall x \forall x' \Bigl(
+x=x'\ \lor\ \neg C(x)\ \lor\ \neg C(x')\ \lor\ \neg \exists y ( L(y)\land T(x,y) )\ \lor\ \neg \exists z ( L(z)\land T(x',z) )
+\Bigr)\notag\\
+&\hspace{10.5em}\text{\footnotesize(Negation of conjunction: distribute $\neg$ over $\land$ to $\lor$)} \label{5b}\\
+&\quad\equiv \forall x \forall x' \Bigl(
+x=x'\ \lor\ \neg C(x)\ \lor\ \neg C(x')\ \lor\ \forall y( L(y)\rightarrow \neg T(x,y) )\ \lor\ \forall z( L(z)\rightarrow \neg T(x',z) )
+\Bigr)\notag\\
+&\hspace{10.5em}\text{\footnotesize(Quantifier Negation and Implication Intro: $\neg\exists y\,\psi \equiv \forall y\,\neg\psi$, then $\neg(A\land B)\equiv A\rightarrow\neg B$)}. \label{5c}
+\end{align}
+
+\textit{Alternative reading (same Political Science class has two distinct CS students).}
+
+\textit{Logical form (Step 1):}
+\[
+\exists y \Bigl(
+L(y)\land \exists x \exists x' \bigl( x\neq x'\land C(x)\land C(x')\land T(x,y)\land T(x',y) \bigr)
+\Bigr).
+\]
+
+\textit{Negation with rules cited (Step 3):}
+\begin{align}
+&\neg \exists y \Bigl(
+L(y)\land \exists x \exists x' ( x\neq x'\land C(x)\land C(x')\land T(x,y)\land T(x',y) )
+\Bigr) \notag\\
+&\quad\equiv \forall y\, \neg \Bigl(
+L(y)\land \exists x \exists x' ( \cdots )
+\Bigr)
+\quad\text{\footnotesize(Quantifier Negation)} \label{5p-a}\\
+&\quad\equiv \forall y \Bigl(
+\neg L(y)\ \lor\ \neg \exists x \exists x' ( \cdots )
+\Bigr)
+\quad\text{\footnotesize(Negation of conjunction)} \label{5p-b}\\
+&\quad\equiv \forall y \Bigl(
+\neg L(y)\ \lor\ \forall x \forall x' \neg \bigl( x\neq x'\land C(x)\land C(x')\land T(x,y)\land T(x',y) \bigr)
+\Bigr)\notag\\
+&\hspace{10.5em}\text{\footnotesize(Quantifier Negation twice)} \label{5p-c}\\
+&\quad\equiv \forall y \Bigl(
+L(y) \rightarrow \forall x \forall x' \bigl(
+(x\neq x'\land C(x)\land C(x')) \rightarrow (\neg T(x,y)\lor \neg T(x',y))
+\bigr)
+\Bigr)\notag\\
+&\hspace{10.5em}\text{\footnotesize(Implication Intro and Negation of conjunction)}. \label{5p-d}
+\end{align}
+In both readings, the final forms match the English negations.
+\end{enumerate}
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+    For each of the following arguments, either:
+\begin{itemize}
+    \item prove the argument is valid by using Rules of Inference and logical equivalence laws, OR
+    \item prove the argument is not valid by providing a world that makes the premises true and the conclusion false.
+\end{itemize}
+
+\begin{enumerate}
+    \item[(A)] There is a course, which all computer science and all statistics majors take. There is a course, which all mathematics and all statistics majors take. Alice is a computer science student, and Bob is a mathematics student. Therefore, they take at least one course together. \\
+    
+    Let $M(x)$ stand for ``$x$ is a mathematics major student'', $C(x)$ stand for ``$x$ is a computer science major student'', $S(x)$ stand for ``$x$ is a statistics major student'', $R(x)$ stand for ``$x$ is a course'', and $T(x, y)$ stand for ``student $x$ takes course $y$''. Universe of discourse is students and courses.
+
+    \item[(B)] Every CMS student is either a mathematics, computer science, or statistics major. All mathematics majors must take calculus. All statistics majors must take probability. All computer science majors must take databases. Therefore, each CMS student takes at least one of calculus, probability, or databases. \\
+
+    Let $D(x)$ stand for ``$x$ is a CMS student'', $M(x)$ stand for ``$x$ is a mathematics major student'', $C(x)$ stand for ``$x$ is a computer science major student'', $S(x)$ stand for ``$x$ is a statistics major student'', and $T(x, y)$ stand for ``student $x$ takes course $y$'', $c$ stand for ``the calculus course'', $p$ stand for ``the probability course'', and $d$ stand for ``the databases course''. Universe of discourse is students and courses.
+
+    \item[(C)] Every CMS student takes at least two mathematics courses. In every mathematics course, all students who take it must work hard in it. Therefore, every CMS student has at least two courses, in which they work hard. \\
+
+    Let $C(x)$ stand for ``$x$ is a CMS student'', $M(x)$ stand for ``$x$ is a mathematics course'', $T(x, y)$ stand for ``student $x$ takes course $y$'', and $W(x, y)$ stand for ``student $x$ works hard in course $y$''. Universe of discourse is students and courses.
+\end{enumerate}
+
+\solution
+
+\subsubsection*{(A)}
+
+Let $M(x)$ stand for ``$x$ is a mathematics major student'', $C(x)$ stand for ``$x$ is a computer science major student'', $S(x)$ stand for ``$x$ is a statistics major student'', $R(x)$ stand for ``$x$ is a course'', and $T(x, y)$ stand for ``student $x$ takes course $y$''. Universe of discourse is students and courses.
+
+\noindent \textbf{Our World:}
+\begin{itemize}
+    \item \textbf{Students:} Alice ($a$), Bob ($b$)
+    \item \textbf{Courses:} CSCA67 ($c_1$), MATA31 ($c_2$)
+    \item \textbf{Majors:}
+        \begin{itemize}
+            \item Alice is a Computer Science major: $C(a)$
+            \item Bob is a Mathematics major: $M(b)$
+            \item (There are no Statistics majors in this simple world)
+        \end{itemize}
+    \item \textbf{Enrollment ($T(x,y)$):}
+        \begin{itemize}
+            \item Alice takes CSCA67: $T(a, c_1)$
+            \item Bob takes MATA31: $T(b, c_2)$
+            \item (Alice does \textit{not} take CSCA67, Bob does \textit{not} take MATA31)
+        \end{itemize}
+\end{itemize}
+
+\noindent \textbf{Checking the Premises and Conclusion:}
+\begin{itemize}
+    \item \textbf{Premise 1: True.} There is a course, $c_1$ (CSCA67), that all CS majors (just Alice) take. So, $\exists y \, \forall x \, ((C(x) \lor S(x)) \rightarrow T(x, y))$ holds.
+    \item \textbf{Premise 2: True.} There is a course, $c_2$ (MATA31), that all Math majors (just Bob) take. So, $\exists z \, \forall x \, ((M(x) \lor S(x)) \rightarrow T(x, z))$ holds.
+    \item \textbf{Premise 3: True.} Alice is a CS major and Bob is a Math major, so $C(a) \land M(b)$ is true.
+    \item \textbf{Conclusion: False.} Is there a course $w$ that both Alice and Bob take? No. Alice only takes CSCA67 and Bob only takes MATA31. They have no courses in common. Therefore, $\exists w \, (T(a, w) \land T(b, w))$ is false.
+\end{itemize}
+
+Since we have constructed a world where all premises are true and the conclusion is false, the argument is invalid.
+
+\subsubsection*{(B)}
+
+Let $D(x)$ stand for ``$x$ is a CMS student'', $M(x)$ stand for ``$x$ is a 
+mathematics major student'', $C(x)$ stand for ``$x$ is a computer science major 
+student'', $S(x)$ stand for ``$x$ is a statistics major student'', and $T(x, y)$ 
+stand for ``student $x$ takes course $y$'', $c$ stand for ``the calculus course'', 
+$p$ stand for ``the probability course'', and $d$ stand for ``the databases course''.
+Universe of discourse is students and courses.
+
+\begin{enumerate}
+    \item $\forall x (D(x) \rightarrow (M(x) \lor C(x) \lor S(x)))$ \quad (Premise)
+    \item $\forall x (M(x) \rightarrow T(x, c))$ \quad (Premise)
+    \item $\forall x (S(x) \rightarrow T(x, p))$ \quad (Premise)
+    \item $\forall x (C(x) \rightarrow T(x, d))$ \quad (Premise)
+    \item \quad \textbf{Assume for $\forall$I:} Let $a$ be an arbitrary person such that $D(a)$ is true.
+    \item \quad $D(a) \rightarrow (M(a) \lor C(a) \lor S(a))$ \quad ($\forall$E, 1)
+    \item \quad $M(a) \lor C(a) \lor S(a)$ \quad (Modus Ponens, 5, 6)
+    \item \quad \quad \textbf{Case 1 (Assume for $\lor$E):} $M(a)$
+    \item \quad \quad $M(a) \rightarrow T(a, c)$ \quad ($\forall$E, 2)
+    \item \quad \quad $T(a, c)$ \quad (Modus Ponens, 8, 9)
+    \item \quad \quad $T(a, c) \lor T(a, p) \lor T(a, d)$ \quad ($\lor$I, 10)
+    \item \quad \quad \textbf{Case 2 (Assume for $\lor$E):} $C(a)$
+    \item \quad \quad $C(a) \rightarrow T(a, d)$ \quad ($\forall$E, 4)
+    \item \quad \quad $T(a, d)$ \quad (Modus Ponens, 12, 13)
+    \item \quad \quad $T(a, c) \lor T(a, p) \lor T(a, d)$ \quad ($\lor$I, 14)
+    \item \quad \quad \textbf{Case 3 (Assume for $\lor$E):} $S(a)$
+    \item \quad \quad $S(a) \rightarrow T(a, p)$ \quad ($\forall$E, 3)
+    \item \quad \quad $T(a, p)$ \quad (Modus Ponens, 16, 17)
+    \item \quad \quad $T(a, c) \lor T(a, p) \lor T(a, d)$ \quad ($\lor$I, 18)
+    \item \quad $T(a, c) \lor T(a, p) \lor T(a, d)$ \quad ($\lor$E, 7, 8-11, 12-15, 16-19)
+    \item \quad $D(a) \rightarrow (T(a, c) \lor T(a, p) \lor T(a, d))$ \quad ($\rightarrow$I, 5-20)
+    \item $\forall x (D(x) \rightarrow (T(x, c) \lor T(x, p) \lor T(x, d)))$ \quad ($\forall$I, 21)
+\end{enumerate}
+
+\subsubsection*{(C)}
+
+Let $C(x)$ stand for ``$x$ is a CMS student'', $M(x)$ stand for ``$x$ is 
+a mathematics course'', $T(x, y)$ stand for ``student $x$ takes course $y$'', 
+and $W(x, y)$ stand for ``student $x$ works hard in course $y$''. Universe of 
+discourse is students and courses.
+
+\begin{enumerate}
+    \item $\forall x (C(x) \rightarrow \exists y \exists z (y \neq z \land M(y) \land M(z) \land T(x, y) \land T(x, z)))$ \quad (Premise)
+    \item $\forall y (M(y) \rightarrow \forall x (T(x, y) \rightarrow W(x, y)))$ \quad (Premise)
+    \item \quad \textbf{Assume for $\forall$I:} Let $a$ be an arbitrary person such that $C(a)$ is true.
+    \item \quad $C(a) \rightarrow \exists y \exists z (\dots)$ \quad ($\forall$E, 1)
+    \item \quad $\exists y \exists z (y \neq z \land M(y) \land M(z) \land T(a, y) \land T(a, z))$ \quad (Modus Ponens, 3, 4)
+    \item \quad \quad \textbf{Assume for $\exists$E:} Let $k_1, k_2$ be courses where $k_1 \neq k_2 \land M(k_1) \land M(k_2) \land T(a, k_1) \land T(a, k_2)$
+    \item \quad \quad $M(k_1)$ \quad ($\land$E, 6)
+    \item \quad \quad $T(a, k_1)$ \quad ($\land$E, 6)
+    \item \quad \quad $M(k_1) \rightarrow \forall x (T(x, k_1) \rightarrow W(x, k_1))$ \quad ($\forall$E, 2)
+    \item \quad \quad $\forall x (T(x, k_1) \rightarrow W(x, k_1))$ \quad (Modus Ponens, 7, 9)
+    \item \quad \quad $T(a, k_1) \rightarrow W(a, k_1)$ \quad ($\forall$E, 10)
+    \item \quad \quad $W(a, k_1)$ \quad (Modus Ponens, 8, 11)
+    \item \quad \quad $M(k_2)$ \quad ($\land$E, 6)
+    \item \quad \quad $T(a, k_2)$ \quad ($\land$E, 6)
+    \item \quad \quad $M(k_2) \rightarrow \forall x (T(x, k_2) \rightarrow W(x, k_2))$ \quad ($\forall$E, 2)
+    \item \quad \quad $\forall x (T(x, k_2) \rightarrow W(x, k_2))$ \quad (Modus Ponens, 13, 15)
+    \item \quad \quad $T(a, k_2) \rightarrow W(a, k_2)$ \quad ($\forall$E, 16)
+    \item \quad \quad $W(a, k_2)$ \quad (Modus Ponens, 14, 17)
+    \item \quad \quad $k_1 \neq k_2$ \quad ($\land$E, 6)
+    \item \quad \quad $k_1 \neq k_2 \land W(a, k_1) \land W(a, k_2)$ \quad ($\land$I, 19, 12, 18)
+    \item \quad \quad $\exists z (k_1 \neq z \land W(a, k_1) \land W(a, z))$ \quad ($\exists$I, 20)
+    \item \quad \quad $\exists y \exists z (y \neq z \land W(a, y) \land W(a, z))$ \quad ($\exists$I, 21)
+    \item \quad $\exists y \exists z (y \neq z \land W(a, y) \land W(a, z))$ \quad ($\exists$E, 5, 6-22)
+    \item \quad $C(a) \rightarrow \exists y \exists z (y \neq z \land W(a, y) \land W(a, z))$ \quad ($\rightarrow$I, 3-23)
+    \item $\forall x (C(x) \rightarrow \exists y \exists z (y \neq z \land W(x, y) \land W(x, z)))$ \quad ($\forall$I, 24)
+\end{enumerate}
+
+\end{homeworkProblem}
+
+%============================================================
+% TODO: DRAW THE FUCKING VENN DIAGRAMS
+%============================================================
+
+\begin{homeworkProblem}
+   Prove each of the following statements, and draw Venn diagrams that illustrate the corresponding sets.
+   When applicable, use the following definition of subset: $A \subseteq B$ is
+   defined as $\forall x, x \in  A \to x \in B$
+
+\subsection*{1. $(A\cup B)\triangle C=(A\triangle C)\triangle(B\setminus A)$}{$(A\cup B) \triangle C = (A\triangle C) \triangle (B \backslash A)$}
+
+\subsection*{Element-wise (no gaps)}
+Recall
+\[
+X\triangle Y=(X\setminus Y)\cup(Y\setminus X)
+\quad\Longleftrightarrow\quad
+x\in X\triangle Y\iff \big(x\in X\wedge x\notin Y\big)\ \vee\ \big(x\in Y\wedge x\notin X\big).
+\]
+
+\paragraph{Left side.}
+\begin{align*}
+x\in (A\cup B)\triangle C
+&\iff \Big(x\in A\cup B \wedge x\notin C\Big)\ \vee\ \Big(x\in C\wedge x\notin (A\cup B)\Big)\\
+&\iff \Big((x\in A\vee x\in B)\wedge x\notin C\Big)\ \vee\ \Big(x\in C\wedge x\notin A\wedge x\notin B\Big). \tag*{(\text{LHS})}
+\end{align*}
+
+\paragraph{Right side.}
+\begin{align*}
+x\in (A\triangle C)\triangle(B\setminus A)
+&\iff \Big(x\in A\triangle C \wedge x\notin (B\setminus A)\Big)\ \vee\ \Big(x\in B\setminus A \wedge x\notin A\triangle C\Big)\\
+&\iff \Big(\big((x\in A\wedge x\notin C)\ \vee\ (x\in C\wedge x\notin A)\big)\wedge (x\notin B\ \vee\ x\in A)\Big)\\
+&\quad\ \ \ \vee\ \Big((x\in B\wedge x\notin A)\wedge \neg\big((x\in A\wedge x\notin C)\ \vee\ (x\in C\wedge x\notin A)\big)\Big)\\
+&\qquad\qquad\qquad\qquad\qquad\qquad\text{(De Morgan and $\neg(P\vee Q)\equiv(\neg P\wedge\neg Q)$)}\\[2mm]
+&\iff \Big((x\in A\wedge x\notin C\wedge (x\notin B\vee x\in A))\\
+&\qquad\qquad\qquad\qquad\ \ \ \ \ \ \ \vee\ (x\in C\wedge x\notin A\wedge (x\notin B\vee x\in A))\Big)\\
+&\quad\ \ \ \vee\ \Big((x\in B\wedge x\notin A)\wedge \big((x\notin A\ \vee\ x\in C)\wedge(x\notin C\ \vee\ x\in A)\big)\Big)\\[1mm]
+&\iff \underbrace{(x\in A\wedge x\notin C)}_{\text{since }x\in A\Rightarrow (x\notin B\vee x\in A)}\\
+&\quad\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \vee\ \underbrace{(x\in C\wedge x\notin A\wedge x\notin B)}_{\text{because }x\in A\ \text{would contradict }x\notin A}\\
+&\quad\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \vee\ \underbrace{(x\in B\wedge x\notin A\wedge x\notin C)}_{\text{from the last big conjunct}}.
+\end{align*}
+
+Grouping the last two disjuncts gives
+\[
+x\in (A\triangle C)\triangle(B\setminus A)\iff
+(x\in A\wedge x\notin C)\ \vee\ \big(x\notin C\wedge x\in B\wedge x\notin A\big)\ \vee\ \big(x\in C\wedge x\notin A\wedge x\notin B\big).
+\]
+
+Now observe:
+\begin{itemize}
+\item If $x\in A$, then the first disjunct says exactly $x\notin C$. That matches the LHS clause $\big((x\in A\cup B)\wedge x\notin C\big)$.
+\item If $x\notin A$, then the first disjunct is false, and the other two together are equivalent to
+\[
+\big((x\in B)\wedge x\notin C\big)\ \vee\ \big(x\in C\wedge x\notin B\big),
+\]
+i.e.\ $(x\in B)(x\in C)$. On the LHS, when $x\notin A$ the condition there is also $(x\in B)(x\in C)$.
+\end{itemize}
+So the two sides agree for all $x$. Hence
+\[
+\boxed{(A\cup B)C=(AC)(B\setminus A)}.
+\]
+
+\begin{figure}[h!]
+  \centering
+  \begin{minipage}{0.48\textwidth}
+    \centering
+    \begin{venndiagram3sets}[labelA=$A$, labelB=$B$, labelC=$C$, shade=gray!40]
+      % (A ∪ B) Δ C  = (A ∪ B)\C  ∪  C\(A ∪ B)
+      % Regions included: OnlyA (100), OnlyB (010), AB-only (110), OnlyC (001)
+      \fillOnlyA
+      \fillOnlyB
+      \fillACapBNotC
+      \fillOnlyC
+    \end{venndiagram3sets}
+  \end{minipage}
+\end{figure}
+
+\subsection*{2. $(A\cap B)\triangle C=(A\triangle C)\triangle(A\setminus B)$}{$(A\cap B) \triangle C = (A\triangle C)\triangle(A\backslash B)$}
+
+\subsection*{Element-wise}
+\paragraph{Left side.}
+\begin{align*}
+x\in (A\cap B)\triangle C
+&\iff \Big(x\in A\cap B\wedge x\notin C\Big)\ \vee\ \Big(x\in C\wedge x\notin (A\cap B)\Big)\\
+&\iff \big(x\in A\wedge x\in B\wedge x\notin C\big)\ \vee\ \big(x\in C\wedge (x\notin A\ \vee\ x\notin B)\big). \tag*{(\text{LHS})}
+\end{align*}
+
+\paragraph{Right side.}
+\begin{align*}
+x\in (A\triangle C)\triangle(A\setminus B)
+&\iff \Big(x\in A\triangle C\wedge x\notin (A\setminus B)\Big)\ \vee\ \Big(x\in A\setminus B\wedge x\notin A\triangle C\Big)\\
+&\iff \Big(\big((x\in A\wedge x\notin C)\ \vee\ (x\in C\wedge x\notin A)\big)\wedge (x\notin A\ \vee\ x\in B)\Big)\\
+&\quad\ \ \ \vee\ \Big((x\in A\wedge x\notin B)\wedge \big((x\notin A\ \vee\ x\in C)\wedge (x\notin C\ \vee\ x\in A)\big)\Big)\\[1mm]
+&\iff \underbrace{(x\in A\wedge x\notin C\wedge x\in B)}_{(1)}\ \ \vee\ \ \underbrace{(x\in C\wedge x\notin A)}_{(2)}\ \ \vee\ \ \underbrace{(x\in A\wedge x\notin B\wedge x\in C)}_{(3)}.
+\end{align*}
+Combine $(2)$ and $(3)$ as $x\in C\wedge (x\notin A\ \vee\ x\notin B)$. Term $(1)$ is $x\in A\wedge x\in B\wedge x\notin C$. This matches exactly the LHS disjunction. Hence the identity holds.
+
+\begin{figure}[h!]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+       \centering
+       \begin{venndiagram3sets}[labelA=$A$, labelB=$B$, labelC= $C$, shade=gray!40]
+          \fillCCapBNotA
+          \fillCCapANotB
+          \fillOnlyC
+          \fillACapBNotC
+       \end{venndiagram3sets}
+    \end{minipage}
+\end{figure}
+%============================================================
+\subsection*{3.\quad $(A\cup B)\subseteq (A\cup B\cup C)$}
+
+\begin{proof}
+By definition of $\subseteq$, we must show:
+\[
+\forall x\,\Big( x\in A\cup B \ \Rightarrow\ x\in A\cup B\cup C \Big).
+\]
+Fix an arbitrary $x$.
+
+\noindent\textbf{Assume} $x\in A\cup B$. Then by the definition of $\cup$,
+\[
+x\in A\cup B \iff (x\in A)\vee(x\in B).
+\]
+We perform an explicit (disjunctive) case split:
+
+\smallskip
+\underline{Case 1: $x\in A$.}
+Then $(x\in A)\Rightarrow (x\in A)\vee(x\in B)\vee(x\in C)$ by the tautology $p\Rightarrow p\vee q$ (applied twice to add the extra disjuncts).
+Hence, by definition of union, $x\in A\cup B\cup C$.
+
+\smallskip
+\underline{Case 2: $x\in B$.}
+Analogously, $(x\in B)\Rightarrow (x\in A)\vee(x\in B)\vee(x\in C)$, so $x\in A\cup B\cup C$.
+
+\smallskip
+In both cases the consequent holds, so the implication holds. Since $x$ was arbitrary,
+\[
+\forall x\,(x\in A\cup B \Rightarrow x\in A\cup B\cup C).
+\]
+Therefore $(A\cup B)\subseteq (A\cup B\cup C)$.
+\end{proof}
+% 3) (A ∪ B) ⊆ (A ∪ B ∪ C)
+
+\vspace{8cm}
+%============================================================
+\subsection*{4.\quad $(A\cap B\cap C)\subseteq (A\cap B)$}
+
+\begin{proof}
+We must prove
+\[
+\forall x\,\Big( x\in A\cap B\cap C \Rightarrow x\in A\cap B \Big).
+\]
+Fix an arbitrary $x$.
+
+\noindent\textbf{Assume} $x\in A\cap B\cap C$. Then by definition of $\cap$,
+\[
+x\in A\cap B\cap C \iff (x\in A)\wedge(x\in B)\wedge(x\in C).
+\]
+Conjunction elimination yields $(x\in A)\wedge(x\in B)$. By the definition of intersection,
+\[
+(x\in A)\wedge(x\in B)\iff x\in A\cap B.
+\]
+Thus the implication holds for this $x$, and since $x$ was arbitrary, the universal statement follows:
+\[
+(A\cap B\cap C)\subseteq(A\cap B).
+\]
+\end{proof}
+
+\vspace{8cm}
+%============================================================
+\subsection*{5.\quad $A\cap(B\setminus A)=\emptyset$}
+
+\begin{proof}
+We show $A\cap(B\setminus A)\subseteq\emptyset$ and $\emptyset\subseteq A\cap(B\setminus A)$.
+
+\smallskip
+\underline{$A\cap(B\setminus A)\subseteq\emptyset$:}
+By definition of $\subseteq$, show
+\[
+\forall x\,\big( x\in A\cap(B\setminus A) \Rightarrow x\in \emptyset \big).
+\]
+Fix $x$ and assume $x\in A\cap(B\setminus A)$. Then
+\[
+x\in A\cap(B\setminus A)\ \iff\ (x\in A)\wedge\big(x\in (B\setminus A)\big).
+\]
+By definition of set difference,
+\[
+x\in (B\setminus A)\ \iff\ (x\in B)\wedge(x\notin A).
+\]
+Hence,
+\[
+x\in A\cap(B\setminus A)\ \iff\ (x\in A)\wedge(x\in B)\wedge(x\notin A).
+\]
+The conjunct $(x\in A)\wedge(x\notin A)$ is contradictory (always false), so
+there is no $x$ for which the assumption can actually hold. In particular, the
+implication to $x\in\emptyset$ is vacuously true. Therefore $A\cap(B\setminus
+A)\subseteq\emptyset$.
+
+\smallskip
+\underline{$\emptyset\subseteq A\cap(B\setminus A)$:}
+We must show $\forall x\,(x\in\emptyset \Rightarrow x\in A\cap(B\setminus A))$.
+But $x\in\emptyset$ is always false, so each implication is true (vacuously).
+Thus $\emptyset\subseteq A\cap(B\setminus A)$.
+
+\smallskip
+Combining both inclusions, $A\cap(B\setminus A)=\emptyset$.
+\end{proof}
+
+\vspace{8cm}
+%============================================================
+\subsection*{6.\quad $(A\cap B)\cup(A\cap \neg B)=A$}
+% TODO: FINISH MEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+\begin{proof}
+We show both inclusions.
+
+\smallskip
+\underline{$(A\cap B)\cup(A\cap \neg B)\subseteq A$:}
+Let $x\in (A\cap B)\cup(A\cap \neg B)$. Then either $x\in A\cap B$ or $x\in A\cap \neg B$.
+In both cases $x\in A$. Hence $x\in A$.
+
+\smallskip
+\underline{$A\subseteq (A\cap B)\cup(A\cap \neg B)$:}
+Let $x\in A$. Either $x\in B$ or $x\notin B$. If $x\in B$, then $x\in A\cap B$.
+If $x\notin B$, then $x\in A\cap \neg B$. In either case, $x\in (A\cap B)\cup(A\cap \neg B)$.
+
+\smallskip
+Since both inclusions hold,
+\[
+(A\cap B)\cup(A\cap \neg B)=A.
+\]
+\end{proof}
+
+\vspace{8cm}
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+Consider a discrete mathematics class with 1 mathematics major who is a 1st year student, 12 mathematics
+majors who are 3rd year students, 15 computer science majors who are 3rd year students, 2 mathematics majors
+who are 2nd year students, 2 computer science majors who are 2nd year students, 1 computer science major who
+is a 4th year student, and 15 statistics majors who are 1st year students. No other students are in this class, and
+nobody can be in more than one major. \\
+
+Let $M(x)$ stand for “$x$ is a mathematics major”, $C(x)$ stand for “$x$ is a computer science major”, $S(x)$ stand for “$x$ is a statistics major”, $F(x)$ stand for “$x$ is a first-year student”, $N(x)$ stand for “$x$ is a second-year student”, $T(x)$ stand for “$x$ is a third-year student”, $R(x)$ stand for “$x$ is a fourth-year student”. Universe of discourse is students in this discrete mathematics class. For each of the following statements, analyse its logical form, determine whether it is true or false, and provide
+a brief explanation why.
+
+\begin{enumerate}
+    \item Some students are second year.
+    \item Every student is a computer science major.
+    \item Every computer science student is not first year.
+    \item All first year students are statistics major.
+    \item All statistics students are first year.
+    \item All fourth year students are computer science majors.
+    \item All second year students are mathematics majors.
+    \item All non-mathematics students are either first-year or computer science majors.
+\end{enumerate}
+\solution
+
+% fuck my chud baka big dick life. 14:13 2025-10-17
+\begin{enumerate}
+\item \textbf{Some students are second year.}
+$\exists x, N(x)$.
+
+\textbf{True}. There are 4 second-year students (2 mathematics, 2 computer science).
+
+\item \textbf{Every student is a computer science major.}
+$\forall x, C(x)$.
+
+\textbf{False}. There are mathematics majors (15) and statistics majors (15).
+
+\item \textbf{Every computer science student is not first year.}
+$\forall x, (C(x) \to \neg F(x))$.
+
+\textbf{True}. All CS students are 2nd, 3rd, or 4th year; there are no 1st-year CS students.
+
+\item \textbf{All first year students are statistics major.}
+$\forall x, (F(x) \to S(x))$.
+
+\textbf{False}. There is a 1st-year mathematics major (not statistics).
+
+\item \textbf{All statistics students are first year.}
+$\forall x, S(x) \to F(x)$.
+
+\textbf{True}. All 15 statistics majors are 1st-years.
+
+\item \textbf{All fourth year students are computer science majors.}
+$\forall x, (R(x) \to C(x))$.
+
+\textbf{True}. The only 4th-year student is a CS major.
+
+\item \textbf{All second year students are mathematics majors.}
+$\forall x, (N(x) \to M(x))$.
+
+\textbf{False}. There are 2 second-year CS majors.
+
+\item \textbf{All non-mathematics students are either first-year or computer science majors.}
+$\forall x, (\lnot M(x) \to (F(x) \lor C(x)))$.
+
+\textbf{True}. Non-math students are either statistics (all 1st-year) or CS (of various years), so each is in $F$ or $C$.
+\end{enumerate}
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+    Recall that we can prove that statements A and B are logically equivalent as follows:
+\begin{enumerate}
+    \item Develop a proof of $A \to B$: \\
+    Suppose A \\
+    . . . \\
+    B
+    \item Develop a proof of $B \to A$: \\
+    Suppose B \\
+    . . . \\
+    A
+\end{enumerate}
+
+For each of the following pairs of expressions, either prove they are equivalent by using the above technique, or prove they are not equivalent by providing a counterexample world.
+
+\begin{enumerate}
+    \item $\forall x \forall y, P(x, y)$ and $\forall y \forall x, P(x, y)$
+    \item $\exists x \exists y, P(x, y)$ and $\exists y \exists x, P(x, y)$
+    \item $\forall x \exists y, P(x, y)$ and $\exists y \forall x, P(x, y)$
+    \item $\forall x \forall y, P(x) \land Q(y)$ and $(\forall x, P(x)) \land (\forall y, Q(y))$
+    \item $\exists x \exists y, P(x) \land Q(y)$ and $(\exists x, P(x)) \land (\exists y, Q(y))$
+    \item $\forall x \exists y, P(x) \land Q(y)$ and $(\forall x, P(x)) \land (\exists y, Q(y))$
+    \item $(\forall x, P(x)) \land (\forall x, Q(x))$ and $\forall x, P(x) \land Q(x)$
+    \item $(\exists x, P(x)) \land (\exists x, Q(x))$ and $\exists x, P(x) \land Q(x)$
+\end{enumerate}
+
+\solution
+
+\begin{enumerate}
+\item {\(\forall x \forall y P(x,y)\) and \(\forall y \forall x P(x,y)\)}
+\begin{proof}
+\textbf{($A \to B$)} Suppose \(A\).  
+By (Q-Commute) on universal quantifiers, \(A \equiv B\).  
+Hence \(B\). \(\therefore A \to B.\)
+
+\textbf{($B \to A$)} Suppose \(B\).  
+By (Q-Commute), \(B \equiv A\).  
+Hence \(A\). \(\therefore B \to A.\)
+\end{proof}
+
+\item {\(\exists x \exists y P(x,y)\) and \(\exists y \exists x P(x,y)\)}
+
+\begin{proof}
+\textbf{($A \to B$)} Suppose \(A\).  
+By (Q-Commute) on existentials, \(A \equiv B\).  
+Hence \(B\). \(\therefore A \to B.\)
+
+\textbf{($B \to A$)} Suppose \(B\).  
+By (Q-Commute), \(B \equiv A\).  
+Hence \(A\). \(\therefore B \to A.\)
+\end{proof}
+
+\item {\(\forall x \exists y P(x,y)\) and \(\exists y \forall x P(x,y)\)}
+
+\begin{proof}
+These are not equivalent.
+
+\textbf{Counterexample:} Let \(D = \mathbb{N}\) and define \(P(x,y): y > x.\)
+Then \(\forall x \exists y\,P(x,y)\) is true (take \(y = x+1\)),  
+but \(\exists y \forall x\,P(x,y)\) is false (no single \(y\) exceeds all \(x\)).
+\end{proof}
+
+\item{\(\forall x \forall y (P(x) \wedge Q(y))\) and \((\forall x P(x)) \wedge (\forall y Q(y))\)}
+
+\begin{proof}
+\textbf{($A \to B$)} Suppose \(A\).  
+Apply (Q-Factor) since \(x\) and \(y\) occur independently in \(P,Q\).  
+Hence \(B\). \(\therefore A \to B.\)
+
+\textbf{($B \to A$)} Suppose \(B\).  
+By (Q-Factor) in reverse, \(B \equiv A\).  
+Hence \(A\). \(\therefore B \to A.\)
+\end{proof}
+
+\item{\(\exists x \exists y (P(x) \wedge Q(y))\) and \((\exists x P(x)) \wedge (\exists y Q(y))\)}
+
+\begin{proof}
+\textbf{($A \to B$)} Suppose \(A\).  
+By (Q-Factor), \(A \equiv B\).  
+Hence \(B\). \(\therefore A \to B.\)
+
+\textbf{($B \to A$)} Suppose \(B\).  
+By (Q-Factor) in reverse, \(B \equiv A\).  
+Hence \(A\). \(\therefore B \to A.\)
+\end{proof}
+
+\item{\(\forall x \exists y (P(x) \wedge Q(y))\) and \((\forall x P(x)) \wedge (\exists y Q(y))\)}
+
+\begin{proof}
+\textbf{($A \to B$)} Suppose \(A\).  
+Under (Q-Factor) and (ND), \(A \equiv B\).  
+Hence \(B\). \(\therefore A \to B.\)
+
+\textbf{($B \to A$)} Suppose \(B\).  
+By (Q-Factor) in reverse and (ND), \(B \equiv A\).  
+Hence \(A\). \(\therefore B \to A.\)
+\end{proof}
+
+\item{\((\forall x P(x)) \wedge (\forall x Q(x))\) and \(\forall x (P(x) \wedge Q(x))\)}
+
+\begin{proof}
+\textbf{($A \to B$)} Suppose \(A\).  
+By (Q-Factor) for identical bounds, \(A \equiv B\).  
+Hence \(B\). \(\therefore A \to B.\)
+
+\textbf{($B \to A$)} Suppose \(B\).  
+By (Q-Factor) in reverse, \(B \equiv A\).  
+Hence \(A\). \(\therefore B \to A.\)
+\end{proof}
+
+\item{\((\exists x P(x)) \wedge (\exists x Q(x))\) and \(\exists x (P(x) \wedge Q(x))\)}
+
+\begin{proof}
+These are not equivalent.
+
+\textbf{Counterexample:} Let \(D = \{1,2\}\) and define  
+\(P(1), \lnot P(2), \lnot Q(1), Q(2).\)
+Then \((\exists x P(x)) \wedge (\exists x Q(x))\) is true  
+(because 1 witnesses \(P\) and 2 witnesses \(Q\)),  
+but \(\exists x (P(x) \wedge Q(x))\) is false (no single common witness).
+\end{proof}
+
+\end{enumerate}
+\end{homeworkProblem}
+
+\end{document}

@@ -1,0 +1,88 @@
+
+\documentclass[12pt, a4paper]{report}
+\input{../preamble.tex}
+
+\title{CSCA67H3 - Discrete Mathematics \\ Week 1 Tutorial Questions}
+\author{Gosha Polstvin}
+\date{Year 1 — Fall 2025}
+
+\begin{document}
+\maketitle
+
+\chapter{Solutions}
+
+Either John or Bill are telling the truth. Either Sam or Bill are lying.
+Therefore, either John is telling the truth or Sam is lying. 
+
+Cookie cutter disjunctive syllogism. 
+\[
+    (J \lor B)
+\] 
+\[
+    (\neg S or \neg B)
+\] 
+\[
+    \therefore J \lor \neg S
+\] 
+
+\[
+\begin{array}{|c|c|c|c|c|c|c|c|}
+\hline
+J & B & S & J \lor B & S \rightarrow B & (S \rightarrow B) \lor J & (J \lor B) \lor (S \rightarrow B) & J \lor S \\
+\hline
+T & T & T & T & T & T & T & T \\
+T & T & F & T & T & T & T & T \\
+T & F & T & T & F & T & T & T \\
+T & F & F & T & T & T & T & T \\
+F & T & T & T & T & T & T & T \\
+F & T & F & T & T & T & T & F \\
+F & F & T & F & F & F & F & T \\
+F & F & F & F & T & T & T & F \\
+\hline
+\end{array}
+\]
+
+Jane and Pete won’t both win the math prize. Pete will win either the math prize or the
+chemistry prize. Jane will win the math prize. Therefore, Pete will win the chemistry prize.
+
+\[
+\neg(J_m \land P_m)
+\] 
+\[
+P_m \lor P_c
+\] 
+\[
+J_m
+\]
+\[
+\therefore P_c
+\]
+
+\[
+\begin{array}{|c|c|c|c|c|c|c|c|}
+\hline
+J_m & P_m & J_c & P_c & \neg(J_m \land P_m) & (P_m \lor P_c) & J_m & P_c \\
+\hline
+T & T & T & T & F & T & T & T \\
+T & T & T & F & F & T & T & F \\
+T & T & F & T & F & T & T & T \\
+T & T & F & F & F & T & T & F \\
+T & F & T & T & T & T & T & T \\
+T & F & T & F & T & F & T & F \\
+T & F & F & T & T & T & T & T \\
+T & F & F & F & T & F & T & F \\
+F & T & T & T & T & T & F & T \\
+F & T & T & F & T & T & F & F \\
+F & T & F & T & T & T & F & T \\
+F & T & F & F & T & T & F & F \\
+F & F & T & T & T & T & F & T \\
+F & F & T & F & T & F & F & F \\
+F & F & F & T & T & T & F & T \\
+F & F & F & F & T & F & F & F \\
+\hline
+\end{array}
+\]
+
+
+
+\end{document}

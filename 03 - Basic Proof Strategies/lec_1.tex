@@ -1,0 +1,201 @@
+\chapter{Basic Proof Strategies}
+\label{cha:basic-proof-strategies}
+
+In mathematics, there are several common techniques used to establish the truth of statements.
+Each technique corresponds to a logical structure or way of reasoning about implications,
+negations, and cases. In this chapter, we review the most fundamental proof strategies:
+direct proof, proof by contrapositive, proof by contradiction, and proof by cases.
+
+\section{Direct Proof}
+\label{sec:direct-proof}
+
+\begin{quote}
+\textbf{Idea:} Assume \(P\) is true, then use logical reasoning to show that \(Q\) must also be true.
+\end{quote}
+
+A \emph{direct proof} is the most straightforward type of proof for a conditional statement
+of the form \(P \to Q\). Recall that such an implication is false only when \(P\) is true
+and \(Q\) is false. Therefore, to show that \(P \to Q\) is always true, we assume \(P\) holds
+and logically deduce that \(Q\) must hold as well.
+
+This technique often appears in universally quantified statements such as:
+\[
+\forall x \in D, \; P(x) \to Q(x).
+\]
+To prove this directly, follow these general steps:
+\begin{enumerate}
+    \item Let \(x\) be an \emph{arbitrary element} of the domain \(D\).
+    \item Assume \(P(x)\) is true.
+    \item Use logical reasoning, definitions, or known facts to show that \(Q(x)\) must be true.
+\end{enumerate}
+If this reasoning works for an arbitrary \(x \in D\), the implication holds for all \(x\).
+
+\begin{example}[Direct Proof]
+\textbf{Proposition.} For any person, if they are born in Canada, then they are born in North America.
+
+\begin{proof}
+Let \(D\) be the set of all people.
+Define:
+\[
+\begin{aligned}
+P(x) &: \text{``Person $x$ was born in Canada.''}\\
+Q(x) &: \text{``Person $x$ was born in North America.''}
+\end{aligned}
+\]
+
+We wish to prove:
+\[
+\forall x \in D, \; P(x) \to Q(x).
+\]
+
+Let \(x\) be an arbitrary person in \(D\).
+Assume \(P(x)\) is true; that is, person \(x\) was born in Canada.
+By geographical fact, Canada is a country located within the continent of North America.
+Therefore, person \(x\) was also born in North America — meaning \(Q(x)\) holds.
+
+Since \(x\) was arbitrary, we conclude that \(P(x) \to Q(x)\) is true for all \(x \in D\).
+\end{proof}
+\end{example}
+
+\section{Proof by Contrapositive}
+\label{sec:proof-by-contrapositive}
+
+\begin{quote}
+\textbf{Idea:} Instead of proving \(P \to Q\) directly, prove its contrapositive \(\neg Q \to \neg P\).
+\end{quote}
+
+A statement of the form \(P \to Q\) is \emph{logically equivalent} to its contrapositive:
+\[
+P \to Q \quad \equiv \quad \neg Q \to \neg P.
+\]
+Thus, proving the contrapositive automatically proves the original statement.
+
+This approach is often useful when the negation of the conclusion (\(\neg Q\)) is easier to handle
+than the hypothesis (\(P\)) itself.
+
+\subsection*{Steps for Proving by Contrapositive}
+To prove \(\forall x \in D, \; P(x) \to Q(x)\) by contrapositive:
+\begin{enumerate}
+    \item Let \(x\) be an arbitrary element of the domain \(D\).
+    \item Assume \(\neg Q(x)\) is true.
+    \item Use logic and definitions to show that \(\neg P(x)\) must follow.
+    \item Conclude that \(\neg Q(x) \to \neg P(x)\) holds for all \(x\).
+    \item By logical equivalence, the original implication \(P(x) \to Q(x)\) is true.
+\end{enumerate}
+
+\begin{example}[Proof by Contrapositive]
+\textbf{Proposition.} If a person is not born in North America, then they are not born in Canada.
+
+\begin{proof}
+Let the domain \(D\) be the set of all people. Define:
+\[
+\begin{aligned}
+P(x) &: \text{``Person $x$ was born in Canada.''}\\
+Q(x) &: \text{``Person $x$ was born in North America.''}
+\end{aligned}
+\]
+We wish to prove \(P(x) \to Q(x)\) by proving its contrapositive \(\neg Q(x) \to \neg P(x)\).
+
+Let \(x \in D\) be arbitrary and assume \(\neg Q(x)\) is true; that is, person \(x\) was \emph{not}
+born in North America. Since Canada is geographically located in North America, if \(x\) were born
+in Canada, then \(x\) would necessarily have been born in North America. This contradicts our assumption.
+Therefore, \(x\) cannot have been born in Canada, meaning \(\neg P(x)\) holds.
+
+Hence, \(\neg Q(x) \to \neg P(x)\) is true for all \(x\), and thus \(P(x) \to Q(x)\) follows by
+logical equivalence.
+\end{proof}
+\end{example}
+
+\section{Proof by Contradiction}
+\label{sec:proof-by-contradiction}
+
+\begin{quote}
+\textbf{Idea:} Assume the negation of what you want to prove, and show that this assumption leads to a contradiction.
+\end{quote}
+
+A proof by contradiction works by assuming the opposite of the desired conclusion.
+If this assumption logically leads to a contradiction, then the assumption must be false,
+and the desired statement must therefore be true.
+
+Formally, to prove \(P\), assume \(\neg P\) and derive a contradiction (such as \(R \wedge \neg R\)).
+Once a contradiction appears, we conclude that \(\neg P\) is false and thus \(P\) is true.
+
+\begin{example}[Proof by Contradiction]
+\textbf{Proposition.} There is no smallest positive real number.
+
+\begin{proof}
+Suppose, for the sake of contradiction, that there \emph{is} a smallest positive real number.
+Let this number be \(s > 0\), so that for every positive real number \(x\), we have \(x \ge s\).
+
+Now consider the number \(\dfrac{s}{2}\). Since \(s > 0\), it follows that \(\dfrac{s}{2} > 0\).
+However, \(\dfrac{s}{2} < s\), which contradicts the assumption that \(s\) is the smallest
+positive real number.
+
+Hence, our assumption is false. Therefore, there is \emph{no smallest positive real number}.
+\end{proof}
+\end{example}
+
+\section{Proof by Cases (Exhaustion)}
+\label{sec:proof-by-cases}
+
+\begin{quote}
+\textbf{Idea:} If a statement depends on multiple possibilities, prove each case separately.
+\end{quote}
+
+Suppose we want to prove:
+\[
+(X \lor Y) \to Q.
+\]
+We can show this by establishing both
+\[
+X \to Q \quad \text{and} \quad Y \to Q.
+\]
+If \(Q\) follows in all possible cases, then \(Q\) holds whenever \(X \lor Y\) does.
+
+\begin{example}[Proof by Cases]
+\textbf{Proposition.} If a number is divisible by 4 or divisible by 6, then it is divisible by 2.
+
+\begin{proof}
+Let \(n\) be an arbitrary integer.
+
+\textbf{Case 1:} Suppose \(n\) is divisible by 4.\\
+Then \(n = 4k\) for some integer \(k\). Since \(4 = 2 \times 2\), we can write
+\(n = 2(2k)\), which shows \(n\) is divisible by 2.
+
+\textbf{Case 2:} Suppose \(n\) is divisible by 6.\\
+Then \(n = 6m\) for some integer \(m\). Since \(6 = 2 \times 3\), we can write
+\(n = 2(3m)\), so \(n\) is also divisible by 2.
+
+In both cases, \(n\) is divisible by 2. Therefore, if \(n\) is divisible by 4 or 6,
+then \(n\) is divisible by 2.
+\end{proof}
+\end{example}
+
+\section{Key Definitions}
+\label{sec:key-definitions}
+
+\begin{definition}[Theorem]
+A statement that has been proved true based on axioms, definitions, and previously established results.
+\end{definition}
+
+\begin{definition}[Axiom]
+A self-evident or universally accepted statement taken to be true without proof.
+\end{definition}
+
+\begin{definition}[Identity]
+An equation that holds true for all values of the variable(s) involved, such as \(\sin^2 x + \cos^2 x = 1\).
+\end{definition}
+
+\begin{definition}[Proof]
+A logical and systematic argument that demonstrates the truth of a mathematical statement.
+\end{definition}
+
+\begin{definition}[Tautology]
+A propositional formula that is always true, regardless of the truth values of its components.
+For example: \(A \lor \neg A\).
+\end{definition}
+
+\begin{definition}[Rational Number]
+A number that can be expressed as a fraction \(\dfrac{p}{q}\) where \(p, q \in \mathbb{Z}\)
+and \(q \ne 0\), and \(p\) and \(q\) are relatively prime.
+\end{definition}

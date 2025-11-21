@@ -1,0 +1,87 @@
+\documentclass[12pt, a4paper]{report}
+\input{../preamble.tex}
+
+\title{CSCA67H3 - Discrete Mathematics \\ Week 1 Tutorial Questions}
+\author{Gosha Polstvin}
+\date{Year 1 — Fall 2025}
+
+\begin{document}
+\maketitle
+
+\chapter*{Solutions}
+
+\section{Exercises 1}
+
+\emph{Either both Ralph and Ed are tall, or both of them are handsome.}
+
+\textbf{Solution:}
+\[
+    (R_t \land E_t) \lor (R_h \land E_h)
+. \]\\
+
+\emph{Both Ralph and Ed are either tall or handsome.}
+
+\textbf{Solution:}
+\[
+    (R_t \lor R_h) \land (E_t \lor E_h)
+.\] \\
+
+\emph{Both Ralph and Ed are neither tall nor handsome.}
+
+\textbf{Solution:}
+\[
+    (\neg R_t \land \neg R_h) \land (\neg E_t \land \neg E_h)
+.\] \\
+
+\emph{Neither Ralph nor Ed is both tall and handsome.}
+
+\textbf{Solution:} This one was a bit tricky. The natural reading is that no one has both properties: 
+\[
+    \neg(R_t \land R_h) \land \neg(E_t \land E_h)
+.\] \\
+
+\emph{Alternative reading:} It could also be interpreted as “it's false that
+both of them simultaneously have both properties." Basically, not all of the
+following conditions can be true at the same time: 
+\[
+    \neg(R_t \land R_h \land E_t \land E_h)
+.\] \\
+
+\emph{Either both Ralph and Ed are tall, or neither of them are.}
+
+\textbf{Solution:}
+\[
+    (R_t \land E_t) \lor (\neg R_t \land \neg E_t)
+.\] \\
+
+\emph{Either Ralph is tall and Ed is handsome, or vice versa.}
+
+\textbf{Solution:}
+\[
+    (R_t \land E_h) \lor (E_t \land R_h)
+\]
+
+\section{Exercises 2}
+
+Let \(T\) denote “taxes will go up” and \(D\) denote “the deficit will go up.”  
+
+\[
+T \lor D
+.\] \\
+
+\emph{Taxes will go up or the deficit will go up.}
+
+\[
+(T \lor D) \land \neg(T \land D)
+.\] \\
+
+\emph{Either taxes will go up or the deficit will, but not both.}
+
+\[
+(T \land \neg D) \lor (D \land \neg T)
+.\] \\
+
+\emph{Either taxes will go up but not the deficit, or the deficit will go up but not taxes.}
+
+\end{document}
+

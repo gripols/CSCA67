@@ -1,0 +1,45 @@
+\documentclass[a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage[english]{babel}
+\usepackage{amsmath, amssymb}
+
+
+% figure support
+\usepackage{import}
+\usepackage{xifthen}
+\pdfminorversion=7
+\usepackage{pdfpages}
+\usepackage{transparent}
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{\columnwidth}
+    \import{./figures/}{#1.pdf_tex}
+}
+
+\pdfsuppresswarningpagegroup=1
+
+\title{Tutorial 8 -- CSCA67}
+\author{Gosha Polstvin}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\subsubsection{2.1 For $n \ge 1, n^3 - n$ is divisible by 3}%
+\label{ssub:2.1 For $n \ge 1, n^3 - n$ is divisible by 3}
+
+Base (n = 1): $1^3 - 1 = 0$, which is divisible by 3.
+Assume $k^3 - k = 3m$ for some integer $m$.
+\begin{align*}
+    (k+1)^3 - (k+1) &= (k^3 = 3k^3 + 3k + 1) - (k+1) \\
+    &= (k^3 - k) + 3k^{2} + 3k \\
+    &= 3m + 3(k^{2} + k) \\
+    &= 3(m + k^2 + k) \\
+\end{align*}
+
+Which is divisible by 3, and therefore true by induction.
+\end{document}
+

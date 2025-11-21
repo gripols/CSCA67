@@ -1,0 +1,156 @@
+\documentclass[12pt]{article}
+
+%============================================================
+% PACKAGES
+%============================================================
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{titlesec}
+
+%============================================================
+% CUSTOM ENVIRONMENTS
+%============================================================
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\newenvironment{proofsketch}{\paragraph{Proof Sketch.}}{\hfill$\square$}
+
+%============================================================
+% DOCUMENT
+%============================================================
+\begin{document}
+
+\title{Logic and Proof Practice: Validity and Proof Strategy}
+\author{Gosha Polstvin}
+\date{\today}
+\maketitle
+
+\tableofcontents
+\bigskip
+
+%============================================================
+\section{Argument Validity and Counterexamples}
+
+\subsection*{1.1 Birds, Insects, and Flying Species (Valid)}
+
+\textbf{Given:}
+\[
+\forall x(B(x) \rightarrow \exists y(I(y) \wedge E(x,y))), \quad 
+\forall y(I(y) \rightarrow F(y)).
+\]
+\textbf{To Prove:}
+\[
+\forall x(B(x) \rightarrow \exists y(F(y) \wedge E(x,y))).
+\]
+
+\begin{proofsketch}
+Let \(a\) be arbitrary such that \(B(a)\).
+From the first premise, \(\exists y(I(y) \wedge E(a,y))\).
+Instantiate to \(I(c) \wedge E(a,c)\).
+By the second premise, \(I(c) \rightarrow F(c)\), so \(F(c)\) holds.
+Hence \(F(c) \wedge E(a,c)\), therefore \(\exists y(F(y) \wedge E(a,y))\).
+By universal generalization, 
+\(\forall x(B(x) \rightarrow \exists y(F(y) \wedge E(x,y)))\).
+\end{proofsketch}
+
+\noindent\textbf{Conclusion:} Argument is \textbf{valid.}
+
+%------------------------------------------------------------
+\subsection*{1.2 Smart People, Money, and Big Houses (Invalid)}
+
+\textbf{Premises:}
+\[
+\exists x(S(x) \wedge M(x)), \quad \exists x(M(x) \wedge H(x)).
+\]
+\textbf{Conclusion:}
+\[
+\exists x(S(x) \wedge H(x)).
+\]
+
+\begin{proofsketch}
+Consider the domain \(\{a,b\}\).
+Let \(S(a)\) and \(M(a)\) be true, but \(H(a)\) false.
+Let \(M(b)\) and \(H(b)\) be true, but \(S(b)\) false.
+Then:
+\begin{itemize}[noitemsep]
+    \item \(\exists x(S(x)\wedge M(x))\) true for \(x=a\);
+    \item \(\exists x(M(x)\wedge H(x))\) true for \(x=b\);
+    \item but \(\exists x(S(x)\wedge H(x))\) is false.
+\end{itemize}
+Thus, premises true and conclusion false.
+\end{proofsketch}
+
+\noindent\textbf{Conclusion:} Argument is \textbf{invalid.}
+
+%------------------------------------------------------------
+\subsection*{1.3 Knowing, Singing, and Liking Songs (Valid)}
+
+\textbf{Given:}
+\begin{align*}
+1.\quad & \forall x(P(x) \rightarrow \exists y(S(y) \wedge K(x,y)))\\
+2.\quad & \forall y(S(y) \rightarrow \exists z(P(z) \wedge \text{Sing}(z,y)))\\
+3.\quad & \forall z \forall y((P(z) \wedge S(y) \wedge \text{Sing}(z,y)) \rightarrow L(z,y))
+\end{align*}
+
+\textbf{To Prove:}
+\[
+\forall x(P(x) \rightarrow \exists y(S(y) \wedge K(x,y) \wedge \exists z(P(z)\wedge L(z,y)))).
+\]
+
+\begin{proofsketch}
+Let \(a\) be an arbitrary person, \(P(a)\).  
+From (1), there exists a song \(s\) such that \(S(s)\wedge K(a,s)\).
+From (2), since \(S(s)\), there exists a person \(t\) such that \(P(t)\wedge \text{Sing}(t,s)\).
+From (3), using \(P(t)\wedge S(s)\wedge \text{Sing}(t,s)\), infer \(L(t,s)\).
+Hence \(S(s)\wedge K(a,s)\wedge \exists z(P(z)\wedge L(z,s))\).
+Existentially generalize and universalize to reach the desired conclusion.
+\end{proofsketch}
+
+\noindent\textbf{Conclusion:} Argument is \textbf{valid.}
+
+%============================================================
+\section{Choosing Proof Strategies}
+
+\subsection*{2.1 If $x+y+z$ is odd, then at least one of $x,y,z$ is odd}
+
+\begin{proofsketch}[Strategy: Contrapositive]
+Contrapositive: If \(x,y,z\) are all even, then \(x+y+z\) is even.
+
+If each is even, \(x=2a, y=2b, z=2c\) for integers \(a,b,c\).  
+Then \(x+y+z=2(a+b+c)\), which is even.
+
+Hence, if \(x+y+z\) is odd, not all of \(x,y,z\) can be even.
+Therefore, at least one is odd.
+\end{proofsketch}
+
+%------------------------------------------------------------
+\subsection*{2.2 $n$ even $\iff$ $7n+4$ even}
+
+\begin{proofsketch}[Strategy: Biconditional direct proof]
+$(\Rightarrow)$ If \(n\) is even, \(n=2k\). Then \(7n+4=14k+4=2(7k+2)\), even.\\
+$(\Leftarrow)$ If \(7n+4\) is even, then \(7n\) is even.  
+Since 7 is odd, dividing by 7 preserves evenness, so \(n\) is even.
+\end{proofsketch}
+
+%------------------------------------------------------------
+\subsection*{2.3 If $A\cap B\neq \varnothing$ and $A\subseteq C$, then $B\cap C\neq \varnothing$}
+
+\begin{proofsketch}[Strategy: Element-chase]
+Since \(A\cap B\neq \varnothing\), there exists \(x\in A\cap B\).  
+Thus \(x\in A\) and \(x\in B\).  
+Given \(A\subseteq C\), we have \(x\in C\).  
+Hence \(x\in B\cap C\), so \(B\cap C\neq \varnothing\).
+\end{proofsketch}
+
+\end{document}
+

@@ -1,0 +1,216 @@
+\documentclass[12pt, a4paper]{report}
+\input{../preamble.tex}
+
+\title{CSCA67H3 - Discrete Mathematics \\ Week 1 Tutorial Questions}
+\author{Gosha Polstvin}
+\date{Year 1 — Fall 2025}
+
+\begin{document}
+\maketitle
+
+\chapter*{Solutions}
+
+\section*{Conditionals}%
+
+\subsection*{If Alice is at the party, then so is Bob}
+\[
+A \to B
+\]
+Converse: $B \to A$. If Bob is at the party, then Alice is at the party.\\
+Contrapositive: $\neg B \to \neg A$. If Bob is not at the party, then Alice is not at the party.
+
+\subsection*{Charlie is at the party, only if both Alice and Bob are}
+\[
+C \to (A \land B)
+\]
+Converse: $(A \land B) \to C$. If both Alice and Bob are at the party, then Charlie is at the party.\\
+Contrapositive: $\neg (A \land B) \to \neg C$. If at least one of Alice or Bob is not at the party, then Charlie is not at the party.
+
+\subsection*{David is not at the party, if Alice is}
+\[
+A \to \neg D
+\]
+Converse: $\neg D \to A$. If David is not at the party, then Alice is at the party.\\
+Contrapositive: $D \to \neg A$. If David is at the party, then Alice is not at the party.
+
+\subsection*{If Bob is not at the party, then Alice is}
+\[
+\neg B \to A
+\]
+Converse: $A \to \neg B$. If Alice is at the party, then Bob is not at the party.\\
+Contrapositive: $\neg A \to B$. If Alice is not at the party, then Bob is at the party.
+
+\subsection*{If Bob is not at the party, then neither is Alice}
+\[
+\neg B \to \neg A
+\]
+Converse: $\neg A \to \neg B$. If Alice is not at the party, then Bob is not at the party.\\
+Contrapositive: $A \to B$. If Alice is at the party, then Bob is at the party.
+
+\subsection*{Alice is not at the party, unless Bob is}
+\[
+\neg B \to \neg A
+\]
+Converse: $\neg A \to \neg B$. If Alice is not at the party, then Bob is not at the party.\\
+Contrapositive: $A \to B$. If Alice is at the party, then Bob is at the party.
+
+\subsection*{Neither Alice nor Bob being at the party is a sufficient condition for Charlie}
+\[
+(\neg A \land \neg B) \to C
+\]
+Converse: $C \to (\neg A \land \neg B)$. If Charlie is at the party, then neither Alice nor Bob is at the party.\\
+Contrapositive: $\neg C \to (A \lor B)$. If Charlie is not at the party, then at least one of Alice or Bob is at the party.
+
+\subsection*{Both Alice and Bob being at the party is a necessary condition for Charlie}
+\[
+C \to (A \land B)
+\]
+Converse: $(A \land B) \to C$. If both Alice and Bob are at the party, then Charlie is at the party.\\
+Contrapositive: $\neg(A \land B) \to \neg C$. If it is not the case that both Alice and Bob are at the party, then Charlie is not at the party.
+
+\section*{Logical Equivalences}%
+
+\subsection*{$\neg(a \to b)$ and $\neg a \land b$}%
+
+We know:
+\[
+a \to b \equiv (\neg a \lor b).
+\]
+Therefore:
+\[
+\neg(a \to b) \equiv \neg(\neg a \lor b) \equiv a \land \neg b.
+\]
+Hence $\neg(a \to b)$ is \textbf{not equivalent} to $\neg a \land b$ (counterexample: $a=F, b=T$).
+
+\subsection*{$\neg(a \to b)$ and $a \land \neg b$}%
+\[
+\neg(a \to b) \equiv \neg(\neg a \lor b) \quad \text{(Conditional Law)}
+\]
+\[
+\equiv \neg \neg a \land \neg b \quad \text{(De Morgan's)}
+\]
+\[
+\equiv a \land \neg b.
+\]
+So they are \textbf{equivalent}.
+
+\subsection*{$a \leftrightarrow \neg b$ and $(a \land \neg b) \lor (\neg a \land b)$}%
+By definition:
+\[
+a \leftrightarrow \neg b \equiv (a \land \neg b) \lor (\neg a \land b).
+\]
+Therefore they are \textbf{equivalent}.
+
+\section*{Logical Inference}%
+
+\subsection*{Problem 1: Hockey, soreness, whirlpool}%
+
+\begin{proof}
+Let $H =$ ``play hockey'', $S =$ ``sore'', and $W =$ ``use whirlpool''.
+\begin{enumerate}
+    \item $H \to S$ (premise).
+    \item $S \to W$ (premise).
+    \item $\neg W$ (premise).
+    \item $\neg S$ \hfill (2,3 Modus Tollens).
+    \item $\neg H$ \hfill (1,4 Modus Tollens).
+\end{enumerate}
+Therefore, I did not play hockey.
+\end{proof}
+
+\subsection*{Problem 2: Dreaming or hallucinating}%
+
+\begin{proof}
+Let $D =$ ``dreaming'', $H =$ ``hallucinating'', $E =$ ``see elephants''.
+\begin{enumerate}
+    \item $D \lor H$ (premise).
+    \item $\neg D$ (premise).
+    \item $H$ \hfill (1,2 Disjunctive Syllogism).
+    \item $H \to E$ (premise).
+    \item $E$ \hfill (3,4 Modus Ponens).
+\end{enumerate}
+Therefore, I see elephants running down the road.
+\end{proof}
+
+\subsection*{Problem 3: Running, swimming, sunburn}%
+
+\begin{proof}
+Let $R =$ ``running'', $Sw =$ ``swimming'', $S =$ ``stay in the sun too long'', $B =$ ``sunburn''.
+\begin{enumerate}
+    \item $R \to S$ (premise).
+    \item $Sw \to S$ (premise).
+    \item $S \to B$ (premise).
+    \item $\neg B$ (premise).
+    \item $\neg S$ \hfill (3,4 Modus Tollens).
+    \item $\neg R$ \hfill (1,5 Modus Tollens).
+    \item $\neg Sw$ \hfill (2,5 Modus Tollens).
+    \item $\neg R \land \neg Sw$ \hfill (6,7 Conjunction).
+\end{enumerate}
+Therefore, I neither went running nor swimming.
+\end{proof}
+
+\section*{Variables and Sets}%
+
+\subsection*{1. \(\overline{A\cup B} = \overline{A}\cap\overline{B}\)}
+
+Proof (element wise, using $\forall x$):
+\[
+\begin{aligned}
+\forall x\!: \; x\in \overline{A\cup B}
+&\iff x\notin (A\cup B)\\
+&\iff \neg\big(x\in A \;\lor\; x\in B\big)\\
+&\iff \big(\neg(x\in A)\big)\land\big(\neg(x\in B)\big)\\
+&\iff (x\in\overline{A})\land(x\in\overline{B})\\
+&\iff x\in (\overline{A}\cap\overline{B}).
+\end{aligned}
+\]
+\begin{tikzpicture}[fill=gray]
+% shade everything first
+\fill (-2,-2) rectangle (3,2);
+
+% then "erase" A
+\fill[white] (0,0) circle (1);
+
+% then "erase" B
+\fill[white] (1,0) circle (1);
+
+% outlines
+\draw (0,0) circle (1) (0,1)  node [text=black,above] {$A$}
+      (1,0) circle (1) (1,1)  node [text=black,above] {$B$}
+      (-2,-2) rectangle (3,2) node [text=black,above] {$H$};
+\end{tikzpicture}
+
+So for every $x$ membership matches, hence the sets are equal.
+\subsection*{2. \(\overline{A\cap B} = \overline{A}\cup\overline{B}\)}
+
+Proof (element wise):
+\[
+\begin{aligned}
+\forall x\!: \; x\in \overline{A\cap B}
+&\iff x\notin (A\cap B)\\
+&\iff \neg\big(x\in A \;\land\; x\in B\big)\\
+&\iff \big(\neg(x\in A)\big)\lor\big(\neg(x\in B)\big)\\
+&\iff (x\in\overline{A})\lor(x\in\overline{B})\\
+&\iff x\in (\overline{A}\cup\overline{B}).
+\end{aligned}
+\]
+So they match for every $x$, hence equal.
+
+\begin{tikzpicture}[fill=gray]
+% shade everything first
+\fill (-2,-2) rectangle (3,2);
+
+% then "erase" the intersection part (make it white)
+\begin{scope}
+  \clip (0,0) circle (1);
+  \clip (1,0) circle (1);
+  \fill[white] (-2,-2) rectangle (3,2);
+\end{scope}
+
+% outlines
+\draw (0,0) circle (1) (0,1)  node [text=black,above] {$A$}
+      (1,0) circle (1) (1,1)  node [text=black,above] {$B$}
+      (-2,-2) rectangle (3,2) node [text=black,above] {$H$};
+\end{tikzpicture}
+
+\end{document}
+

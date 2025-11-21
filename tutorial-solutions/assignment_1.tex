@@ -1,0 +1,562 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{tcolorbox}
+\usepackage{enumitem} 
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor\ \hmwkClassTime): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+% Solution box environment
+\newenvironment{solutionbox}[1][4cm]{%
+  \begin{tcolorbox}[colback=white, colframe=black!75, title=Solution,
+  enhanced, sharp corners, height=#1, breakable]
+}{\end{tcolorbox}}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Assignment\ \#1}
+\newcommand{\hmwkDueDate}{September 28, 2025}
+\newcommand{\hmwkClass}{CSCA67}
+\newcommand{\hmwkClassTime}{Ch. 1}
+\newcommand{\hmwkClassInstructor}{Professor Anya Tafliovich}
+\newcommand{\hmwkAuthorName}{\textbf{Gosha Polstvin}}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 11:59pm}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+    \vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+\newcommand{\impl}{\rightarrow}
+\newcommand{\liff}{\leftrightarrow}
+\newcommand{\T}{\text{T}}
+\newcommand{\F}{\text{F}}
+\newcommand{\entails}{\models}
+\newcommand{\nentails}{\nvDash}
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+% ------------------- QUESTION 1 -------------------
+\begin{document}
+\maketitle
+
+\section*{Algebraic proofs for Question 1}
+
+\subsection*{1. $(a\to b)\land(b\to c)$ vs. $a\to c$}
+
+\[
+\begin{aligned}
+(a\to b)\land(b\to c) &\equiv (\neg a \lor b)\land(\neg b \lor c) \\
+&\Rightarrow \neg a \lor c \equiv a\to c.
+\end{aligned}
+\]
+
+\textbf{Failure of converse.} Take $(a,b,c)=(\F,\T,\F)$. Then $a\to c=\T$, but $(a\to b)\land(b\to c)=\F$, so $a\to c$ does not imply $(a\to b)\land(b\to c)$.
+
+\vspace{1ex}
+\subsection*{2. $a\land(a\to b)$ vs. $a\to b$}
+
+\[
+a\land(a\to b) \Rightarrow a\to b,
+\]
+since $a\to b$ is a conjunct of the left-hand formula.
+
+\textbf{Failure of converse.} Take $(a,b)=(\F,\F)$. Then $a\to b=\T$ but $a\land(a\to b)=\F$, so $a\to b$ does not imply $a\land(a\to b)$.
+
+\vspace{1ex}
+\subsection*{3. $(a\to b)\land(a\to c)$ vs. $a\to(b\land c)$}
+
+\[
+\begin{aligned}
+(a\to b)\land(a\to c) &\equiv (\neg a \lor b)\land(\neg a \lor c) \\
+&\equiv \neg a \lor (b\land c) \equiv a\to(b\land c),
+\end{aligned}
+\]
+so the formulas are equivalent.
+
+\vspace{1ex}
+\subsection*{4. $(a\to c)\land(b\to c)$ vs. $(a\lor b)\to c$}
+
+\[
+\begin{aligned}
+(a\to c)\land(b\to c) &\equiv (\neg a \lor c)\land(\neg b \lor c) \\
+&\equiv (\neg a \land \neg b) \lor c \equiv \neg(a\lor b) \lor c \equiv (a\lor b)\to c,
+\end{aligned}
+\]
+so they are equivalent.
+
+\vspace{1ex}
+\subsection*{5. $a\liff b$ vs. $(a\land b)\lor(\neg a\land\neg b)$}
+
+By definition of biconditional:
+\[
+a\liff b \equiv (a\land b)\lor(\neg a \land \neg b),
+\]
+so the formulas are identical.
+
+\vspace{1ex}
+\subsection*{6. $a\to(b\to(c\to d))$ vs. $((a\land b)\land c)\to d$}
+
+\[
+\begin{aligned}
+a\to(b\to(c\to d)) &\equiv \neg a \lor (\neg b \lor (\neg c \lor d)) \\
+&\equiv \neg(a\land b\land c) \lor d \equiv ((a\land b)\land c)\to d,
+\end{aligned}
+\]
+so they are equivalent.
+
+\vspace{1ex}
+\subsection*{7. $(a\to b)\lor(b\to a)$ vs. $a\liff b$}
+
+\textbf{Left-hand side is a tautology:}
+\[
+\begin{aligned}
+(a\to b)\lor(b\to a) &\equiv (\neg a \lor b) \lor (\neg b \lor a) \\
+&\equiv (\neg a \lor a) \lor (\neg b \lor b) \equiv \top.
+\end{aligned}
+\]
+
+\textbf{Right-hand side is not a tautology.} Example: $(a,b)=(\T,\F)$ gives $a\liff b=\F$. Hence they are not equivalent.
+
+\vspace{1ex}
+\subsection*{8. $a\liff b$ vs. $\neg a\liff \neg b$}
+
+\[
+\begin{aligned}
+\neg a\liff \neg b &\equiv (\neg a \land \neg b) \lor (a\land b) \\
+&\equiv (a\land b)\lor(\neg a\land\neg b) \equiv a\liff b,
+\end{aligned}
+\]
+so they are equivalent.
+
+\vspace{1ex}
+\subsection*{9. $(a\land b)\to(c\land d)$ vs. $((a\to c)\land(a\to d))\land((b\to c)\land(b\to d))$}
+
+\textbf{RHS implies LHS:}
+\[
+\begin{aligned}
+\text{RHS} &\equiv (\neg a\lor c)\land(\neg a\lor d)\land(\neg b\lor c)\land(\neg b\lor d) \\
+&\equiv ((\neg a\lor c)\land(\neg b\lor c)) \land ((\neg a\lor d)\land(\neg b\lor d)) \\
+&\equiv ((\neg a \land \neg b)\lor c) \land ((\neg a\land \neg b)\lor d) \\
+&\equiv (\neg a\land \neg b)\lor(c\land d) \equiv (a\land b)\to(c\land d).
+\end{aligned}
+\]
+
+\textbf{Failure of converse.} Example: $(a,b,c,d)=(\T,\F,\F,\F)$ gives LHS true, RHS false.
+
+\vspace{1ex}
+\subsection*{10. $(a\lor b)\to(c\land d)$ vs. $((a\to c)\land(a\to d))\land((b\to c)\land(b\to d))$}
+
+\[
+\begin{aligned}
+(a\lor b)\to(c\land d) &\equiv (\neg a \land \neg b) \lor (c\land d), \\
+\text{RHS} &\equiv (\neg a \lor c)\land(\neg a \lor d)\land(\neg b \lor c)\land(\neg b \lor d) \\
+&\equiv ((\neg a\lor c)\land(\neg b\lor c)) \land ((\neg a\lor d)\land(\neg b\lor d)) \\
+&\equiv ((\neg a \land \neg b)\lor c)\land((\neg a\land \neg b)\lor d) \\
+&\equiv (\neg a \land \neg b)\lor(c\land d) \equiv (a\lor b)\to(c\land d),
+\end{aligned}
+\]
+so they are equivalent.
+
+\bigskip
+
+\section*{Question 2. Tautology / contradiction / neither}
+We classify each formula and give succinct rigorous arguments.
+
+\subsection*{1. $(a\to b)\lor(b\to a)$.}
+\textbf{Classification:} \emph{Tautology.}
+
+\begin{proof}
+As in Question 1.7,
+\[
+(\neg a\lor b)\lor(\neg b\lor a)\equiv(\neg a\lor a)\lor(\neg b\lor b)\equiv\top,
+\]
+so the formula is true under every valuation.
+\end{proof}
+
+\vspace{1ex}
+
+\subsection*{2. $(((a\to b)\land(b\to c))\land a)\land\neg c$.}
+\textbf{Classification:} \emph{Contradiction} (unsatisfiable).
+
+\begin{proof}
+Assume the whole conjunction is true. Then from $(a\to b)\land(b\to c)$ and $a$ we can derive $b$ and then $c$ by successive modus ponens. But the formula also contains $\neg c$ as a conjunct, hence we deduce both $c$ and $\neg c$, contradiction. Therefore there is no valuation that makes the formula true; it is a contradiction.
+\end{proof}
+
+\vspace{1ex}
+
+\subsection*{3. $(((a\to b)\land(b\to c))\land a)\land c$.}
+\textbf{Classification:} \emph{Neither} (satisfiable but not a tautology).
+
+\begin{proof}
+Satisfiable: take $a=b=c=\T$. Then each of $a\to b$, $b\to c$ is $\T$, and $a\land c$ is $\T$, so the whole conjunction is $\T$. Not a tautology: take $a=\F,b=\F,c=\F$. Then the conjunct $a$ is $\F$, so the whole conjunction is $\F$. Hence neither a tautology nor a contradiction.
+\end{proof}
+
+\vspace{1ex}
+
+\subsection*{4. $a\to\neg a$.}
+\textbf{Classification:} \emph{Neither}.
+
+\begin{proof}
+If $a=\F$ the implication $a\to\neg a$ is $\T$ (antecedent false). If $a=\T$ the implication is $\T\to\F=\F$. Thus the formula is satisfiable but not always true; hence neither.
+\end{proof}
+
+\vspace{1ex}
+
+\subsection*{5. $(a\land(a\to b))\to b$.}
+\textbf{Classification:} \emph{Tautology}.
+
+\begin{proof}
+Suppose $a\land(a\to b)$ holds. Then $a$ holds and $a\to b$ holds, so by modus ponens $b$ holds. Therefore the implication from $a\land(a\to b)$ to $b$ is always true, i.e.\ a tautology.
+Algebraically one can expand the antecedent as $a\land(\neg a\lor b)$ and simplify to see the implication is always true, but the straightforward rule-based derivation via modus ponens is immediate and rigorous.
+\end{proof}
+
+\bigskip
+
+\section*{Question 3. Deductive reasoning (validity / proofs)}
+
+For each argument we indicate validity. If valid, we present (i) a truth-table style check covering all rows where the premises are all true, and (ii) a rules-of-inference (natural deduction) proof. If invalid, we give an explicit counterexample valuation.
+
+%======================
+% (A)
+%======================
+\subsection*{(A) Truth Table}
+
+\begin{enumerate} \item If the weather is good, I either go running or swimming. \quad $W\to(R\lor S)$. \item I don’t go running and swimming at the same time. \quad $\neg(R\land S)$. \end{enumerate}
+\textbf{Validity:} \emph{Valid.}
+
+\begin{enumerate}
+  \item $W\to(R\lor S)$ \hfill Premise
+  \item $\neg(R\land S)$ \hfill Premise
+  \item From $\neg(R\land S)$ we get $R\to\neg S$ and $S\to\neg R$. \hfill (Equivalently: $\neg(R\land S)\equiv \neg R\lor\neg S$, from which each implication follows; or prove each implication by conditional proof.)
+  \item To prove $(W\land R)\to\neg S$: assume $W\land R$.
+  \begin{enumerate}
+    \item From $W\land R$ infer $W$ and $R$.
+    \item From $W$ and $W\to(R\lor S)$ infer $R\lor S$.
+    \item From $R$ and $R\to\neg S$ infer $\neg S$.
+  \end{enumerate}
+  Discharging the assumption $W\land R$ yields $(W\land R)\to\neg S$.
+  \item The proof of $(W\land S)\to\neg R$ is symmetric.
+\end{enumerate}
+\[
+\begin{tabular}{ccc c c c c c}
+\toprule
+
+R & S & W & $W\to(R\lor S)$ & $\neg(R\land S)$ & \text{All Premises?} & $(W\land R)\to\neg S$ & $(W\land S)\to\neg R$ \\
+\midrule
+F & F & F & T & T & T & T & T \\
+F & F & T & F & T & F & T & T \\
+F & T & F & T & T & T & T & T \\
+F & T & T & T & T & T & T & T \\
+T & F & F & T & T & T & T & T \\
+T & F & T & T & T & T & T & T \\
+T & T & F & T & F & F & T & T \\
+T & T & T & T & F & F & T & T \\
+\bottomrule
+\end{tabular}
+\]
+
+%======================
+% (B)
+%======================
+
+\subsection*{(B) Truth Table}
+\emph{Informal argument.} \begin{enumerate} \item To get a good grade $G$ it is necessary to attend lectures and do readings: $G\to(L\land R)$. \item I attend lectures and do readings: $L\land R$. \end{enumerate} Conclusion: $G$.
+\textbf{Validity:} \emph{Invalid.}
+
+\begin{proof}[Counterexample]
+Take the valuation $G=\F$, $L=\T$, $R=\T$. Then $G\to(L\land R)$ is true (antecedent false) and $L\land R$ is true, but $G$ is false. Therefore the premises can all be true while the conclusion is false; hence the argument is invalid. Intuitively the premise states ``$L\land R$ is \emph{necessary} for $G$'', which does not imply $L\land R$ is sufficient for $G$.
+\end{proof}
+
+\[
+\begin{tabular}{ccc c c c c}
+\toprule
+G & L & R & $G\to(L\land R)$ & $L\land R$ & \text{All Premises?} & G \\
+\midrule
+F & F & F & T & F & F & F \\
+F & F & T & T & F & F & F \\
+F & T & F & T & F & F & F \\
+F & T & T & T & T & T & F \\
+T & F & F & F & F & F & T \\
+T & F & T & F & F & F & T \\
+T & T & F & F & F & F & T \\
+T & T & T & T & T & T & T \\
+\bottomrule
+\end{tabular}
+\]
+
+%======================
+% (C)
+%======================
+\subsection*{(C) Truth Table}
+\emph{Informal argument.} \begin{enumerate} \item $((L\land R\land E)\lor K)\to G$. \item $L$, $R$, $E$. \end{enumerate} Conclusion: $G$.
+
+\textbf{Validity:} \emph{Valid.}
+
+\begin{enumerate}
+  \item $((L\land R\land E)\lor K)\to G$ \hfill Premise
+  \item $L$ \hfill Premise
+  \item $R$ \hfill Premise
+  \item $E$ \hfill Premise
+  \item From 2--4 infer $L\land R\land E$. \hfill $\land$-Introduction
+  \item From 5 infer $(L\land R\land E)\lor K$. \hfill $\lor$-Introduction
+  \item From 1 and 6 infer $G$. \hfill Modus Ponens
+\end{enumerate}
+Thus $G$ follows; the argument is valid.
+
+\[
+\begin{tabular}{ccccc c c c c}
+\toprule
+L & R & E & K & G & $(L\land R\land E)\lor K$ & \text{Premise1: antecedent$\to G$} & \text{All Premises?} & G \\
+\midrule
+F & F & F & F & F & F & T & F & F \\
+F & F & F & F & T & F & T & F & T \\
+F & F & F & T & F & T & F & F & F \\
+F & F & F & T & T & T & T & F & T \\
+F & F & T & F & F & F & T & F & F \\
+F & F & T & F & T & F & T & F & T \\
+F & F & T & T & F & T & F & F & F \\
+F & F & T & T & T & T & T & F & T \\
+F & T & F & F & F & F & T & F & F \\
+F & T & F & F & T & F & T & F & T \\
+F & T & F & T & F & T & F & F & F \\
+F & T & F & T & T & T & T & F & T \\
+F & T & T & F & F & F & T & F & F \\
+F & T & T & F & T & F & T & F & T \\
+F & T & T & T & F & T & F & F & F \\
+F & T & T & T & T & T & T & F & T \\
+T & F & F & F & F & F & T & F & F \\
+T & F & F & F & T & F & T & F & T \\
+T & F & F & T & F & T & F & F & F \\
+T & F & F & T & T & T & T & F & T \\
+T & F & T & F & F & F & T & F & F \\
+T & F & T & F & T & F & T & F & T \\
+T & F & T & T & F & T & F & F & F \\
+T & F & T & T & T & T & T & F & T \\
+T & T & F & F & F & F & T & F & F \\
+T & T & F & F & T & F & T & F & T \\
+T & T & F & T & F & T & F & F & F \\
+T & T & F & T & T & T & T & F & T \\
+T & T & T & F & F & T & F & F & F \\
+T & T & T & F & T & T & T & T & T \\
+T & T & T & T & F & T & F & F & F \\
+T & T & T & T & T & T & T & T & T \\
+\bottomrule
+\end{tabular}
+\]
+
+%======================
+% (D)
+%======================
+\subsection*{(D) Truth Table}
+\emph{Informal argument.} \begin{enumerate} \item $(L\to\neg B)\lor(K\to\neg C)$. \item $B\lor C$. \end{enumerate}
+\textbf{Validity:} \emph{Invalid.}
+
+\begin{proof}[Counterexample]
+Set
+\[
+(B,C,L,K)=(\T,\F,\T,\T).
+\]
+Evaluate:
+\[
+L\to\neg B = \T\to\F = \F,\qquad K\to\neg C=\T\to\T=\T,
+\]
+so the disjunction $(L\to\neg B)\lor(K\to\neg C)$ is $\T$. Also $B\lor C=\T$. But the conclusion
+\[
+\neg L\lor\neg K=\neg\T\lor\neg\T=\F
+\]
+is false. Therefore premises true and conclusion false, so the argument is invalid.
+\end{proof}
+
+\[
+\begin{tabular}{cccc c c c c c}
+\toprule
+L & K & B & C & $L\to \neg B$ & $K\to \neg C$ & $(L\to\neg B)\lor(K\to\neg C)$ & $B\lor C$ & \neg L\lor\neg K \\
+\midrule
+F & F & F & F & T & T & T & F & T \\
+F & F & F & T & T & T & T & T & T \\
+F & F & T & F & T & T & T & T & T \\
+F & F & T & T & T & T & T & T & T \\
+F & T & F & F & T & T & T & F & T \\
+F & T & F & T & T & F & T & T & T \\
+F & T & T & F & T & T & T & T & T \\
+F & T & T & T & T & F & T & T & T \\
+T & F & F & F & F & T & T & F & T \\
+T & F & F & T & F & T & T & T & T \\
+T & F & T & F & F & T & F & T & T \\
+T & F & T & T & F & T & T & T & T \\
+T & T & F & F & F & T & T & F & F \\
+T & T & F & T & F & F & F & T & F \\
+T & T & T & F & F & T & F & T & F \\
+T & T & T & T & F & F & F & T & F \\
+\bottomrule
+\end{tabular}
+\]
+
+%======================
+% (E)
+%======================
+\subsection*{(E) Truth Table}
+\emph{Informal argument.} \begin{enumerate} \item $L\to\neg B$. \item $K\to\neg C$. \item $B\lor C$. \end{enumerate} Conclusion: $\neg L\lor\neg K$.
+\textbf{Validity:} \emph{Valid.}
+
+\begin{enumerate}
+  \item $L\to\neg B$ \hfill Premise
+  \item $K\to\neg C$ \hfill Premise
+  \item $B\lor C$ \hfill Premise
+  \item Assume, for reductio, $L\land K$.
+  \begin{enumerate}
+    \item From assumption infer $L$ and $K$.
+    \item From 1 and $L$ infer $\neg B$.
+    \item From 2 and $K$ infer $\neg C$.
+    \item From 3 and $\neg B,\neg C$ conclude contradiction, since $B\lor C$ together with $\neg B\land\neg C$ is impossible.
+  \end{enumerate}
+  \item Hence $L\land K$ leads to contradiction; therefore $\neg(L\land K)$ holds.
+  \item By De Morgan, $\neg(L\land K)\equiv \neg L\lor\neg K$, which is the desired conclusion.
+\end{enumerate}
+This completes the proof; the argument is valid.
+
+\[
+\begin{tabular}{cccc c c c c}
+\toprule
+L & K & B & C & $L\to\neg B$ & $K\to\neg C$ & $B\lor C$ & \neg L\lor\neg K \\
+\midrule
+F & F & F & F & T & T & F & T \\
+F & F & F & T & T & T & T & T \\
+F & F & T & F & T & T & T & T \\
+F & F & T & T & T & T & T & T \\
+F & T & F & F & T & T & F & T \\
+F & T & F & T & T & F & T & T \\
+F & T & T & F & T & T & T & T \\
+F & T & T & T & T & F & T & T \\
+T & F & F & F & F & T & F & T \\
+T & F & F & T & F & T & T & T \\
+T & F & T & F & F & T & T & T \\
+T & F & T & T & F & T & T & T \\
+T & T & F & F & F & T & F & F \\
+T & T & F & T & F & F & T & F \\
+T & T & T & F & F & T & T & F \\
+T & T & T & T & F & F & T & F \\
+\bottomrule
+\end{tabular}
+\]
+\end{document}

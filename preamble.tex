@@ -1,0 +1,263 @@
+% --- Engine Detection ---
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[utf8]{inputenc}
+  \usepackage[T1]{fontenc}
+  \usepackage{lmodern} % cleaner font set
+\else
+  \usepackage{fontspec}
+  \setmainfont{TeX Gyre Pagella} % Palatino-like, professional
+  \setmonofont{Fira Code}        % optional, good for code
+\fi
+
+% --- Typography & Layout ---
+\usepackage{microtype} % subtle kerning/justification improvements
+\usepackage[a4paper,margin=1in]{geometry} % page layout
+\usepackage{setspace} % control line spacing
+% \onehalfspacing % enable for drafts, comment for final
+\setcounter{tocdepth}{1}
+
+% --- Colors and Graphics ---
+\usepackage[dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage{float}
+
+% --- Math Packages ---
+\usepackage{amsmath, amsfonts, mathtools, amssymb, amsthm}
+\usepackage{mathrsfs}
+\usepackage{cancel}
+\usepackage{proof}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+
+% --- TikZ and Diagrams ---
+\usepackage{tikz}
+\usepackage{tikz-cd}
+
+% --- Tables ---
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+
+% --- Lists ---
+\usepackage{enumitem}
+\setlist[description]{labelindent=0pt, leftmargin=!, labelwidth=2.5cm}
+
+% --- Utility Packages ---
+\usepackage{xparse}
+\usepackage{etoolbox}
+\usepackage{ifthen}
+
+% --- Shortcuts ---
+\newcommand{\hr}{\par\noindent\rule{\dimexpr\linewidth-2\fboxsep}{0.5pt}\par}
+\newcommand{\mycomment}[1]{} % inline comments
+
+% --- Logical Symbols ---
+\newcommand\N{\mathbb{N}}
+\newcommand\Z{\mathbb{Z}}
+\newcommand\Q{\mathbb{Q}}
+\newcommand\R{\mathbb{R}}
+\newcommand\C{\mathbb{C}}
+\let\implies\Rightarrow
+\let\impliedby\Leftarrow
+\let\iff\Leftrightarrow
+\let\epsilon\varepsilon
+
+% --- Gruvbox color palette ---
+\definecolor{gb-bg}{HTML}{282828}  % dark background
+\definecolor{gb-fg}{HTML}{ebdbb2}  % light foreground
+\definecolor{gb-red}{HTML}{cc241d}
+\definecolor{gb-green}{HTML}{98971a}
+\definecolor{gb-yellow}{HTML}{d79921}
+\definecolor{gb-blue}{HTML}{458588}
+\definecolor{gb-purple}{HTML}{b16286}
+\definecolor{gb-aqua}{HTML}{689d6a}
+\definecolor{gb-orange}{HTML}{d65d0e}
+\definecolor{gb-gray}{HTML}{928374}
+
+% ===========================
+%   Theorem Environments
+% ===========================
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{thmtools}
+
+% Global settings for all boxes
+\mdfsetup{
+    skipabove=1em,
+    skipbelow=0.75em,
+    linewidth=1pt,
+    roundcorner=8pt,
+    innertopmargin=0.6em,
+    innerbottommargin=0.6em,
+    splitbottomskip=1em,
+    splittopskip=1em,
+    middleextra={\par\hfill\textit{(continued on next page…)}\par},
+    % frametitlecontinuation={\textit{(continued)}},
+    % splittolerance=50,
+    nobreak=true
+}
+
+% --- Definition / Theorem style (blue) ---
+\declaretheoremstyle[
+  headfont=\bfseries\sffamily\color{gb-blue},
+  bodyfont=\normalfont,
+  mdframed={
+    backgroundcolor=gb-blue!8,
+    linecolor=gb-blue,
+  }
+]{defbox}
+\declaretheorem[style=defbox, name=Definition, numberwithin=section]{definition}
+\declaretheorem[style=defbox, name=Theorem, sibling=definition]{theorem}
+\declaretheorem[style=defbox, name=Proposition, sibling=definition]{proposition}
+\declaretheorem[style=defbox, name=Corollary, sibling=definition]{corollary}
+\declaretheorem[style=defbox, name=Lemma, sibling=definition]{lemma}
+
+% --- Example style (green) ---
+\declaretheoremstyle[
+  headfont=\bfseries\sffamily\color{gb-green},
+  bodyfont=\normalfont,
+  mdframed={
+    backgroundcolor=gb-green!8,
+    linecolor=gb-green,
+  }
+]{examplebox}
+\declaretheorem[style=examplebox, name=Example, numbered=no]{example}
+
+% --- Table style (green) ---
+\declaretheoremstyle[
+  headfont=\bfseries\sffamily\color{gb-aqua},
+  bodyfont=\normalfont,
+  mdframed={
+      backgroundcolor=gb-aqua!8,
+      linecolor=gb-aqua,
+  },
+  headpunct={},
+  headformat={\NAME \NOTE\\[0.5ex]}
+  ]{tablebox}
+\declaretheorem[style=tablebox, name=Table, numbered=no]{tablebox}
+\declaretheorem[style=tablebox, name=Figure, numbered=no]{figurebox}
+
+% --- Review style (yellow) ---
+\declaretheoremstyle[
+  headfont=\bfseries\sffamily\color{gb-yellow},
+  bodyfont=\normalfont,
+  mdframed={
+    backgroundcolor=gb-yellow!8,
+    linecolor=gb-yellow,
+  },
+  headpunct={},
+  headformat={\NAME\ \NOTE\\[0.5ex]}
+]{reviewbox}
+\declaretheorem[style=reviewbox, name=Review, numbered=no]{review}
+
+% --- Exercise style (orange) ---
+\declaretheoremstyle[
+  headfont=\bfseries\sffamily\color{gb-orange},
+  bodyfont=\normalfont,
+  mdframed={
+    backgroundcolor=gb-orange!8,
+    linecolor=gb-orange,
+  }
+]{exercisebox}
+\declaretheorem[style=exercisebox, name=Exercise, numbered=no]{exercise}
+
+% --- Remark / Note style (purple) ---
+\declaretheoremstyle[
+  headfont=\bfseries\sffamily\color{gb-purple},
+  bodyfont=\normalfont,
+  mdframed={
+    backgroundcolor=gb-purple!8,
+    linecolor=gb-purple,
+  }
+]{remarkbox}
+\declaretheorem[style=remarkbox, name=Remark, numbered=no]{remark}
+\declaretheorem[style=remarkbox, name=Note, numbered=no]{note}
+
+% --- Proof style (red outline) ---
+\declaretheoremstyle[
+  headfont=\bfseries\sffamily\color{gb-red},
+  bodyfont=\normalfont,
+  mdframed={
+    backgroundcolor=gb-red!8,
+    linecolor=gb-red,
+  },
+  qed=\qedsymbol
+]{proofbox}
+\declaretheorem[style=proofbox, name=Inference Rule, numbered=yes]{infrule}
+\declaretheorem[style=proofbox, name=Proof, numbered=no]{replacementproof}
+\renewenvironment{proof}[1][\proofname]{%
+  \begin{replacementproof}[#1]%
+}{\end{replacementproof}}
+
+
+% ===========================
+%   Headers & Footers
+% ===========================
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[RO,LE]{\nouppercase{\slshape\leftmark}}
+\fancyfoot[LE,RO]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+% ===========================
+%   Figures
+% ===========================
+\usepackage{import}
+\usepackage{xifthen}
+\usepackage{transparent}
+\pdfsuppresswarningpagegroup=1
+\newcommand{\incfig}[1]{%
+  \def\svgwidth{\columnwidth}%
+  \import{./figures/}{#1.pdf_tex}%
+}
+
+% ===========================
+%   Hyperlinks & References
+% ===========================
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=teal, urlcolor=violet]{hyperref}
+\usepackage[capitalise,nameinlink,noabbrev]{cleveref}
+
+% Section / subsection names
+\crefname{chapter}{chapter}{chapters}
+\Crefname{chapter}{Chapter}{Chapters}
+\crefname{section}{section}{sections}
+\Crefname{section}{Section}{Sections}
+\crefname{subsection}{subsection}{subsections}
+\Crefname{subsection}{Subsection}{Subsections}
+\crefname{subsubsection}{subsubsection}{subsubsections}
+\Crefname{subsubsection}{Subsubsection}{Subsubsections}
+
+% Theorem-like environment names
+\crefname{definition}{definition}{definitions}
+\Crefname{definition}{Definition}{Definitions}
+\crefname{example}{example}{examples}
+\Crefname{example}{Example}{Examples}
+\crefname{theorem}{theorem}{theorems}
+\Crefname{theorem}{Theorem}{Theorems}
+\crefname{proposition}{proposition}{propositions}
+\Crefname{proposition}{Proposition}{Propositions}
+\crefname{lemma}{lemma}{lemmas}
+\Crefname{lemma}{Lemma}{Lemmas}
+\crefname{corollary}{corollary}{corollaries}
+\Crefname{corollary}{Corollary}{Corollaries}
+\crefname{review}{review}{reviews}
+\Crefname{review}{Review}{Reviews}
+
+% ===========================
+%   Reference Shortcuts
+% ===========================
+% --- Theorem-like references ---
+\NewDocumentCommand{\defref}{ m o }{\refshortcut{def}{#1}[#2]}
+\NewDocumentCommand{\thmref}{ m o }{\refshortcut{thm}{#1}[#2]}
+\NewDocumentCommand{\lemref}{ m o }{\refshortcut{lemma}{#1}[#2]}
+\NewDocumentCommand{\propref}{ m o }{\refshortcut{proposition}{#1}[#2]}
+\NewDocumentCommand{\corref}{ m o }{\refshortcut{corollary}{#1}[#2]}
+\NewDocumentCommand{\exref}{ m o }{\refshortcut{ex}{#1}[#2]}
+
+% --- Structural references ---
+\NewDocumentCommand{\secref}{ m o }{\refshortcut{sec}{#1}[#2]}
+\NewDocumentCommand{\subsecref}{ m o }{\refshortcut{subsec}{#1}[#2]}
+\NewDocumentCommand{\subsubsecref}{ m o }{\refshortcut{subsubsec}{#1}[#2]}
+\NewDocumentCommand{\pararef}{ m o }{\refshortcut{par}{#1}[#2]}

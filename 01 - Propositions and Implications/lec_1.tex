@@ -1,0 +1,1039 @@
+\chapter{Propositions and Implications}
+\label{cha: Propositions and Implications}
+
+\section{Reasoning and Validity}%
+\label{sec:Reasoning and Validity}
+
+\begin{definition}[Reasoning]
+\label{def:reasoning}
+    The process of moving from one or more premises (statements assumed to be true)
+    to a conclusion (a statement derived from the premises).
+\end{definition}
+
+Broadly speaking, there are two main types of reasoning in logic and mathematics:
+\textbf{inductive reasoning} and \textbf{deductive reasoning}.
+Understanding their differences is crucial to understanding what makes an argument
+mathematically rigorous.
+
+\subsection{Inductive Reasoning}%
+\label{sub:inductive}
+Inductive reasoning is a type of reasoning that is largely based on
+patterns or observation, from which conclusions are cast in an empirical sense.
+These conclusions are \textit{likely}, but not guaranteed.
+
+\begin{example}[Inductive Reasoning]
+\label{ex:induction}
+Consider the statement:
+\begin{quote}
+``The sun has risen every day in my experience; therefore, it will rise tomorrow.''
+\end{quote}
+This is a rational conclusion supported by repeated observation.
+However, induction is probabilistic, not certain: it may fail in unseen cases.
+Thus, while convincing in daily life, inductive reasoning cannot provide the
+absolute certainty required in mathematics.
+\end{example}
+
+\subsection{Deductive Reasoning}%
+\label{sub:deductive}
+Deductive reasoning, in contrast, relies on logical inference rules.
+It produces conclusions that \textbf{must} be true provided the premises are true.
+This certainty makes deductive reasoning the foundation of mathematics.
+
+\begin{example}[Deductive Reasoning]
+Consider the following argument:
+\begin{quote}
+If today is Sunday, then I do not go to school. Today is Sunday.
+Therefore, I do not go to school today.
+\end{quote}
+The conclusion necessarily follows from the premises.
+If both premises are true, it is impossible for the conclusion to be false.
+\end{example}
+
+\medskip
+Deduction sounds airtight, but there is an important subtlety:
+how do we know the premises themselves are trustworthy,
+and how do we ensure the conclusion is not drawn incorrectly?
+This is where the concepts of \textbf{validity} and \textbf{soundness} play a role.
+
+\begin{definition}[Validity]
+\label{def:validity}
+    An argument is \emph{valid} if it is impossible for all premises to be true while the conclusion is false. Validity depends only on the logical structure (the \emph{form}) of the argument, not the actual truth of its premises.
+\end{definition}
+
+\begin{definition}[Soundness]
+\label{def:soundness}
+   An argument is \emph{sound} if it is valid \textit{and} its premises are true.
+   Soundness requires the correctness of both form and content.
+\end{definition}
+
+
+\begin{example}[Valid but unsound]
+\label{ex:valid-unsound}
+Premises:
+\begin{enumerate}
+  \item All cats are dogs.
+  \item Fluffy is a cat.
+\end{enumerate}
+Conclusion: Fluffy is a dog.
+
+\noindent The argument is \emph{valid} (formally: if both premises held then
+the conclusion follows), but not \emph{sound} because the first premise is false.
+\end{example}
+
+\begin{example}[Invalid argument: affirming the consequent]
+\label{ex:affirming-consequent}
+Premises:
+\begin{enumerate}
+  \item If it rains then the ground is wet. \quad (\(R\rightarrow W\))
+  \item The ground is wet. \quad (\(W\))
+\end{enumerate}
+Conclusion: Therefore, it rained. \quad (\(R\))
+
+\noindent This is the fallacy called \emph{affirming the consequent}.  To see
+it is invalid, produce a truth assignment: let \(R\) be false and \(W\) be true.  Then the conditional \(R\rightarrow W\) is true (because false \(\rightarrow\) true is true), the premise \(W\) is true, but the conclusion \(R\) is false.  Thus premises true and conclusion false occur simultaneously, so the 
+argument is invalid.
+\end{example}
+
+\subsubsection*{Arguments as syntactic objects}
+An \emph{argument} may be represented as a finite list of formulas \(P_1,\dots,P_n\)
+with a distinguished last line \(C\) (the conclusion).  When we formalize
+arguments we perform two distinct kinds of work:
+
+\begin{enumerate}
+  \item \textbf{Translation:} convert natural language statements into precise
+    logical formulas. This step is subtle and error-prone: ambiguous or
+    imprecise natural-language phrasing causes logical mistakes.
+  \item \textbf{Validation:} decide whether \(C\) follows from \(P_1,\dots,P_n\).
+    Validation can be done semantically (truth tables, counterexamples) or
+    syntactically (derivation in a proof system using inference rules).
+\end{enumerate}
+
+\subsection{Methods for testing validity}
+\label{sub:methods-validity}
+
+\paragraph{Truth tables.}
+The brute-force method: list all $2^k$ assignments to the $k$ distinct
+atomic propositions occurring in the argument, evaluate both $(P_1\wedge\cdots\wedge P_n)$
+and $C$ on each row, and check that no row makes the premises true and $C$
+false.  This is guaranteed but may be impractical for large $k$ (exponential
+blow-up).
+
+\medskip
+\noindent\textbf{Worked small truth-table (disjunctive syllogism).}
+For the argument
+\[
+  P\vee Q,\quad \neg Q \qquad\therefore\quad P,
+\]
+we can check validity by examining these columns:
+
+\[
+\begin{array}{c c | c c c}
+P & Q & P\vee Q & \neg Q & \text{Premises true?} \\
+T & T & T & F & \text{no} \\
+T & F & T & T & \text{yes} \\
+F & T & T & F & \text{no} \\
+F & F & F & T & \text{no}
+\end{array}
+\]
+
+on which \(P\) is true.  Hence there is no assignment making the premises true
+and \(P\) false; the argument is valid.  (This is the standard \emph{disjunctive syllogism}.) (\textbf{NOTE:} Only row with both premises true is (P= true, Q=false))
+
+\paragraph{Counterexample search.}
+To show an argument is invalid it suffices to find a single assignment where
+all premises evaluate to true but the conclusion evaluates to false.  Exhibiting
+such an assignment is typically much easier than building a full truth table.
+
+\paragraph{Syntactic derivation (proof).}
+If you can derive \(C\) from \(P_1,\dots,P_n\) via a formal proof system
+(e.g. natural deduction, sequent calculus, Hilbert-style system) using only
+valid inference rules, you have shown \(P_1,\dots,P_n \vdash C\).  A well-behaved
+proof system enjoys \emph{soundness} (anything derivable is semantically valid)
+and (often) \emph{completeness} (anything semantically valid is derivable).
+Exploring these meta-theorems is beyond our immediate scope, but they justify
+the use of syntactic proofs to establish semantic claims.
+
+\subsection{Common valid forms and common fallacies}
+\label{sub:forms-fallacies}
+
+\paragraph{Valid forms (patterns you can rely on):}
+\begin{itemize}
+  \item \textbf{Modus Ponens:} \(P\rightarrow Q, P \therefore Q\).
+  \item \textbf{Modus Tollens:} \(P\rightarrow Q, \neg Q \therefore \neg P\).
+  \item \textbf{Disjunctive Syllogism:} \(P\lor Q, \neg P \therefore Q\).
+  \item \textbf{Hypothetical Syllogism:} \((P\rightarrow Q),(Q\rightarrow R)
+         \therefore (P\rightarrow R)\).
+\end{itemize}
+
+\paragraph{Common fallacies (patterns that are \emph{invalid}):}
+\begin{itemize}
+  \item \textbf{Affirming the consequent:} \(P\rightarrow Q, Q \therefore P\).
+  \item \textbf{Denying the antecedent:} \(P\rightarrow Q, \neg P \therefore \neg Q\).
+  \item \textbf{Confusing sufficiency and necessity:} treating ``\(P\) only if \(Q\)''
+    like ``if \(P\) then \(Q\)'' without translating carefully to formal symbols.
+\end{itemize}
+
+\begin{example}[Affirming the consequent: an explicit counterexample]
+\label{ex:affirming-table}
+Consider the argument
+\[
+  (R\rightarrow W), W \qquad \therefore R.
+\]
+Set \(R =\) false and \(W =\) true.  Then \(R \rightarrow W\) is true (since false \(\to\) is true), \(W\) is true, but \(R\) is false.  Thus, premises true and conclusion false, so the form is invalid.
+\end{example}
+
+\begin{review}[Reasoning and Validity]
+Reasoning can be inductive or deductive. Inductive reasoning is empirical and probabilistic: conclusions are suggested by repeated observation but not guaranteed, such as expecting the sun to rise tomorrow. Deductive reasoning is formal and ensures the truth of its conclusion if the premises are true, as in a valid syllogism. An argument is \emph{valid} if it is impossible for the premises to be true while the conclusion is false. A \emph{sound} argument is both valid and has true premises, guaranteeing a true conclusion. Fallacies such as affirming the consequent or denying the antecedent often appear convincing but fail to preserve validity.
+\end{review}
+
+\section{Logical Connectives}
+\label{sec:logical-connectives}
+
+\subsection{Basic Connectives}
+We use the following symbols to represent fundamental logical operations:
+
+\[
+\begin{array}{ccl}
+\neg P & : & \text{``not \(P\)'' (negation)} \\
+P \wedge Q & : & \text{``\(P\) and \(Q\)'' (conjunction)} \\
+P \vee Q & : & \text{``\(P\) or \(Q\)'' (disjunction, inclusive unless stated)} \\
+P \rightarrow Q & : & \text{``if \(P\), then \(Q\)'' (implication, conditional)} \\
+P \leftrightarrow Q & : & \text{``\(P\) if and only if \(Q\)'' (biconditional)} \\
+\end{array}
+\]
+
+\paragraph{Precedence.} By convention, \(\neg\) binds the most tightly, followed by \(\wedge\), then \(\vee\), then \(\rightarrow\), and finally \(\leftrightarrow\). Parentheses may always be used to avoid ambiguity.
+
+\subsection{Translating from English}
+Care must be taken when formalizing natural-language statements:
+\begin{itemize}
+  \item ``Either John went to the store or we are out of eggs.'' \quad \(\; J \vee O\)
+  \item ``Joe is going to leave home and not come back.'' \quad \(\; L \wedge \neg C\)
+  \item ``Neither Alice nor Bob is in the room.'' \quad \(\; \neg A \wedge \neg B\)
+\end{itemize}
+Ambiguities in ordinary speech disappear once translated properly.
+
+\begin{review}[Logical Connectives]
+The basic logical connectives are negation (\(\neg\)), conjunction (\(\wedge\)), disjunction (\(\vee\)), implication (\(\to\)) and biconditional (\(\leftrightarrow\)). Each has precise truth conditions, and formulas must respect precedence: \(\neg\) binds the most tightly, followed by \(\wedge\), then \(\vee\), then \(\to\), and finally \(\leftrightarrow\). Parentheses should be used to eliminate ambiguity, since ordinary language often obscures logical structure. Careful translation from natural language into symbolic form is essential for clarity.
+\end{review}
+
+\section{Truth Tables and Equivalence}
+\label{sec:truth-tables}
+
+\subsection{Truth Tables}
+
+Truth tables are a systematic way to evaluate a propositional formula under \emph{every} possible truth assignment of its atomic propositions (variables such as \(P\), \(Q\), \(R\)).  
+
+For $n$ atomic propositions, there are $2^n$ possible combinations of truth values. A truth table lists these combinations row by row, then computes the value of a compound formula for each row. This lets us verify properties such as logical equivalence, tautology, or contradiction.
+
+\begin{example}[Logical equivalence via truth tables]
+Compare $\neg(A\wedge B)$ and $\neg A \vee \neg B$:
+\[
+\begin{array}{c c | c c c}
+A & B & A\wedge B & \neg(A\wedge B) & \neg A \vee \neg B \\
+\hline
+T & T & T & F & F \\
+T & F & F & T & T \\
+F & T & F & T & T \\
+F & F & F & T & T \\
+\end{array}
+\]
+We first compute $A\wedge B$, then its negation, and then the alternative expression. The last two columns coincide, which shows that the formulas are equivalent (De Morgan’s Law).
+\end{example}
+
+\paragraph{Why truth tables matter.}  
+They provide the following:
+\begin{itemize}
+  \item a clear way to evaluate complex formulas,
+  \item a method to prove or disprove equivalence,
+  \item a way to detect tautologies, contradictions, and contingencies.
+\end{itemize}
+
+\subsection{Logical Equivalences}
+
+\begin{definition}[Logical Equivalence]
+    Suppose \(A\) and \(B\) are propositions formed from a given collection of
+    propositions \(P, Q, R, S, \dots\) using "and," "or," "not," the conditional,
+    and the biconditional. The propositions \(A\) and \(B\) are \emph{logically equivalent} if \(A\) and \(B\) have the same truth values for all possible truth values of the propositions \(P, Q, R, S, \dots.\) You can write \(A \equiv B\) if \(A\) and \(B\) are logically equivalent.
+\end{definition}
+
+Two formulas are \textbf{logically equivalent} if they have the same truth value under every assignment of their variables. We write this as \(P\equiv Q\). Logical equivalences allow us to manipulate formulas algebraically, just like using algebraic identities.
+
+Some equivalences are so central that they are named:
+
+\begin{itemize}
+  \item \textbf{De Morgan’s Laws:} 
+  \[
+  \neg(P\wedge Q)\equiv \neg P\vee \neg Q,
+  \quad 
+  \neg(P\vee Q)\equiv \neg P\wedge \neg Q.
+  \]
+  These show how negation distributes over \(\wedge\) and \(\vee\).
+  
+  \item \textbf{Commutativity:} 
+  \[
+  P\wedge Q \equiv Q\wedge P,
+  \quad 
+  P\vee Q \equiv Q\vee P.
+  \]
+  Order of operands does not matter.
+
+  \item \textbf{Associativity:} 
+  \[
+  (P\wedge Q)\wedge R \equiv P\wedge(Q\wedge R)
+  \quad 
+  (P\vee Q)\vee R \equiv P\vee(Q\vee R).
+  \]
+  Parentheses can be regrouped without changing meaning.
+
+  \item \textbf{Distributivity:} 
+  \[
+  P\wedge(Q\vee R)\equiv (P\wedge Q)\vee(P\wedge R),
+  \quad 
+  P\vee(Q\wedge R)\equiv (P\vee Q)\wedge(P\vee R).
+  \]
+
+  \item \textbf{Absorption:} 
+  \[
+  P\vee(P\wedge Q)\equiv P,
+  \quad 
+  P\wedge(P\vee Q)\equiv P.
+  \]
+
+  \item \textbf{Idempotence:} 
+  \[
+  P\wedge P\equiv P,
+  \quad 
+  P\vee P\equiv P.
+  \]
+
+  \item \textbf{Double Negation:} 
+  \[
+  \neg\neg P \equiv P.
+  \]
+\end{itemize}
+
+\begin{remark}
+    The funny thing is that although we customarily write "if," we really mean "if and only if." Definitions are always if-and-only-if statements, even when they appear as if statements.
+\end{remark}
+
+\begin{review}[Truth Tables and Equivalence]
+Truth tables systematically evaluate a formula across all assignments of truth values. They can establish whether a statement is always true, always false, or contingent. Two statements are logically equivalent if their truth tables match in every row. Recognizing standard equivalences, such as De Morgan’s laws, double negation, and distributive properties, enables simplification and efficient proof construction without repeatedly resorting to full truth tables.
+\end{review}
+
+\section{Tautologies and Contradictions}
+\label{sec:taut-contrad}
+
+\begin{definition}[Tautology and Contradiction]
+    Let \(A\) be a proposition formed from propositions \(P, Q, R, \dots\) using the logical connectives.
+
+    \begin{enumerate}
+        \item \(A\) is called a \emph{tautology} if \(A\) is true for every assignment of truth values to \(P, Q, R, \dots.\)
+        \item \(A\) is called a \emph{contradiction} if \(A\) is false for every assignment of truth values to \(P, Q, R, \dots.\)
+    \end{enumerate}
+\end{definition}
+
+\begin{example}
+\(P\vee \neg P\) is a tautology (the \emph{law of the excluded middle});  
+\(P\wedge \neg P\) is a contradiction (the \emph{law of non-contradiction}).
+\end{example}
+
+\paragraph{Why they matter.}  
+Recognizing tautologies helps in proofs, since a tautology can be freely added without changing truth. Recognizing contradictions helps find inconsistencies.
+
+\paragraph{Tautology and Contradiction Laws.}
+\begin{itemize}
+  \item \(P \land\) tautology \(\equiv P\).
+  \item \(P \lor\) tautology \(\equiv\) tautology.
+  \item \(P \land\) contradiction \(\equiv\) contradiction.
+  \item \(P \lor\) contradiction \(\equiv P\).
+\end{itemize}
+
+\begin{review}[Tautologies and Contradictions]
+A tautology is a statement true in every possible case, such as \(P \vee \neg P\). A contradiction is false in every case, such as \(P \wedge \neg P\). Tautologies are useful for validating inference rules, while contradictions often expose inconsistencies in reasoning. Simplification laws involving these special cases, such as \(P \wedge \text{true} \equiv P\) and \(P \vee \text{false} \equiv P\), streamline complex formulas.
+\end{review}
+
+\section{Implications and Biconditionals}
+\label{sec:imp-bicond}
+
+\subsection{Implications}
+
+\begin{definition}[Conditional]
+The conditional \(P\to Q\) is false exactly when \(P\) is true and \(Q\) is false.  
+Equivalently: \(P\to Q \equiv \neg P \vee Q\).
+\end{definition}
+
+We can think of \(P\to Q\) as ``if \(P\) then \(Q\).'' When \(P\) is false, the conditional is automatically true (this is called being \emph{vacuously true}). 
+
+\paragraph{Alternative phrasings:}
+\begin{itemize}
+  \item ``\(P\) implies \(Q\)''
+  \item ``\(Q\), if \(P\)''
+  \item ``\(P\) only if \(Q\)''
+  \item ``\(P\) is sufficient for \(Q\)''
+  \item ``\(Q\) is necessary for \(P\)''
+\end{itemize}
+
+\begin{definition}[Contrapositive]
+\(P\to Q\) is logically equivalent to \(\neg Q \to \neg P\).  
+\end{definition}
+
+\begin{example}[Truth Table for \(P\to Q\) and \(\neg Q\to\neg P\)]
+\[
+\begin{array}{c c|c c c}
+P & Q & P\to Q & \neg Q\to\neg P \\
+\hline
+T & T & T & T\\
+T & F & F & F\\
+F & T & T & T\\
+F & F & T & T\\
+\end{array}
+\]
+They match, so the contrapositive equivalence holds.
+\end{example}
+
+\subsection{Biconditionals}
+\begin{definition}[Biconditional]
+The biconditional \(P \leftrightarrow Q\) is true when \(P\) and \(Q\) share the same truth value:
+\[
+P\leftrightarrow Q \equiv (P\to Q)\wedge(Q\to P).
+\]
+\end{definition}
+
+We often read \(P\leftrightarrow Q\) as ``\(P\) if and only if \(Q\)'' (abbreviated ``iff’’). 
+
+\begin{example}[Truth Table for Biconditional]
+\[
+\begin{array}{c c|c}
+P & Q & P\leftrightarrow Q\\
+\hline
+T & T & T\\
+T & F & F\\
+F & T & F\\
+F & F & T\\
+\end{array}
+\]
+\end{example}
+
+\begin{review}[Implications and Biconditionals]
+An implication \(P \to Q\) is false only when \(P\) is true and \(Q\) is false. It is equivalent to \(\neg P \vee Q\), which clarifies why false premises make an implication true. The contrapositive \(\neg Q \to \neg P\) is logically equivalent and often easier to use in proofs. Biconditional statements \(P \leftrightarrow Q\) hold when both directions of implication are satisfied, making them especially useful in definitions.
+\end{review}
+
+
+\section{Rules of Inference}
+\label{sec:rules-inference}
+
+Rather than building full truth tables (\S\ref{sub:methods-validity}), we often use
+\emph{rules of inference}—canonical valid argument forms introduced in
+\ref{sec:Reasoning and Validity}.
+
+\subsection{Core Rules}
+Each rule expresses a pattern of reasoning that is always valid:
+\begin{itemize}
+  \item \textbf{Modus Ponens:} \(P\to Q,\; P \;\therefore Q\)
+  \item \textbf{Modus Tollens:} \(P\to Q,\; \neg Q \;\therefore \neg P\)
+  \item \textbf{Disjunctive Syllogism:} \(P\vee Q,\; \neg P \;\therefore Q\)
+  \item \textbf{Hypothetical Syllogism:} \(P\to Q,\; Q\to R \;\therefore P\to R\)
+\end{itemize}
+
+\subsection{Core Inference Rules: Tables and Rigorous Proofs}
+
+Below we present for each rule (i) the rule statement, (ii) the validating tautological conditional, (iii) a complete truth table showing the conditional is always true (semantic justification), and (iv) a rigorous syntactic proof (natural-deduction style).
+
+\medskip
+\noindent\textbf{Notation.} `$\vdash$' denotes ``derivable'' (syntactic proof). `$\models$' denotes semantic entailment. `$\bot$' denotes contradiction (false). We assume classical propositional logic with the usual rules (Assumption, $\land$-elim, $\land$-intro, $\lor$-intro, $\lor$-elim, $\to$-intro, $\to$-elim / Modus Ponens, $\neg$-intro, $\neg$-elim / explosion).
+
+\bigskip
+
+
+\begin{infrule}
+\subsubsection{Modus Ponens}%
+\label{ssub:{Modus Ponens}}
+
+From \(P\to Q\) and \(P\), infer \(Q\).
+
+\textbf{Validating conditional:} \((P \land (P\to Q)) \to Q\).
+
+\textbf{Truth table:}
+\[
+\begin{array}{c c | c | c | c}
+p & q & p\to q & p\land (p\to q) & \big(p\land(p\to q)\big)\to q\\ \hline
+T & T & T & T & T\\
+T & F & F & F & T\\
+F & T & T & F & T\\
+F & F & T & F & T
+\end{array}
+\]
+
+\textbf{Syntactic proof:}
+\begin{enumerate}
+\item \(P\to Q\)  Premise
+\item \(P\)  Premise
+\item \(Q\)  from 1 and 2 by Modus Ponens
+\end{enumerate}
+\end{infrule}
+
+\begin{infrule}
+\subsubsection{Modus Tollens}%
+\label{ssub:Modus Tollens}
+    
+From \(P\to Q\) and \(\neg Q\), infer \(\neg P\).
+
+\textbf{Validating conditional:} \(\neg Q \land (P\to Q)) \to \neg P\)
+
+\textbf{Truth table:}
+\[
+\begin{array}{c c | c | c | c}
+p & q & p\to q & \neg q & (\neg q\land(p\to q))\to \neg p\\ \hline
+T & T & T & F & T\\
+T & F & F & T & T\\
+F & T & T & F & T\\
+F & F & T & T & T
+\end{array}
+\]
+
+\textbf{Syntactic proof:}
+\begin{enumerate}
+\item \(P\to Q\)  Premise
+\item \(\neg Q\)  Premise
+\item Assume \(P\)  Assumption for indirect proof
+\item \(Q\)  from 1 and 3 by Modus Ponens
+\item \(\bot\)  from 2 and 4
+\item \(\neg P\)  from 3--5 by $\neg$-intro
+\end{enumerate}
+
+\end{infrule}
+
+\medskip
+
+\begin{infrule}
+    
+\subsubsection{Disjunctive Syllogism}
+Rule: from \(P\vee Q\) and \(\neg P\) infer \(Q\).
+
+\paragraph{Validating conditional.}
+\[
+\big((P\lor Q)\land \neg P\big)\to Q.
+\]
+
+\paragraph{Truth table.}
+\[
+\begin{array}{c c | c | c | c}
+p & q & p\lor q & \neg p & \big((p\lor q)\land\neg p\big)\to q\\ \hline
+T & T & T & F & T\\
+T & F & T & F & T\\
+F & T & T & T & T\\
+F & F & F & T & T
+\end{array}
+\]
+Every entry in the last column is \(T\), so the conditional is a tautology.
+
+\paragraph{Syntactic proof (by $\lor$-elimination / proof by cases).}
+A standard natural-deduction proof uses disjunction elimination: assume \(P\lor Q\), perform case analysis on \(P\) and \(Q\), show \(Q\) in both cases, then conclude \(Q\).
+
+\[
+\begin{array}{ll}
+1. & P\lor Q \qquad\text{(Premise)}\\
+2. & \neg P \qquad\text{(Premise)}\\
+\; & \text{To apply $\lor$-elim, consider two cases:}\\[4pt]
+3. & \quad \text{Case A: assume } P \qquad\text{(Assumption)}\\
+4. & \quad \bot \qquad\text{(From 2 and 3: \(P\) and \(\neg P\))}\\
+5. & \quad Q \qquad\text{(From 4 by explosion / $\bot$-elim)}\\
+\; & \quad \text{(we have derived \(Q\) assuming \(P\))}\\[4pt]
+6. & \quad \text{Case B: assume } Q \qquad\text{(Assumption)}\\
+7. & \quad Q \qquad\text{(Trivial: reiteration of the assumption)}\\
+\; & \quad \text{(we have derived \(Q\) assuming \(Q\))}\\[4pt]
+8. & Q \qquad\text{(From 1, and the subproofs 3--5 and 6--7 by $\lor$-elimination)}
+\end{array}
+\]
+
+This completes the derivation: from \(P\lor Q\) and \(\neg P\) we obtain \(Q\).
+
+\smallskip\noindent\textbf{Remark.} The use of explosion (\(\bot\)-elim) in the first case is standard in classical logic. In constructive logics one would avoid explosion and instead rely on different principles; however Disjunctive Syllogism is classically valid and the truth-table above attests to its semantic validity.
+
+\medskip
+\end{infrule}
+
+\begin{infrule}
+    
+\subsubsection{Hypothetical Syllogism}
+Rule: from \(P\to Q\) and \(Q\to R\) infer \(P\to R\).
+
+\paragraph{Validating conditional.}
+\[
+\big((P\to Q)\land (Q\to R)\big)\to (P\to R).
+\]
+
+\paragraph{Truth table (three propositional atoms: \(p,q,r\)).}
+\[
+\begin{array}{c c c
+| c c c | c}
+p & q & r & p\to q & q\to r & (p\to q)\land(q\to r) & \big((p\to q)\land(q\to r)\big)\to(p\to r)\\ \hline
+T & T & T & T & T & T & T\\
+T & T & F & T & F & F & T\\
+T & F & T & F & T & F & T\\
+T & F & F & F & T & F & T\\
+F & T & T & T & T & T & T\\
+F & T & F & T & F & F & T\\
+F & F & T & T & T & T & T\\
+F & F & F & T & T & T & T
+\end{array}
+\]
+Every entry in the final column is \(T\), so the validating conditional is a tautology.
+
+\paragraph{Syntactic proof (implication-introduction).}
+We construct a derivation of \(P\to R\) assuming the two premises.
+
+\[
+\begin{array}{ll}
+1. & P\to Q \qquad\text{(Premise)}\\
+2. & Q\to R \qquad\text{(Premise)}\\
+\; & \text{To prove } P\to R \text{ assume } P:\\
+3. & \quad P \qquad\text{(Assumption)}\\
+4. & \quad Q \qquad\text{(From 1 and 3 by Modus Ponens)}\\
+5. & \quad R \qquad\text{(From 2 and 4 by Modus Ponens)}\\
+6. & P\to R \qquad\text{(From 3--5 by $\to$-intro, discharging assumption 3)}
+\end{array}
+\]
+Thus \((P\to Q),(Q\to R)\vdash (P\to R)\).
+
+\bigskip
+
+For each rule above we have shown the corresponding 
+conditional is a tautology (semantic justification via truth 
+tables) and supplied a rigorous natural-deduction 
+derivation (syntactic justification). In classical propositional
+logic these two perspectives coincide: a rule is admissible exactly
+when its validating conditional is a tautology, and the natural-
+deduction derivations above show the rules are syntactically 
+derivable from the standard proof rules.
+
+
+See \S\ref{sub:forms-fallacies} for related valid forms.
+
+\end{infrule}
+    
+\subsection{Additional Rules}
+
+Before we begin, recall the truth table for two propositional variables \(P,Q\):
+
+\[
+\begin{array}{c c}
+    P & Q \\ \hline
+    T & T \\
+    T & F \\
+    F & T \\
+    F & F \\
+\end{array}
+\]
+
+Below we list the common supplementary inference rules, give the corresponding tautological conditional that validates each rule, and present a complete truth table for that conditional so the student can verify it is always true.
+
+\vspace{6pt}
+\noindent 
+\begin{infrule}
+ \subsubsection*{Addition (Disjunction Introduction).}
+Inference form: from \(P\) infer \(P\vee Q\).
+Validating tautology:
+\[
+p \to (p\lor q).
+\]
+Truth table:
+\[
+\begin{array}{c c | c | c}
+p & q & p\lor q & p\to(p\lor q) \\ \hline
+T & T & T & T\\
+T & F & T & T\\
+F & T & T & T\\
+F & F & F & T
+\end{array}
+\]
+
+\end{infrule}
+\begin{infrule}
+\subsubsection*{Simplification (Conjunction Elimination).}
+Inference forms: from \(P\land Q\) infer \(P\); and from \(P\land Q\) infer \(Q\).
+Validating tautologies:
+\[
+(P\land Q)\to P \qquad\text{and}\qquad (P\land Q)\to Q.
+\]
+Truth table (both columns evaluate to \(T\) in every row):
+\[
+\begin{array}{c c | c | c | c}
+p & q & p\land q & (p\land q)\to p & (p\land q)\to q \\ \hline
+T & T & T & T & T\\
+T & F & F & T & T\\
+F & T & F & T & T\\
+F & F & F & T & T
+\end{array}
+\]
+
+\end{infrule}
+\begin{infrule}
+\subsubsection*{Conjunction (Conjunction Introduction).} 
+Inference form: from \(P\) and \(Q\) infer \(P\land Q\).
+Validating tautology:
+\((p\land q)\) \text{is implied by} \((p\land q)\),
+\text{but the conditional form used to justify 
+the rule is} \( (p)\land(q)\to(p\land q)\).
+
+Truth table:
+\[
+\begin{array}{c c | c | c}
+p & q & p\land q & ((p)\land(q))\to(p\land q) \\ \hline
+T & T & T & T\\
+T & F & F & T\\
+F & T & F & T\\
+F & F & F & T
+\end{array}
+\]
+\end{infrule}
+\begin{infrule}
+\subsubsection*{Resolution.}
+Inference form: from \(P\vee Q\) and \(\neg P\vee R\) infer \(Q\vee R\).
+Validating tautology:
+\[
+\big((p\lor q)\land(\neg p\lor r)\big)\to(q\lor r).
+\]
+Truth table (eight rows):
+\[
+\begin{array}{c c c | c}
+p & q & r & \big((p\lor q)\land(\neg p\lor r)\big)\to(q\lor r) \\ \hline
+T & T & T & T\\
+T & T & F & T\\
+T & F & T & T\\
+T & F & F & T\\
+F & T & T & T\\
+F & T & F & T\\
+F & F & T & T\\
+F & F & F & T
+\end{array}
+\]
+\vspace{10pt}
+
+    
+\end{infrule}
+\begin{remark}
+Each table above shows the validating conditional is true for every possible valuation of the atomic propositions; this is the semantic reason the corresponding inference rule is valid.
+\end{remark}
+
+\bigskip
+\noindent\textbf{Rigorous simplification examples (worked).}
+
+\vspace{6pt}
+\begin{example}[Very Basic Simplification]
+ Show that from \(P\land Q\) one can infer \(Q\).
+
+\textbf{Semantic check.} The tautology \((P\land Q)\to Q\) is true (see table above).
+
+\textbf{Syntactic derivation (one-step):}
+\begin{enumerate}
+  \item \(P\land Q\)  Premise
+  \item \(Q\)  from (1) by \textbf{Simplification} (conjunction-elimination)
+\end{enumerate}
+
+This is maximally rigorous: line (2) is justified directly by the rule whose validity we verified semantically.
+
+\vspace{8pt}
+  
+\end{example}
+
+\begin{example}[Combined Simplification, Disjunctive Syllogism, and Conjunction]
+
+From the premises:
+\begin{enumerate}
+    \item \(P \land (Q \lor R) \).
+    \item \(\neg Q\).
+\end{enumerate}
+
+Derive \( P \land R \). \\
+
+\textbf{Plan:} extract \(P\) and \(Q\lor R\) from the first premise; 
+use \(\neg Q\) with \(Q\lor R\) to obtain \(R\) (disjunctive syllogism); 
+finally conjoin \(P\) and \(R\). \\
+
+\textbf{Formal derivation:}
+\begin{enumerate}
+  \item \(P\land (Q\lor R)\). Premise
+  \item \(P\). from (1) by Simplification
+  \item \(Q\lor R\).  from (1) by Simplification
+  \item \(\neg Q\).  Premise
+  \item \(R\).  from (3) and (4) by Disjunctive Syllogism
+  \item \(P\land R\).  from (2) and (5) by Conjunction
+\end{enumerate}
+
+\textbf{Semantic verification.} The implication
+\[
+\big((P\land (Q\lor R))\land\neg Q\big)\to (P\land R)
+\]
+
+is a tautology (check the 8-row truth table); thus the derivation is sound.
+
+ 
+\end{example}
+
+\vspace{8pt}
+\begin{example}[Resolution in Context]
+From the premises:
+
+ \begin{enumerate}
+    \item \(M\vee B\) 
+    \item \( \neg M\vee G\)
+\end{enumerate} 
+
+By Resolution infer \(B\vee G\).
+
+\textbf{Derivation (single rule):}
+\begin{enumerate}
+  \item \(M\vee B\). (Premise)
+  \item \(\neg M\vee G\). (Premise)
+  \item \(B\vee G\). (From 1 and 2: by Resolution)
+\end{enumerate}
+
+\textbf{Semantic check.} \(\big((M\vee B)\land(\neg M\vee G)\big)\to (B\vee G)\) is a tautology (see the 8-row table for Resolution above).
+
+\vspace{8pt}
+   
+\end{example}
+
+\begin{example}[Distribution proved by cases]
+
+Show \(P\land (Q\lor R)\iff (P\land Q)\lor(P\land R)\).
+
+\textbf{Proof of \(\Rightarrow\).} Assume \(P\land (Q\lor R)\). Then \(P\) and \(Q\lor R\).
+\begin{itemize}
+  \item If \(Q\) holds, then \(P\land Q\) holds, and hence \((P\land Q)\lor(P\land R)\) holds.
+  \item If \(R\) holds, then \(P\land R\) holds, and hence \((P\land Q)\lor(P\land R)\) holds.
+\end{itemize}
+By elimination of the disjunction (case analysis) in
+\(Q\lor R\) we obtain \((P\land Q)\lor(P\land R)\). \\
+
+\textbf{Proof of \(\Leftarrow\).} Assume \((P\land Q)\lor(P\land R)\).
+\begin{itemize}
+  \item If \(P\land Q\) holds, then \(P\) and \(Q\) hold; thus \(Q\lor R\) holds and so \(P\land(Q\lor R)\) holds.
+  \item If \(P\land R\) holds, then \(P\) and \(R\) hold; thus \(Q\lor R\) holds and so \(P\land(Q\lor R)\) holds.
+\end{itemize}
+Again, disjunction-elimination yields \(P\land(Q\lor R)\).
+
+\textbf{Semantic check.} The biconditional is confirmed by the 8-row truth table for distribution:
+\[
+\big(p\land(q\lor r)\big)\leftrightarrow\big((p\land q)\lor(p\land r)\big)
+\]
+is true for every valuation.
+   
+\end{example}
+
+\vspace{10pt}
+\noindent\textbf{How to use these in proofs (practical notes).}
+\begin{itemize}
+  \item When you see a conjunction premise \(A\land B\), immediately record both \(A\) and \(B\) as available facts (Simplification).
+  \item If you need to combine two facts \(A\) and \(B\) into one, use the conjunction to form \(A\land B\).
+  \item Use Addition when you want to introduce a disjunct to enable a resolution-style combination later.
+  \item Resolution is extremely useful in automated reasoning: It eliminates a literal and produces a smaller disjunction.
+  \item Always justify each step in a formal proof by naming the rule used (e.g. ``from 1 by Simplification'').
+\end{itemize}
+
+\begin{review}[Rules of Inference]
+Core rules (Modus Ponens, Modus Tollens, Disjunctive Syllogism, Hypothetical Syllogism) and
+supplementary ones (Addition, Simplification, Conjunction, Resolution) allow step-by-step
+deductive reasoning without full truth tables.  Each can be justified because the
+corresponding conditional is a tautology.
+\end{review}
+
+
+\bigskip
+\noindent\textbf{Exercises (suggested).}
+\begin{enumerate}
+  \item Verify the truth tables above by hand for each rule (practice producing rows and computing the formula column).
+  \item Using only the rules given, give a formal derivation (step \& reason) of \((P\land Q)\lor(P\land R)\) from \(P\land(Q\lor R)\).
+  \item Show that from \((P\lor Q)\) and \((\neg Q)\) you can derive \(P\). (Which rule(s) do you use?)
+  \item Use the tautology method to show that \(\big((P\to Q)\land(P\to R)\big)\to(P\to (Q\land R))\) is valid, and give a short derivation that mirrors the tautology.
+\end{enumerate}
+
+\section{Strategies for Proof}
+\label{sec:proof-strategy}
+
+To prove an argument valid (see \ref{def:validity}):
+\begin{enumerate}
+  \item Translate all premises and the conclusion into propositional formulas
+        using the connectives of \S\ref{sec:logical-connectives}.
+  \item Simplify formulas with known logical equivalences
+        (\S\ref{sec:truth-tables}).
+  \item Apply inference rules (\S\ref{sec:rules-inference}) until the conclusion appears.
+  \item Optionally verify by showing the conditional
+        \[
+        (P_1 \land \cdots \land P_n) \to C
+        \]
+        is a tautology (\S\ref{sec:taut-contrad}).
+  \item Present the proof clearly in \LaTeX.
+\end{enumerate}
+
+\subsection{Proving an Equivalence}
+\label{sub:proving-an-equivalence}
+
+Use previously established equivalences such as
+\(P \to Q \equiv \neg P \lor Q\) (\S\ref{sec:imp-bicond}) and De Morgan’s laws (\S\ref{sec:truth-tables})
+to chain transformations:
+\[
+P \to Q
+\equiv \neg P \lor Q
+\equiv P \lor \neg\neg Q \quad \text{(double negation)}
+\equiv \neg(P \lor \neg Q) \quad \text{(De Morgan)}
+\]
+
+\subsection{Practice: Analyzing Arguments}
+
+\begin{exercise}[Umbrella Scenario]
+“If it is raining and I do not have my umbrella, then 
+I will get wet.” Let \(R=\)“It’s raining,” \(U=\)“I have my 
+umbrella,” \(W=\)“I get wet.”
+Logical form: \((R \land \neg U) \to W\).
+\end{exercise}
+
+\begin{exercise}[Homework Scenario]
+“If May did her homework, the teacher will not collect it; if she 
+did not, he will ask her to do it on the board.”
+Let \(H=\)“May did her homework,” \(C=\)“The teacher collects it,”
+\(B=\)“She does it on the board.”
+Logical form: \((H \to \neg C) \land (\neg H \to B).\)
+\end{exercise}
+
+\begin{exercise}[Raining Scenario pt. 1]
+\emph{"If it is raining, then it is windy and the sun is not shining."}
+Let \(R = \) "it is raining", \(W =\) "it is windy", and \(S = \) "it is sunny",
+Logical form: \( R \to (W \land \neg S) \)
+\end{exercise}
+
+\begin{exercise}[Windy and not sunny only if it's raining]
+"It is windy and not sunny only if it is raining."
+Let \(R = \) "it is raining", \(W =\) "it is windy", and \(S = \) "it is sunny",
+What would this be?
+Logical form: \((W \land \neg S) \to R\)
+\end{exercise}
+
+\begin{exercise}[Rain Sufficient Condition Scenario]
+"Rain is a sufficient condition for wind and no sunshine." 
+Let \(R = \) "it is raining", \(W =\) "it is windy", and \(S = \) "it is sunny",
+what would this be? 
+Logical form: \( R \to (W \land \neg S) \)
+
+This is the sufficient one.
+\end{exercise}
+
+\begin{exercise}[Rain is Necessary Condition Scenario]
+"Rain is a necessary condition for wind and no sunshine"
+Let \(R = \) "it is raining", \(W =\) "it is windy", and \(S = \) "it is sunny",
+what would this be? 
+Logical form: \((W \land \neg S) \to R\) 
+
+This is the necessary bit.
+
+\end{exercise}
+
+\textbf{NOTE}: If you are having a difficult time understanding necessary
+conditions, memorize one and flip the other.
+
+\begin{exercise}[Testing Validity]
+Determine the validity of each argument.  Recall the definitions of validity
+and soundness in \ref{sec:Reasoning and Validity}.
+
+\begin{align*}
+1.&\; P \to Q,\; Q \;\therefore P
+    && \text{Invalid (affirming the consequent).}\\[0.3em]
+2.&\; P \to Q,\; P \;\therefore Q
+    && \text{Valid by Modus Ponens.}\\[0.3em]
+3.&\; P \to Q,\; \neg Q \;\therefore \neg P
+    && \text{Valid by Modus Tollens.}
+\end{align*}
+Use either truth tables (\S\ref{sec:truth-tables}) or a counterexample search
+(\S\ref{sub:methods-validity}) as justification.
+\end{exercise}
+
+\begin{exercise}[Contrapositive Law]
+Show that \(P \to Q \equiv \neg Q \to \neg P\) (see \S\ref{sec:imp-bicond}).
+Example: “If it’s raining or snowing, the game is cancelled”
+\[
+(R \lor S) \to C
+\]
+has contrapositive
+\[
+\neg C \to (\neg R \land \neg S),
+\]
+meaning “If the game is not cancelled, then it’s neither raining nor snowing.”
+\end{exercise}
+
+\begin{exercise}[Maid or Butler Resolution Problem]
+   Let "M" be the maid, "B" be the butler, and "G" be the gardener.
+   \[
+   M \lor B
+   .\] 
+\[
+\neg M \lor G
+.\] 
+\[
+\therefore B \lor G
+.\]
+\end{exercise}
+
+\begin{exercise}[Sunny Afternoon Problem]
+\emph{It is not sunny this afternoon and it is colder than yesterday.
+We will go swimming only if it is sunny. If we do not go
+swimming, then we will take a canoe trip. If we take a canoe
+trip, then we will be home by sunset. Therefore, we will be
+home by sunset.}
+
+\begin{proof}
+   Begin by defining our variables. So let \(S\) stand 
+   for "it is sunny this afternoon", \(C\) stand for "it 
+   is colder than yesterday", \(G\) stand for "we will go 
+   swimming", \(T\) stand for "we will take a canoe trip", and
+   \(H\) stand for "we will be home by sunset." \\
+
+   Now we want to state and enumerate all of my statements to make sure it is clear:
+   \begin{enumerate}
+       \item \(\neg S \land C\) (Premise 1) 
+       \item \(G \to S\) (Premise 2) 
+       \item \(\neg G \to T\) (Premise 3)
+       \item \(T \to H\) (Premise 4)
+      \(\therefore H\) (Conclusion)
+   \end{enumerate}
+
+   But how can we simplify and prove this?
+   \begin{enumerate}
+       \item \(\neg S\) (Apply to 1 for simplification)
+       \item \(\neg G\) (2, 5 \textit{Modus Tollens})
+       \item \(T\) (3, 6 \textit{Modus Ponens})
+       \item \(H\) (4, 7 \textit{Modus Ponens})
+   \end{enumerate}
+
+\end{proof}
+\end{exercise}
+
+\begin{exercise}
+\emph{If you send me an e-mail message, then I will finish writing
+the program. If you do not send me an e-mail message, then
+I will go to sleep early. If I go to sleep early, then I will wake
+up feeling refreshed. Therefore, if I do not finish writing the
+program, then I will wake up feeling refreshed.}
+
+\begin{proof}
+    Begin by defining our variables. Let \(S\) stand for "send an email", \(F\)
+    stand for "finish writing program", \(G\) stand for "go to sleep", and \(R\)
+    stand for "wake up refreshed". From here, we can begin notating the sequence
+    of events.
+
+    \begin{enumerate}
+        \item \(S \to F\)
+        \item \(\neg E \to G\)
+        \item \(\neg G \to R\)
+        \item \(\therefore \neg F \to R\)
+    \end{enumerate}
+
+    And to prove this?
+    \begin{enumerate}
+        \item \(\neg F \to \neg E\) (1, Contrapositive)
+        \item \(\neg F \to S\) (4, 2, Hypothetical Syllogism)
+        \item \(\neg F \to R\) (5, 2, Hypothetical Syllogism)
+    \end{enumerate}
+\end{proof}
+\end{exercise}

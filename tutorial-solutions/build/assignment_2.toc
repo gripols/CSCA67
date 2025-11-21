@@ -1,0 +1,11 @@
+\contentsline {section}{Problem 1}{2}{}%
+\contentsline {section}{Problem 2}{4}{}%
+\contentsline {section}{Problem 3}{7}{}%
+\contentsline {paragraph}{Left side.}{7}{}%
+\contentsline {paragraph}{Right side.}{7}{}%
+\contentsline {paragraph}{Left side.}{8}{}%
+\contentsline {paragraph}{Right side.}{8}{}%
+\contentsline {paragraph}{Compute the left side element-wise.}{10}{}%
+\contentsline {paragraph}{Analyze \((\dagger )\) element-wise.}{10}{}%
+\contentsline {paragraph}{Exhibit explicit element-wise failure (counterexample).}{11}{}%
+\contentsline {paragraph}{State the universally true identity (element-wise).}{11}{}%

@@ -1,0 +1,85 @@
+\documentclass[a4paper,12pt,openany]{report}
+
+% ===========================
+%   Title Page Styling
+% ===========================
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\input{preamble.tex}
+
+% ===========================
+%   Document Metadata
+% ===========================
+\newcommand{\coursename}{CSCA67 -- Discrete Mathematics}
+\newcommand{\coursecode}{CSCA67}
+\newcommand{\coursetitle}{Discrete Mathematics}
+\newcommand{\instructor}{Prof.\ Anya Tafliovich}
+\newcommand{\authorname}{Gosha Polstvin}
+\newcommand{\semester}{Year 1 -- Fall 2025}
+\newcommand{\institution}{University of Toronto Scarborough}
+\newcommand{\notedate}{\today} % or fixed like "December 2025"
+
+% ===========================
+%   TOC Depth Control
+% ===========================
+
+\setcounter{tocdepth}{1}
+
+
+\begin{document}
+
+% --- Custom Title Page ---
+\begin{titlepage}
+  \centering
+  \begin{tikzpicture}[remember picture,overlay]
+    % light background motif
+    \node[opacity=0.05] at ($(current page.center)+(0,-1)$) {%
+      \scalebox{20}{\(\sum\)} % giant math symbol watermark
+    };
+  \end{tikzpicture}
+
+  \vspace*{2cm}
+  {\Huge\bfseries CSCA67 \\[0.5ex] Discrete Mathematics Notes \par}
+  \vspace{2cm}
+  {\Large Gosha Polstvin \par}
+  \vspace{0.5cm}
+  {\large Year 1 — Fall 2025 \par}
+
+\end{titlepage}
+
+% ===========================
+%   Front Matter
+% ===========================
+\chapter*{Preface}
+These notes accompany \emph{CSCA67: Discrete Mathematics}
+at the University of Toronto. They are intended as a companion to lectures
+and tutorials, and not as a replacement for the official textbook.  
+
+\bigskip
+The aim is clarity: definitions, theorems, and examples are denoted for
+quick reference. These notes also contain exercises for self-study.  
+
+\bigskip
+\emph{Gosha Polstvin}
+
+\tableofcontents
+\clearpage
+
+% ===========================
+%   Content
+% ===========================
+
+\input{useful-symbols.tex}
+
+% 01 - Propositions and Implications
+\input{01 - Propositions and Implications/lec_1.tex}
+\input{01 - Propositions and Implications/lec_2.tex}
+
+% 02 - Predicates and Quantifiers
+\input{02 - Predicates and Quantifiers/lec_1.tex}
+\input{02 - Predicates and Quantifiers/lec_2.tex}
+
+% 03 - Basic Proof Strategies
+\input{03 - Basic Proof Strategies/lec_1.tex}
+\input{03 - Basic Proof Strategies/lec_2.tex}
+\end{document}

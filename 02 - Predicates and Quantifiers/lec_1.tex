@@ -1,0 +1,366 @@
+\chapter{Predicates and Quantifiers}%
+\label{cha:Predicates and Quantifiers}
+
+
+\section{Variables and Sets}
+
+\textbf{Predicates} are statements that contain variables and become
+either true or false when specific values are substituted.
+\textbf{Quantifiers} allow us to express properties of collections of
+objects, such as ``for all elements'' or ``there exists an element.''
+
+\subsection*{Predicates and the Need for Abstraction}
+Writing a separate symbol for every single statement,
+such as  
+$P$: “2 is prime”, $Q$: “3 is prime”, $R$: “4 is prime”,  
+quickly becomes unmanageable when the numbers grow.
+A better idea is to allow a statement to depend on a \emph{variable}.
+
+\begin{definition}[Predicate]
+A \emph{predicate} is a sentence containing one or more variables
+that becomes a proposition once the variables are given specific values.
+\end{definition}
+
+For example, define
+\[
+P(x):\; “x \text{ is prime }.”
+\]
+Then $P(7)$ is true, $P(10)$ is false, and $P(a+b)$ expresses  
+“$a+b$ is prime,” which depends on the values of $a$ and $b$.
+
+\begin{example}
+Let $D(x,y)$ mean “$x$ is divisible by $y$.”  
+Then $D(9,3)$ is true because $3$ divides $9$,  
+while $D(10,3)$ is false.
+\end{example}
+
+\subsection*{Sets and Membership}
+A \emph{set} is a collection of objects, called \emph{elements},  
+that we wish to consider as a single whole.
+Order and repetition do not matter:
+\[
+\{1,2,5,25\} = \{25,1,2,5\}.
+\]
+We write $x\in S$ for “$x$ is an element of $S$” and $x\notin S$
+if $x$ is not in $S$.
+
+\begin{example}
+Define
+\[
+P = \{x \mid x \text{ is prime}\}.
+\]
+Because $7$ is prime, $7\in P$, whereas $8\notin P$.
+\end{example}
+
+\begin{lemma}[Renaming Bound Variables]
+If $S=\{x\mid \varphi(x)\}$ and $T=\{y\mid \varphi(y)\}$ for the same predicate $\varphi$,
+then $S=T$.
+\end{lemma}
+
+\begin{proof}
+Let $a\in S$.  
+Then $\varphi(a)$ holds, so $a\in T$.  
+Similarly every element of $T$ is in $S$, proving equality.
+The choice of bound-variable name is irrelevant.
+\end{proof}
+
+\subsection*{Free vs.\ Bound Variables}
+In the expression $x^2<25$, the variable $x$ is \emph{free}:
+its name matters and it represents a specific unknown number.
+In contrast, in $\{x\mid x^2<25\}$ the symbol $x$ is \emph{bound}:
+we may replace it with $y$ or $t$ without changing the set.
+
+\subsection*{Truth Sets and Logical Connections}
+\begin{definition}[Truth Set]
+Given a predicate $P(x)$ and a universe $U$,  
+the \emph{truth set} of $P$ is
+\[
+\{x\in U \mid P(x)\text{ is true}\}.
+\]
+\end{definition}
+
+\begin{example}
+Within $\mathbb R$ the truth set of $x^2-4x+3=0$ is $\{1,3\}$,  
+since those are the real roots.  
+The truth set of $x^2+3=0$ is $\emptyset$ because the equation has no real solutions.
+\end{example}
+
+Logical connectives correspond to set operations.  
+If $A$ is the truth set of $P(x)$ and $B$ of $Q(x)$:
+\[
+\begin{aligned}
+\text{truth set of } P(x)\land Q(x) &= A\cap B,\\
+\text{truth set of } P(x)\lor Q(x)  &= A\cup B,\\
+\text{truth set of } \lnot P(x)     &= U\setminus A.
+\end{aligned}
+\]
+
+\subsection*{Basic Set Operations}
+\begin{align*}
+A\cap B &= \{x\mid x\in A \text{ and } x\in B\} && \text{(intersection)},\\
+A\cup B &= \{x\mid x\in A \text{ or } x\in B\}  && \text{(union)},\\
+A\setminus B &= \{x\mid x\in A \text{ and } x\notin B\} && \text{(difference)},\\
+\overline{A} &= \{x\mid x\notin A\} && \text{(complement)}.
+\end{align*}
+
+\begin{example}
+Let $A=\{1,2,3,4\}$ and $B=\{3,4,5\}$.  
+Then
+$A\cap B=\{3,4\}$,
+$A\cup B=\{1,2,3,4,5\}$,
+$A\setminus B=\{1,2\}$,
+$\overline{A}$ is the set of elements of the universe not in $A$.
+\end{example}
+
+\subsection*{Subset and Disjointness}
+$A\subseteq B$ means every element of $A$ also lies in $B$.
+Two sets are \emph{disjoint} if $A\cap B=\emptyset$.
+
+\begin{corollary}
+If $A\subseteq B$ and $B\subseteq C$, then $A\subseteq C$.
+\end{corollary}
+
+\begin{proof}
+Take $x\in A$.  
+Since $A\subseteq B$, $x\in B$.
+Because $B\subseteq C$, we also have $x\in C$.
+\end{proof}
+
+\subsection*{Symmetric Difference}
+The \emph{symmetric difference} of $A$ and $B$ is
+\[
+A\triangle B = (A\setminus B)\cup (B\setminus A),
+\]
+the set of elements belonging to exactly one of $A$ or $B$.
+
+\begin{example}
+If $A=\{1,2,3\}$ and $B=\{2,3,4\}$,
+then $A\triangle B=\{1,4\}$.
+\end{example}
+
+\subsection*{All Set Laws}
+\begin{align*}
+&\textbf{Identity:}& &A \cap U = A,\quad A \cup \emptyset = A.\\
+&\textbf{Domination:}& &A \cup U = U,\quad A \cap \emptyset = \emptyset.\\
+&\textbf{Idempotent:}& &A \cap A = A,\quad A \cup A = A.\\
+&\textbf{Complementation:}& &\overline{\overline{A}} = A.\\
+&\textbf{Commutative:}& &A \cap B = B \cap A,\quad A \cup B = B \cup A.\\
+&\textbf{Associative:}& &A \cap (B \cap C) = (A \cap B) \cap C,\\
+&&&A \cup (B \cup C) = (A \cup B) \cup C.\\
+&\textbf{Distributive:}& &A \cap (B \cup C) = (A \cap B) \cup (A \cap C),\\
+&&&A \cup (B \cap C) = (A \cup B) \cap (A \cup C).\\
+&\textbf{De Morgan:}& &\overline{A \cap B} = \overline{A} \cup \overline{B},\quad
+\overline{A \cup B} = \overline{A} \cap \overline{B}.\\
+&\textbf{Absorption:}& &A \cup (A \cap B) = A,\quad A \cap (A \cup B) = A.\\
+&\textbf{Complement Laws:}& &A \cup \overline{A} = U,\quad A \cap \overline{A} = \emptyset.
+\end{align*}
+
+\begin{review}
+\begin{itemize}
+  \item Predicates let us describe infinite families of propositions with one formula.
+  \item Sets collect objects satisfying a property, written $\{x\mid \varphi(x)\}$.
+  \item Bound variables can be renamed freely; free variables cannot.
+  \item Truth sets turn logical operations into unions, intersections, and complements.
+  \item Key results include subset transitivity and De Morgan’s laws.
+\end{itemize}
+\end{review}
+
+\begin{example}
+   Claim: $A \textbackslash (A \cap B) = A \textbackslash B$
+   \[
+       = \{x | x \in A \land x \not\in A \land B\}
+   .\] Definition of $\textbackslash$.
+    \[
+        = \{x | x \in A \land \neg(x \in A \cap B)\}
+   .\] Definition of $\not\in $.
+   \[
+       = \{x | x \in A \land \neg(x \in A \land x \in B)\}
+   .\] Definition of $\cap$.
+    \[
+        = \{x | x \in  A \land (x \not\in A \lor x \not\in B)\}
+   .\] De Morgan's.
+   \[
+       = \{ x | (x \in A \land x \not\in A) \lor (x \in  A \land x \not\in B) \}
+   .\] Distributive.
+   \[
+       = \{x | x \in A \land x \not\in B\}
+   .\] Contradiction.
+    \[
+       = A \textbackslash B 
+    .\] 
+\end{example}
+
+\section{Quantifiers}
+\label{sec:Quantifiers}
+
+Suppose $P(x)$ stands for “$x$ is prime.” To understand quantified statements, we ask:
+\begin{itemize}
+    \item Is $P(x)$ true for every $x$?
+    \item Is $P(x)$ true for some $x$?
+    \item For which $x$ does it make sense to ask whether $P(x)$ is true?
+\end{itemize}
+
+\begin{definition}[Universe of Discourse]
+The \emph{universe of discourse} is the set of all possible values that a variable can take.
+All statements involving that variable are considered relative to this universe.
+\end{definition}
+
+\subsection*{Universal Quantifier}
+The \emph{universal quantifier} is written as
+\[
+\forall x, P(x),
+\]
+and is read as “for all $x$, $P(x)$ holds.”
+
+\begin{itemize}
+    \item It is true if $P(x)$ is true for every element in the universe of discourse.
+    \item It is false if there exists at least one element in the universe for which $P(x)$ is false.
+\end{itemize}
+
+\begin{example}
+Let the universe $U = \{2, 3, 4, 5\}$. Then
+\[
+\forall x \in U, \; P(x) \equiv P(2)\land P(3)\land P(4)\land P(5).
+\]
+Here, $P(4)$ is false, so the universally quantified statement is false.
+\end{example}
+
+\subsection*{Existential Quantifier}
+The \emph{existential quantifier} is written as
+\[
+\exists x, P(x),
+\]
+and is read as “there exists an $x$ such that $P(x)$ holds.”
+
+\begin{itemize}
+    \item It is true if there is at least one element in the universe for which $P(x)$ is true.
+    \item It is false only if $P(x)$ is false for every element in the universe.
+\end{itemize}
+
+\begin{example}
+Using the same universe $U = \{2, 3, 4, 5\}$:
+\[
+\exists x \in U, \; P(x) \equiv P(2) \vee P(3) \vee P(4) \vee P(5),
+\]
+which is true because $P(2)$, $P(3)$, and $P(5)$ are true.
+\end{example}
+
+\subsection*{Negating Quantifiers}
+Quantifiers interact with negation in a very structured way:
+\[
+\neg (\forall x, P(x)) \equiv \exists x, \neg P(x), \qquad
+\neg (\exists x, P(x)) \equiv \forall x, \neg P(x).
+\]
+\begin{example}
+If $P(x)$ = “$x$ is even” and the universe is $\{1,2,3\}$, then
+\[
+\neg (\forall x, P(x)) \equiv \exists x, \neg P(x),
+\]
+is true because $1$ is not even.
+\end{example}
+
+\subsection*{Finite Universe Expansion}
+For a finite universe $U = \{a,b,c,d\}$, quantified statements can be expanded explicitly:
+\[
+\forall x \in U, P(x) \equiv P(a) \wedge P(b) \wedge P(c) \wedge P(d),
+\]
+\[
+\exists x \in U, P(x) \equiv P(a) \vee P(b) \vee P(c) \vee P(d).
+\]
+
+\subsection*{Order of Quantifiers}
+Quantifiers can be combined, and their order matters.
+For example:
+\[
+\forall x \exists y, R(x,y) \quad \text{vs} \quad \exists y \forall x, R(x,y)
+\]
+may have very different meanings. One asserts that \emph{for each $x$ we can find a $y$}, while the other asserts that \emph{there is a single $y$ that works for all $x$}.
+
+\begin{example}
+Let $R(x,y)$ = “$x + y = 5$” and universe $U = \{1,2,3\}$. Then
+\[
+\forall x \exists y, x+y=5 \quad \text{is true (choose }y=5-x\text{ for each }x\text{),}
+\]
+\[
+\exists y \forall x, x+y=5 \quad \text{is false (no single $y$ works for all $x$).}
+\end{example}
+
+\begin{review}[Logical Connectives and Quantifiers]
+\[
+\begin{array}{ccl}
+\neg P & : & \text{“not $P$” (negation, highest precedence)} \\
+P \wedge Q & : & \text{“$P$ and $Q$” (conjunction)} \\
+P \vee Q & : & \text{“$P$ or $Q$” (inclusive disjunction)} \\
+P \rightarrow Q & : & \text{“if $P$, then $Q$” (implication)} \\
+P \leftrightarrow Q & : & \text{“$P$ if and only if $Q$” (biconditional)} \\
+\forall, \exists & : & \text{“for all, there exists” (quantifiers, lowest precedence)}
+\end{array}
+\]
+\end{review}
+
+\begin{exercise}
+\begin{itemize}
+    \item $\exists x, M(x) \land B(x)$ with a universe set of all people, and
+        $M(x)$ stands for "$x$ is a man", $B(x)$ stands for "$x$ has brown
+        hair." 
+    \item $\forall x, M(x) \to B(x)$, with universe, $M$, and $B$ as seen above.
+        \item $\forall x, M(x) \land B(x)$ with universe, $M$, and $B$ as seen
+            above.
+            \item $\forall x, L(x,y)$ with a universe set of all people, and
+                $L(x,y)$ stands for "$x$ likes $y$".
+\end{itemize}
+
+\end{exercise}
+
+\subsection{Quantifier Negation}%
+\label{sub:Quantifier Negation}
+
+\begin{exercise}[Translation and Negation Exercise]
+    \begin{itemize}
+        \item Every CS Major takes Discrete Maths
+        \begin{itemize}
+            \item $\neg \forall x, C(x) \to M(x)$
+            \item $\equiv \exists x \neg(C(x) \to M(x))$
+            \item $\equiv \exists x \neg(\neg C(x) \lor M(x))$
+            \item $\equiv \exists x, \neg \neg C(x) \land \neg M(x)$
+            \item $\exists x, C(x) \land \neg M(x)$
+            \item Some (there is at least one) CS major who does not take discrete math.
+        \end{itemize}
+        \item Some pets do not like walks
+            \begin{itemize}
+                \item $\neg (\exists x, P(x) \land \neg W(x))$
+                \item $\equiv \forall x, \neg (P(x) \land \neg W(x))$
+                \item $\equiv \forall x, \neg P(x) \lor \neg \neg W(x)$
+                \item $\forall x, \neg P(x) \lor W(x)$
+                \item $\equiv \forall x, P(x) \to W(x)$ 
+                \item All pets like walks. 
+            \end{itemize}
+     \end{itemize}
+\end{exercise}
+
+\begin{exercise}[Negate the Expression and Simplify the Result]
+   \[
+   \forall x \exists y \forall z, P(x, y) \to (Q(y, z)) \land \exists w, R(z, w)
+   .\] 
+
+   Ow, this looks painful. How do we solve? Before we do anything, understand
+   the structure of your problem. Then, we negate and move accordingly:
+   \[
+   \equiv \exists x \forall y \exists z, \neg(P(x,y)\to (Q(y,z)\land \exists w,
+   R (z, w)))
+   .\] (Quantifier Negation)
+   \[
+   \equiv \exists x \forall y \exists z, \neg (\neg P(x,y) \lor (Q(y, z) \land
+   \exists w, R(z, w))) 
+   .\] (Conditional) 
+   \[
+   \equiv \exists x \forall y \exists z, P(x,y) \land \neg (Q(y, z) \land
+   \exists w, R(z,w))
+   .\] (De Morgan's)
+   \[
+   \equiv \exists x \forall y \exists z, P(x,y) \land (\neg Q(y, z) \lor \forall
+   w, \neg R(z,w))
+   .\] (De Morgan's + Quantifier Negation) 
+\end{exercise}
+
+%%%%%%%%%%%%%%%%%%%%
