@@ -1,61 +1,193 @@
-Let \(m\) and \(n\) be natural numbers (\(m, n \in \mathbb{N}\),
-\(n \neq 0\)). Then, there exist unique integers \(Q\) (quotient) and
-\(R\) (remainder) such that
-\(m = n Q + R \quad \text{with} \quad 0 \le R < n.\)
-l
+\section{Induction: From Patterns to Proofs}
+\label{sec:induction}
 
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.0704}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2986}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2310}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1183}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2817}}@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Statement}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Ways to Prove It}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Ways to Use It}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{How to Negate It}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Example (Real-World)}
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-\(p\) & - Prove that \(p\) is true.- Assume \(p\) is false, derive a
-contradiction. & - \(p\) is true.- If \(p\) is false, contradiction
-follows. & \(\lnot p\) & ``\(p\): It is raining. \(\rightarrow\) Show it
-actually rains or contradiction follows.'' \\
-\(p \land q\) & - Prove \(p\), then prove \(q\). & - \(p\) is true.-
-\(q\) is true. & \(\lnot p \lor \lnot q\) & ``\(p\): You have a
-ticket.\(q\): You arrive on time. \(\rightarrow\) Both needed to board
-the train.'' \\
-\(p \lor q\) & - Assume \(q\) is false, deduce \(p\) is true.- Prove
-\(p\) is true or \(q\) is true. & - If \(p\) is false, then \(q\) must
-be true.- Vice versa. & \(\lnot p \land \lnot q\) & ``\(p\): I will go
-by car.\(q\): I will go by bus. \(\rightarrow\) Either way, I go.'' \\
-\(p \Rightarrow q\) & - Assume \(p\) is true, deduce \(q\) is true.-
-Assume \(q\) is false, deduce \(p\) is false. & - If \(p\) is true, then
-\(q\) must be true.- If \(q\) is false, then \(p\) must be false. &
-\(p \land \lnot q\) & ``\(p\): I study.\(q\): I pass the exam.
-\(\rightarrow\) Show studying leads to passing.'' \\
-\(p \Leftrightarrow q\) & - Prove \(p \Rightarrow q\) and
-\(q \Rightarrow p\).- Prove both \(p\) and \(q\), or both \(\lnot p\)
-and \(\lnot q\). & - \(p\) and \(q\) are logically equivalent;
-interchangeable. & \((p \land \lnot q) \lor (\lnot p \land q)\) &
-``\(p\): The light is on.\(q\): The switch is up. \(\rightarrow\) Either
-both are true or both are false.'' \\
-\((\exists x \in S), P(x)\) & - Find an \(x\) in \(S\) such that
-\(P(x)\) is true.- Say ``let \(x \in S\) such that \(P(x)\) is true.'' &
---- & \((\forall x \in S), \lnot P(x)\) & ``\(S\): All
-students.\(P(x)\): \(x\) has passed. \(\rightarrow\) Just find one
-student who passed.'' \\
-\((\forall x \in S), P(x)\) & - Let \(x\) be any element of \(S\).-
-Prove \(P(x)\) is true. & - If \(x \in S\), then \(P(x)\) is true. &
-\((\exists x \in S), \lnot P(x)\) & ``\(S\): All flights today.\(P(x)\):
-\(x\) was on time. \(\rightarrow\) Show every flight was punctual.'' \\
-\end{longtable}
+Induction is the bridge from testing a few cases to proving \emph{all} cases.
+It replaces an infinite chore with two finite checks: a base case and an
+inductive step. Once those two links are solid, the whole chain holds.
+
+\begin{review}[A first puzzle]
+One million balls are labeled \(B_1, B_2, \ldots, B_{1{,}000{,}000}\). Suppose
+\begin{enumerate}[nosep]
+    \item If \(B_i\) is red for any \(1 \leq i \leq 999{,}999\), then \(B_{i+1}\)
+    is red.
+    \item Ball \(B_1\) is red.
+\end{enumerate}
+The rules force a cascade: \(B_1\) is red, so \(B_2\) is red, so \(B_3\) is red,
+and so on. Eventually \(B_{1{,}000{,}000}\) is red too. This is induction in
+street clothes.
+\end{review}
+
+\subsection{Simple (weak) induction}
+\begin{definition}[Simple induction]
+Let \(P(n)\) be a statement about an integer \(n\). To establish
+\(\forall n \geq b\, P(n)\):
+\begin{enumerate}
+    \item \textbf{Base case:} Prove \(P(b)\).
+    \item \textbf{Inductive step:} Prove \(\forall k \geq b,\, P(k) \to P(k+1)\).
+    In the step you may assume \(P(k)\) (the \emph{induction hypothesis}) and
+    must deduce \(P(k+1)\).
+\end{enumerate}
+If both succeed, every \(P(n)\) with \(n \geq b\) is true.
+\end{definition}
+
+\begin{remark}[Bounded quantifiers]
+The shorthand \(\forall n \geq b, P(n)\) means \(\forall n,\, n \geq b \to P(n)\).
+Similarly, \(\exists n \geq b, P(n)\) abbreviates \(\exists n,\, n \geq b \land
+P(n)\).
+\end{remark}
+
+\subsection{Fast intuition with examples}
+Each example follows the same rhythm: name \(P(n)\), check the base case, then
+transform the \(k\)-case into the \(k+1\)-case.
+
+\begin{example}[Sum of the first odd numbers]
+Claim: for all \(n \geq 1\),
+\(1 + 3 + \cdots + (2n-1) = n^2\).
+\begin{proof}
+Let \(P(n)\) denote the claim. The base case \(P(1)\) is \(1 = 1^2\).
+Assume \(P(k)\): the partial sum is \(k^2\). Adding the next odd number,
+\begin{align*}
+    1 + 3 + \cdots + (2k-1) + (2(k+1)-1) &= k^2 + 2(k+1) - 1 \\
+    &= (k+1)^2.
+\end{align*}
+Thus \(P(k) \to P(k+1)\), and the formula holds for every \(n\geq 1\).
+\end{proof}
+\end{example}
+
+\begin{example}[Triangular numbers]
+For every \(n \geq 1\), \(1 + 2 + 3 + \cdots + n = \tfrac{n(n+1)}{2}\).
+\begin{proof}
+The base case \(n=1\) is immediate. Assume the sum up to \(k\) equals
+\(k(k+1)/2\). Then
+\[
+    1 + 2 + \cdots + k + (k+1)
+    = \frac{k(k+1)}{2} + (k+1)
+    = \frac{(k+1)(k+2)}{2},
+\]
+which is \(P(k+1)\).
+\end{proof}
+\end{example}
+
+\begin{example}[Finite geometric series]
+For every \(n \geq 1\), \(1 + 2 + 2^2 + \cdots + 2^n = 2^{n+1} - 1\).
+\begin{proof}
+The base case \(n=1\) reads \(1+2=2^2-1\). Assuming the sum through \(2^k\)
+equals \(2^{k+1}-1\), adding \(2^{k+1}\) yields
+\[
+    (2^{k+1}-1) + 2^{k+1} = 2^{k+2}-1 = 2^{(k+1)+1}-1.
+\]
+\end{proof}
+\end{example}
+
+\begin{example}[A basic inequality]
+For every \(n \geq 1\), \(n < 2^n\).
+\begin{proof}
+The claim is clear at \(n=1\). Assume \(k < 2^k\). Then
+\[
+    k+1 \leq 2k < 2 \cdot 2^k = 2^{k+1},
+\]
+so the inequality holds for \(k+1\) as well.
+\end{proof}
+\end{example}
+
+\begin{remark}[Choosing a later base case]
+Sometimes the statement first becomes true at \(b>1\). The same induction
+pattern applies; simply start at \(b\).
+\end{remark}
+
+\begin{example}[Exponential beats linear]
+For \(n \geq 3\), \(2n < 2^n\).
+\begin{proof}
+Verify \(2\cdot3 < 2^3\). Assume \(2k < 2^k\) with \(k \geq 3\). Then
+\[
+    2(k+1) = 2k + 2 \leq 2k + 2k = 2 \cdot 2k < 2^{k+1}.
+\]
+\end{proof}
+\end{example}
+
+\begin{example}[Exponential beats quadratic]
+For \(n \geq 5\), \(n^2 < 2^n\).
+\begin{proof}
+Check the base case at \(n=5\). Assume \(k^2 < 2^k\) for \(k \geq 5\).
+Using \(2k < 2^k\) (valid for \(k \geq 3\)),
+\begin{align*}
+    (k+1)^2 &= k^2 + 2k + 1 \\
+            &< 2^k + 2^k + 1 \leq 2^k + 2^k + 2^k = 2^{k+1}.
+\end{align*}
+\end{proof}
+\end{example}
+
+\subsection{When one step is not enough}
+Some proofs benefit from knowing \emph{all} smaller cases, not just the previous
+one. The classic coin problem illustrates this.
+
+\begin{example}[Building every amount from \$12]
+Claim: every integer \(n \geq 12\) can be expressed as \(3x + 7y\) with
+non-negative integers \(x,y\).
+\begin{proof}[Idea]
+A direct step from \(P(k)\) to \(P(k+1)\) works but requires fiddly casework.
+Strong induction yields a cleaner proof; see Example~\ref{ex:coin-strong}.
+\end{proof}
+\end{example}
+
+\subsection{Strong induction}
+\begin{definition}[Strong induction]
+To prove \(\forall n \geq b,\, P(n)\), it suffices to show
+\[
+    \forall k \geq b,\; \Bigl(\forall i \text{ with } b \leq i < k,\, P(i)\Bigr)
+    \to P(k).
+\]
+Here the induction hypothesis grants \emph{all} previous cases.
+\end{definition}
+
+\begin{example}[Coin problem revisited]\label{ex:coin-strong}
+Let \(P(n)\) be ``\(n = 3x + 7y\) for some non-negative integers \(x,y\).''
+\begin{proof}
+For \(12 \leq n \leq 14\), explicit combinations verify \(P(n)\):
+\(12 = 4 \times 3\), \(13 = 7 + 2 \times 3\), and \(14 = 2 \times 7\).
+Assume now that \(P(i)\) holds for all \(12 \leq i < k\) with \(k \geq 15\).
+Because \(k-3 \geq 12\), the hypothesis provides \(k-3 = 3x + 7y\). Then
+\(k = 3(x+1) + 7y\), so \(P(k)\) follows. Thus every \(n \geq 12\) is
+representable.
+\end{proof}
+\end{example}
+
+\begin{example}[Prime factorisation]
+For every integer \(n \geq 2\), \(n\) is prime or a product of at least two
+primes.
+\begin{proof}
+Assume the claim for all \(2 \leq i < k\). If \(k\) is prime, we are done. If
+not, write \(k = ab\) with \(1 < a,b < k\). By the hypothesis, \(a\) and \(b\)
+are prime or products of primes, so their product \(k\) is a product of at least
+two primes.
+\end{proof}
+\end{example}
+
+\begin{example}[Binary (base-2) representation]
+Every positive integer is a sum of \emph{distinct} powers of two.
+\begin{proof}
+Assume all integers below \(k\) admit such a representation. If \(k\) is even,
+write \(k = 2a\) with \(1 \leq a < k\); by hypothesis,
+\(a = 2^{e_1} + \cdots + 2^{e_m}\) with distinct exponents, so
+\(k = 2^{e_1+1} + \cdots + 2^{e_m+1}\). If \(k\) is odd and greater than one,
+write \(k = 2b + 1\) with \(1 \leq b < k\) and append a \(2^0\) term to the
+representation of \(b\). The case \(k=1\) is \(1 = 2^0\). Distinctness of
+exponents is preserved in all cases.
+\end{proof}
+\end{example}
+
+\begin{remark}[What to remember]
+\begin{itemize}
+    \item Induction formalises ``check the first case, then show the machine can
+    keep running.''
+    \item Match the base case to the first value where the statement is claimed.
+    \item Simple induction needs one prior case; strong induction may use all
+    prior cases to simplify the step.
+    \item Inequalities often combine induction with previously established
+    bounds.
+    \item Decomposition problems (coins, prime factors, binary expansions) are
+    natural strong-induction territory.
+\end{itemize}
+\end{remark}
+
+\clearpage
